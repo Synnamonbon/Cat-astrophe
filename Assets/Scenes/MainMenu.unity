@@ -153,10 +153,10 @@ RectTransform:
   - {fileID: 359834850}
   m_Father: {fileID: 298229442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 601.88184, y: -55.059967}
-  m_SizeDelta: {x: 381.25455, y: 90.119934}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9246970
 MonoBehaviour:
@@ -629,7 +629,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 151025396}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1507906612}
+        m_TargetAssemblyTypeName: LoginMenu, Assembly-CSharp
+        m_MethodName: EnableDisplayNamePopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &151025396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,6 +767,7 @@ GameObject:
   - component: {fileID: 171401563}
   - component: {fileID: 171401562}
   - component: {fileID: 171401561}
+  - component: {fileID: 171401565}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -849,6 +862,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &171401565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171401560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c58f7e6b80543ee83d989a066f5b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenu
+  loginMenu: {fileID: 1507906610}
+  titleMenu: {fileID: 254586038}
+  lobbyMenu: {fileID: 1761526859}
+  playButton: {fileID: 1819148735}
+  quitButton: {fileID: 1547154532}
 --- !u!1 &210817884
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +892,7 @@ GameObject:
   - component: {fileID: 210817887}
   - component: {fileID: 210817886}
   m_Layer: 5
-  m_Name: ConfirmButton\
+  m_Name: ConfirmButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -931,7 +961,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 210817887}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 171401565}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: OnDisplayNameConfirm
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 389313734}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &210817887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,9 +1137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cb2100bf9564e099cb0b061159daa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleScreen
-  titleScreen: {fileID: 0}
-  lobbyScreen: {fileID: 0}
-  roomsListScreen: {fileID: 0}
 --- !u!1 &286483886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,10 +1171,10 @@ RectTransform:
   - {fileID: 576953545}
   m_Father: {fileID: 298229442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 190.62727, y: -55.059967}
-  m_SizeDelta: {x: 381.25455, y: 90.119934}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &286483888
 MonoBehaviour:
@@ -1964,8 +2003,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 65
+  m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2032,7 +2071,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &459731677
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2222,10 +2261,10 @@ RectTransform:
   - {fileID: 1788765828}
   m_Father: {fileID: 2092622869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 279.67828, y: -637.97986}
+  m_SizeDelta: {x: 499.35657, y: 147.99425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &476730276
 MonoBehaviour:
@@ -2845,10 +2884,10 @@ RectTransform:
   - {fileID: 2099212522}
   m_Father: {fileID: 2092622869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 279.67828, y: -459.98563}
+  m_SizeDelta: {x: 499.35657, y: 147.99425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &714583465
 MonoBehaviour:
@@ -3753,13 +3792,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 171401565}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnCreateRoomButton
-        m_Mode: 2
+        m_MethodName: OpenTitleMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3803,6 +3842,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205819633}
   m_CullTransparentMesh: 1
+--- !u!1 &1260053923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1260053925}
+  - component: {fileID: 1260053924}
+  m_Layer: 5
+  m_Name: _SessionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1260053924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260053923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9d519ee8d02407d8ffe30888786e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AccountManager
+--- !u!224 &1260053925
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260053923}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.48287037, y: 0.48287037, z: 0.48287037}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 910.03625, y: 570.39294}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1275000310
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,13 +4576,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1507906611}
+  - component: {fileID: 1507906612}
   m_Layer: 5
   m_Name: LoginMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1507906611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4518,6 +4606,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1507906612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507906610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f11d6930ce24af69f86fbcae7e0083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoginMenu
+  displayNamePopup: {fileID: 459731676}
+  buttons: {fileID: 2103393845}
 --- !u!1 &1516812233
 GameObject:
   m_ObjectHideFlags: 0
@@ -4669,7 +4771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1547154531
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4860,13 +4962,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1761526860}
+  - component: {fileID: 1761526861}
   m_Layer: 5
   m_Name: LobbyMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1761526860
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4880,10 +4983,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1298889650}
-  - {fileID: 1205819634}
   - {fileID: 298229442}
   - {fileID: 733154821}
   - {fileID: 2118877418}
+  - {fileID: 1205819634}
   m_Father: {fileID: 171401564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4891,6 +4994,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1761526861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761526859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 875b36d2162864c0a842b73bb25ef59f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyMenu
 --- !u!1 &1788765827
 GameObject:
   m_ObjectHideFlags: 0
@@ -5064,10 +5179,10 @@ RectTransform:
   - {fileID: 2072207872}
   m_Father: {fileID: 2092622869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 279.67828, y: -103.99712}
+  m_SizeDelta: {x: 499.35657, y: 147.99425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819148735
 MonoBehaviour:
@@ -5113,13 +5228,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 171401565}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnCreateRoomButton
-        m_Mode: 2
+        m_MethodName: OnPlayButtonClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6227,7 +6342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2103393846
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6310,10 +6425,10 @@ RectTransform:
   - {fileID: 866413577}
   m_Father: {fileID: 2092622869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 279.67828, y: -281.99136}
+  m_SizeDelta: {x: 499.35657, y: 147.99425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2107498143
 MonoBehaviour:
@@ -6648,3 +6763,4 @@ SceneRoots:
   - {fileID: 171401564}
   - {fileID: 1553834139}
   - {fileID: 727160908}
+  - {fileID: 1260053925}
