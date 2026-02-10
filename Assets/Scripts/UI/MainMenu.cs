@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject loginMenu;
     [SerializeField] private GameObject titleMenu;
     [SerializeField] private GameObject lobbyMenu;
+    [SerializeField] private GameObject roomMenu;
 
     [Header("Buttons")]
     [SerializeField] private Button playButton;
@@ -26,6 +27,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         playButton.interactable = true;
     }
 
+
     public void OnDisplayNameConfirmButton(TMP_InputField displayNameInput)
     {
         SessionManager.instance.SetDisplayName(displayNameInput.text);
@@ -37,7 +39,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     {
         SetMenu(lobbyMenu);
 
-        lobbyMenu.SetActive(true);
+        quitButton.gameObject.SetActive(false);
     }
 
     public void OpenTitleMenu()
@@ -47,13 +49,18 @@ public class MainMenu : MonoBehaviourPunCallbacks
         quitButton.gameObject.SetActive(true);
     }
 
+    public void OpenRoomMenu()
+    {
+        SetMenu(roomMenu);
+    }
+
     private void SetMenu(GameObject menu)
     {
         loginMenu.SetActive(false);
         titleMenu.SetActive(false);
         lobbyMenu.SetActive(false);
+        roomMenu.SetActive(false);
 
         menu.SetActive(true);
     }
-
 }

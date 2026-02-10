@@ -1,16 +1,15 @@
+using TMPro;
 using UnityEngine;
 
 public class LobbyMenu : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void OnCreateRoomButton (TMP_InputField roomNameInput)
     {
-        
+        NetworkManager.instance.CreateRoom(roomNameInput.text);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnJoinRoomButton (TMP_InputField roomNameInput)
     {
-        
+        NetworkManager.instance.JoinRoom(roomNameInput.text);
     }
 }

@@ -42,11 +42,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomName);
     }
 
-    public override void OnConnected()
-    {
-        Debug.Log("Connected");
-    }
-
     [PunRPC]
     public void ChangeScene(string sceneName)
     {
