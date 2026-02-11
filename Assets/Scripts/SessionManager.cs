@@ -4,7 +4,6 @@ using UnityEngine;
 public class SessionManager : MonoBehaviour
 {
     public static SessionManager instance;
-
     private string displayName;
 
     private void Awake()
@@ -27,6 +26,7 @@ public class SessionManager : MonoBehaviour
     {
         displayName = name;
         PhotonNetwork.NickName = displayName;
+        Debug.Log("Display name set to " + PhotonNetwork.NickName);
     }
 
     public string GetDisplayName()

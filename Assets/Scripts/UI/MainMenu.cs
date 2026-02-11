@@ -1,7 +1,7 @@
 using System;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,15 +16,23 @@ public class MainMenu : MonoBehaviourPunCallbacks
     [Header("Buttons")]
     [SerializeField] private Button playButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button displayNameConfirmButton;
+    [SerializeField] private Button startGameButton;
+
+    [Header("Textboxes")]
+    [SerializeField] private TextMeshProUGUI roomNameText;
+    [SerializeField] private TextMeshProUGUI playerListText;
 
     public void Start()
     {
         playButton.interactable = false;
+        displayNameConfirmButton.interactable = false;
     }
 
     public override void OnConnectedToMaster()
     {
         playButton.interactable = true;
+        displayNameConfirmButton.interactable = true;
     }
 
 
@@ -49,11 +57,6 @@ public class MainMenu : MonoBehaviourPunCallbacks
         quitButton.gameObject.SetActive(true);
     }
 
-    public void OpenRoomMenu()
-    {
-        SetMenu(roomMenu);
-    }
-
     private void SetMenu(GameObject menu)
     {
         loginMenu.SetActive(false);
@@ -62,5 +65,55 @@ public class MainMenu : MonoBehaviourPunCallbacks
         roomMenu.SetActive(false);
 
         menu.SetActive(true);
+    }
+
+    // Room Menu Scripts
+
+    public override void OnJoinedRoom()
+    {
+        SetMenu(roomMenu);
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+        photonView.RPC("UpdateLobbyUI", RpcTarget.All);
+        Debug.Log("Joined room " + PhotonNetwork.CurrentRoom.Name);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        UpdateLobbyUI();
+    }
+
+    public void OnLeaveRoomButton()
+    {
+        PhotonNetwork.LeaveRoom();
+        SetMenu(lobbyMenu);
+    }
+
+    public void OnStartGameButton()
+    {
+        // Add game scene changes for all
+    }
+    
+    [PunRPC]
+    public void UpdateLobbyUI()
+    {
+        Debug.Log("UpdateLobbyUI called. Players: " + PhotonNetwork.PlayerList.Length);
+        Debug.Log("playerListText null? " + (playerListText == null));
+
+        playerListText.text = "";
+
+        foreach(Player player in PhotonNetwork.PlayerList)
+        {
+            playerListText.text += player.NickName + "\n";
+        }
+
+        // Host Only
+        if (PhotonNetwork.IsMasterClient)
+        {
+            startGameButton.interactable = true;
+        }
+        else
+        {
+            startGameButton.interactable = false;
+        }
     }
 }
