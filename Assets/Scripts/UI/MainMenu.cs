@@ -35,14 +35,6 @@ public class MainMenu : MonoBehaviourPunCallbacks
         displayNameConfirmButton.interactable = true;
     }
 
-
-    public void OnDisplayNameConfirmButton(TMP_InputField displayNameInput)
-    {
-        SessionManager.instance.SetDisplayName(displayNameInput.text);
-
-        SetMenu(titleMenu);
-    }
-
     public void OnTitleMenuPlayButton()
     {
         SetMenu(lobbyMenu);

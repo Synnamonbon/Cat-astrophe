@@ -22,15 +22,4 @@ public class SessionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetDisplayName(string name)
-    {
-        displayName = name;
-        PhotonNetwork.NickName = displayName;
-        Debug.Log("Display name set to " + PhotonNetwork.NickName);
-    }
-
-    public string GetDisplayName()
-    {
-        return displayName;
-    }
 }
