@@ -84,7 +84,6 @@ public class AWSRegister : MonoBehaviour
     // Returns own preferred display name or active display name
     private IEnumerator GetUserDisplayName(bool prefFlag)
     {
-        // TODO implement
         string json = $"{{\"uid\":\"{uid}\"}}";
         string url;
         if(prefFlag)
@@ -114,8 +113,6 @@ public class AWSRegister : MonoBehaviour
         else
         {
             Debug.Log("Error: " + request.error);
-            Debug.Log(request.downloadHandler.text);
-            Debug.Log(url);
         }
     }
 
