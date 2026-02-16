@@ -4,12 +4,12 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.Text;
 
-public class LoginMenu : MonoBehaviour
+public class RegisterMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField username_input;
     [SerializeField] private TMP_InputField password_input;
     [SerializeField] private GameObject StartMenu;
-    [SerializeField] private GameObject DisplayNameMenu;
+    [SerializeField] private GameObject LoginMenu;
     [SerializeField] private GameObject Self;
     [SerializeField] private SessionManager SessionManager;             // Stores uid and session token.
 
@@ -20,11 +20,11 @@ public class LoginMenu : MonoBehaviour
         password_input.text = "";
     }
 
-    // Generates a bearer token and adds the registered user into the active_users database
-    private IEnumerator LoginUser(string username, string password)
+    // Registers a new user into the "registered_users" database
+    private IEnumerator RegisterUser(string username, string password)
     {
         string json = $"{{\"username\":\"{username}\", \"password\":\"{password}\"}}";
-        string url = AWSConfig.GetLoginURL();
+        string url = AWSConfig.GetRegisterURL();
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
@@ -37,23 +37,20 @@ public class LoginMenu : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("Response: " + request.downloadHandler.text);
-            PlayerInfo response = JsonUtility.FromJson<PlayerInfo>(request.downloadHandler.text);
-            SessionManager.SetSessionToken(response.session_token);
-            SessionManager.SetUID(int.Parse(response.uid));
-            NavigateDisplayNameMenu();
-        }
+            NavigateLoginMenu();
+        } 
         else
         {
-            Debug.LogError("Error: " + request.error);
+            Debug.Log("Error: " + request.error);
             Debug.Log(request.downloadHandler.text);
         }
     }
 
-    public void Login()
+    public void Register()
     {
         string username = username_input.text;
         string password = password_input.text;
-        StartCoroutine(LoginUser(username, password));
+        StartCoroutine(RegisterUser(username, password));
     }
 
     public void NavigateStartMenu()
@@ -62,9 +59,9 @@ public class LoginMenu : MonoBehaviour
         Self.SetActive(false);
     }
 
-    public void NavigateDisplayNameMenu()
+    public void NavigateLoginMenu()
     {
-        DisplayNameMenu.SetActive(true);
+        LoginMenu.SetActive(true);
         Self.SetActive(false);
     }
 }

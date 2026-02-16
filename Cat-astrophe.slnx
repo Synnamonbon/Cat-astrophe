@@ -1,4 +1,4 @@
-﻿<Solution>
+<Solution>
   <Project Path="PhotonRealtime.csproj" />
   <Project Path="PhotonUnityNetworking.Editor.csproj" />
   <Project Path="PhotonUnityNetworking.csproj" />
