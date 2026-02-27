@@ -4,6 +4,9 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
+
+    public event EventHandler OnAttack;
+
     private InputSystem_Actions inputActions;
 
     public Vector2 movementInput;
@@ -23,6 +26,11 @@ public class InputManager : MonoBehaviour
         instance = this;
     }
 
+    private void OnDestroy()
+    {
+        OnAttack = null;
+    }
+
     private void OnEnable()
     {
         if (inputActions == null)
@@ -31,6 +39,7 @@ public class InputManager : MonoBehaviour
             
             inputActions.Player.Move.performed += i => movementInput = i.ReadValue<Vector2>();
             inputActions.Player.Move.canceled += i => movementInput = Vector2.zero;
+            inputActions.Player.Attack.performed += _ => OnAttack?.Invoke(this, EventArgs.Empty);
         }
 
         inputActions.Enable();
