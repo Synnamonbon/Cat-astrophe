@@ -90,7 +90,9 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     public void OnStartGameButton()
     {
-        // Add game scene changes for all
+        if(NetworkManager.instance == null){Debug.Log("No network manager");}
+        else {Debug.Log("Not null");}
+        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Game");
     }
     
     [PunRPC]
