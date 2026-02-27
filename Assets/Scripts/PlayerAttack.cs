@@ -22,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack(object sender, EventArgs e)
     {
-        if (!canAttack){return;}
+        if (!canAttack)return;
         StartCoroutine(EnableBoxCollider());
     }
 
