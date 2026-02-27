@@ -9,6 +9,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         SingletonPattern();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void SingletonPattern()
@@ -19,7 +20,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             return;
         }
         instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
