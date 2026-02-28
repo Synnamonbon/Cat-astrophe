@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BreakableObject : MonoBehaviour
 {
     [Range(0f, 10f)]
-    [SerializeField] private float breakSpeed = 0.1f;
+    [SerializeField] private float breakSpeed = 0.5f;
     [Range(0.2f, 10f)]
     [SerializeField] private float timeBeforeDespawn = 2f;
     [Range(0.01f, 2f)]
@@ -91,8 +90,7 @@ public class BreakableObject : MonoBehaviour
             t += step;
             yield return null;
         }
-
-        Debug.Log(renderers[0].material.color);
+        //Debug.Log(renderers[0].material.color);
 
         Destroy(brokenInstance);
         Destroy(gameObject);
@@ -122,5 +120,13 @@ public class BreakableObject : MonoBehaviour
     {
         ren.material = new Material(TRANSPARENT_MATERIAL_SRC);
         return ren;
+    }
+
+    public void GetPushed(Vector3 sourcePosition, float pushForce)
+    {
+        RIGIDBODY.constraints = RigidbodyConstraints.None;
+        Vector3 direction = Vector3.Normalize(gameObject.transform.position - sourcePosition);
+        Debug.Log(direction);
+        RIGIDBODY.AddForce(direction * pushForce, ForceMode.Impulse);
     }
 }
