@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         SingletonPattern();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void SingletonPattern()

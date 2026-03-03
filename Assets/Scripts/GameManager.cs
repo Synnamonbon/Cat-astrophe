@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void JoiningGame()
+    public void JoiningGame()
     {
         playersInGame ++;
 
