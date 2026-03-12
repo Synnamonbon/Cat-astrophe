@@ -11,6 +11,11 @@ public class PlayerGrounding : MonoBehaviour
         playerMovement.isGrounded = true;
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        playerMovement.isGrounded = true;
+    }
+
     private void OnTriggerExit(Collider other)
     {
         groundContacts --;

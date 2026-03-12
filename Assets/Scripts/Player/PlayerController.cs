@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [HideInInspector] public Player photonPlayer;
+    [SerializeField] private BoxCollider playerGroundingBC;
     [HideInInspector] public int id;
 
     private PlayerMovement playerMovement;
     private PlayerAttack playerAttack;
+    private PlayerGrounding playerGrounding;
 
     private Rigidbody playerRB;
 
@@ -19,11 +21,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         playerRB = gameObject.GetComponent<Rigidbody>();
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerAttack = gameObject.GetComponent<PlayerAttack>();
+        playerGrounding = gameObject.GetComponentInChildren<PlayerGrounding>();
 
         if (photonView.IsMine)
         {
             playerMovement.enabled = true;
             playerAttack.enabled = true;
+            playerGroundingBC.enabled = true;
+            playerGrounding.enabled = true;
         }
     }
 
@@ -32,7 +37,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         // Make camera follow player
         if (!photonView.IsMine) return;
         CinemachineCamera cam = FindFirstObjectByType<CinemachineCamera>();
-        Debug.Log(cam);
+        //Debug.Log(cam);
         cam.Follow = transform;
     }
 
