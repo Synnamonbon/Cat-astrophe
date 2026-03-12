@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(playersInGame == PhotonNetwork.PlayerList.Length)
         {
             SpawnPlayer();
+            if(ObjectManager.instance!=null) ObjectManager.instance.SpawnObjects();
         }
     }
 
