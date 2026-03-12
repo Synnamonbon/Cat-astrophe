@@ -121,12 +121,4 @@ public class BreakableObject : MonoBehaviour
         ren.material = new Material(TRANSPARENT_MATERIAL_SRC);
         return ren;
     }
-
-    public void GetPushed(Vector3 sourcePosition, float pushForce)
-    {
-        RIGIDBODY.constraints = RigidbodyConstraints.None;
-        Vector3 direction = Vector3.Normalize(gameObject.transform.position - sourcePosition);
-        Debug.Log(direction);
-        RIGIDBODY.AddForce(direction * pushForce, ForceMode.Impulse);
-    }
 }
