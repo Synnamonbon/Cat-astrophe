@@ -40,8 +40,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.TryGetComponent<BreakableObject>(out BreakableObject b))
         {
-            b.GetPushed(gameObject.transform.position, pushForce);
-            //Debug.Log("Push");
+            // TBA
         }
     }
 }
