@@ -1,19 +1,22 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField] private float attackCoolDown = 0f; // will implement later
+    [SerializeField] private float attackCoolDown = 0.5f; 
     [SerializeField] private float attackDuration = 0.2f;
     [SerializeField] private float pushForce = 20f;
     private bool canAttack = true;
     private BoxCollider boxCollider;
+    private Rigidbody playerRB;
+
+    //
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
+        playerRB = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -30,17 +33,23 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator EnableBoxCollider()
     {
+        canAttack = false;
         boxCollider.enabled = true;
-        Debug.Log("Player is attacking");
+
+        //Debug.Log("Player is attacking");
         yield return new WaitForSeconds(attackDuration);
         boxCollider.enabled = false;
+
+        yield return new WaitForSeconds(attackCoolDown);
+        canAttack = true;
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<BreakableObject>(out BreakableObject b))
+        if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
         {
-            // TBA
+            Vector3 currentPos = playerRB.transform.position;
+            obj.ObjectGotHit(pushForce, currentPos);
         }
     }
 }
