@@ -28,7 +28,7 @@ BlendTree:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlendTree
+  m_Name: Movement
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: -5156239905007698629, guid: 31d2c91682ac6f045b4b75ebf27e5d77, type: 3}
@@ -59,7 +59,7 @@ BlendTree:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Blend Tree
+  m_Name: InMotion
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 8577818109400774170, guid: 31d2c91682ac6f045b4b75ebf27e5d77, type: 3}
