@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
     public static InputManager instance;
 
     public event EventHandler OnAttack;
+    public event EventHandler OnJump;
 
     private InputSystem_Actions inputActions;
 
@@ -41,6 +42,7 @@ public class InputManager : MonoBehaviour
             inputActions.Player.Move.performed += i => movementInput = i.ReadValue<Vector2>();
             inputActions.Player.Move.canceled += i => movementInput = Vector2.zero;
             inputActions.Player.Attack.performed += _ => OnAttack?.Invoke(this, EventArgs.Empty);
+            inputActions.Player.Jump.performed += _ => OnJump?.Invoke(this, EventArgs.Empty);
         }
 
         inputActions.Enable();
