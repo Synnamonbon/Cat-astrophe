@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager instance;
+
     [SerializeField] private GameObject objectPrefab;
 
     private List<Transform> spawnPoints = new List<Transform>();
@@ -13,6 +16,7 @@ public class ObjectManager : MonoBehaviour
     {
         SingletonPattern();
         InitialiseSpawnPoints();
+
     }
 
     private void SingletonPattern()
@@ -39,7 +43,13 @@ public class ObjectManager : MonoBehaviour
     {
         foreach (Transform spawn in spawnPoints)
         {
-            PhotonNetwork.Instantiate(objectPrefab.name,spawn.position, spawn.rotation);
+            PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
         }
     }
+
+    public void DestroyForAll(GameObject obj)
+    {
+        PhotonNetwork.Destroy(obj);
+    }
+
 }
