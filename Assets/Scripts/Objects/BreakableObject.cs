@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
-public class BreakableObject : MonoBehaviour
+public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [Range(0f, 10f)]
     [SerializeField] private float breakSpeed = 0.5f;
@@ -16,17 +17,39 @@ public class BreakableObject : MonoBehaviour
     [SerializeField] private Material TRANSPARENT_MATERIAL_SRC;
     private int GROUND_LAYER;
     private Rigidbody RIGIDBODY;
+    private PhotonRigidbodyView RIGIDBODY_VIEW;
+    private int ackCounter;
 
+    
     public void Awake()
     {
         GROUND_LAYER = LayerMask.NameToLayer("Ground");
         RIGIDBODY = gameObject.GetComponent<Rigidbody>();
+        RIGIDBODY_VIEW = gameObject.GetComponent<PhotonRigidbodyView>();
     }
 
-    private void BreakObject()
+    public void OnCollisionEnter(Collision collision)
     {
-        if (RIGIDBODY != null)
+        if (!photonView.IsMine) return;
+        //Debug.Log(collision.gameObject.layer);
+        // if collision has tag ground
+        if (collision.gameObject.layer != GROUND_LAYER){return;}
+        // if velocity is above a certain threshold
+        float vel = RIGIDBODY.linearVelocity.magnitude;
+        //Debug.Log(vel);
+        if (vel > breakSpeed)
+        {   
+            photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
+            StartCoroutine(DestroyOriginalObject());
+        }
+    }
+
+    [PunRPC]
+    private void CreateBrokenObject()
+    {
+        if (RIGIDBODY != null && RIGIDBODY_VIEW != null)
         {
+            Destroy(RIGIDBODY_VIEW);
             Destroy(RIGIDBODY);
         }
         if (TryGetComponent<Collider>(out Collider col))
@@ -44,7 +67,6 @@ public class BreakableObject : MonoBehaviour
         {
             b.linearVelocity = RIGIDBODY.linearVelocity;
         }
-
         StartCoroutine(DespawnFragments(rbs, brokenInstance));
     }
 
@@ -93,21 +115,16 @@ public class BreakableObject : MonoBehaviour
         //Debug.Log(renderers[0].material.color);
 
         Destroy(brokenInstance);
-        Destroy(gameObject);
+        photonView.RPC(nameof(SendAcknowledgement), RpcTarget.All);
         yield return null;
     }
 
-    public void OnCollisionEnter(Collision collision)
+     [PunRPC]
+    private void SendAcknowledgement()
     {
-        //Debug.Log(collision.gameObject.layer);
-        // if collision has tag ground
-        if (collision.gameObject.layer != GROUND_LAYER){return;}
-        // if velocity is above a certain threshold
-        float vel = RIGIDBODY.linearVelocity.magnitude;
-        //Debug.Log(vel);
-        if (vel > breakSpeed)
-        {    
-            BreakObject();
+        if (photonView.IsMine)
+        {
+            ackCounter ++;
         }
     }
 
@@ -122,11 +139,9 @@ public class BreakableObject : MonoBehaviour
         return ren;
     }
 
-    public void GetPushed(Vector3 sourcePosition, float pushForce)
+    private IEnumerator DestroyOriginalObject()
     {
-        RIGIDBODY.constraints = RigidbodyConstraints.None;
-        Vector3 direction = Vector3.Normalize(gameObject.transform.position - sourcePosition);
-        Debug.Log(direction);
-        RIGIDBODY.AddForce(direction * pushForce, ForceMode.Impulse);
+        yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
+        ObjectManager.instance.DestroyForAll(gameObject);
     }
 }

@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877493564817297593}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12924d9ade647457a82836e7388e229c, type: 3}
   m_Name: 
@@ -63,7 +63,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.08521426, y: 0.10442698, z: 0.3198059}
   m_Center: {x: -0.00010997057, y: -0.014339566, z: 0.12842558}
@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 2686491866720014131}
   - component: {fileID: 8160589151971647769}
   - component: {fileID: 4517783895746465654}
+  - component: {fileID: 3937707373804444546}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   attackCoolDown: 0
   attackDuration: 0.2
-  pushForce: 20
+  pushForce: 80
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   cinemachineCamera: {fileID: 0}
+  playerGroundingBC: {fileID: 3391509123339976155}
   id: 0
 --- !u!136 &5948632707879458201
 CapsuleCollider:
@@ -173,10 +175,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.18776077
-  m_Height: 0.5904982
+  m_Radius: 0.08762655
+  m_Height: 0.50868183
   m_Direction: 2
-  m_Center: {x: 0.00066661835, y: 0.18571389, z: 0.2108438}
+  m_Center: {x: 0.003542602, y: 0.21476308, z: 0.20859566}
 --- !u!54 &8349577437884329599
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -223,8 +225,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0273163, y: 0.30279046, z: 0.76284826}
-  m_Center: {x: 0.013658226, y: 0.22244123, z: 0.11857587}
+  m_Size: {x: 0.39666826, y: 0.30279046, z: 0.43390965}
+  m_Center: {x: 0, y: 0.22244123, z: 0.5548593}
 --- !u!114 &8160589151971647769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +267,29 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!136 &3937707373804444546
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285022368266240042}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.09
+  m_Height: 0.42952597
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.09, z: 0.17476296}
 --- !u!1001 &8470381849445680099
 PrefabInstance:
   m_ObjectHideFlags: 0

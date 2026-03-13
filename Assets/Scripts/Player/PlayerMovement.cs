@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         playerVelocity.y = jumpVelocity;
         playerRB.linearVelocity = playerVelocity;
         StartCoroutine(FallingCoroutine());
-        yield return new WaitUntil(() => isGrounded == false);
+        yield return new WaitWhile(() => isGrounded = false);
         canJump = true;
     }
 

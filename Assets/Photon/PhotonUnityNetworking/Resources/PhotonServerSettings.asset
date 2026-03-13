@@ -40,6 +40,9 @@ MonoBehaviour:
   - UpdateLobbyUI
   - JoiningGame
   - Initialise
+  - RPC_ObjectGotHit
+  - CreateBrokenObject
+  - SendAcknowledgement
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
