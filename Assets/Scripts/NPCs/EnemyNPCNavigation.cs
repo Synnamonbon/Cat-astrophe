@@ -40,18 +40,34 @@ public class EnemyNPCNavigation : MonoBehaviour
 
         if (dist < distBeforeNext && !isLooking)
         {
-            StartCoroutine(UpdateWaypoint());
+            StartCoroutine(LookAround());
         }
 
         agent.SetDestination(waypoints[currentWaypoint].position);
     }
 
-    private IEnumerator UpdateWaypoint()
+    private void UpdateWaypoint()
     {
-        isLooking = true;
-        Debug.Log("Looking");
-        yield return new WaitForSeconds(2.0f);
         currentWaypoint = (currentWaypoint + 1) % waypoints.Count;
+    }
+
+    private IEnumerator LookAround()
+    {
+        Debug.Log("Looking");
+        isLooking = true;
+        agent.isStopped = true;
+        float startRotation = transform.eulerAngles.y;
+        float endRotation = startRotation + 360.0f;
+        float t = 0.0f;
+        while ( t  < 2.0f)
+        {
+            t += Time.deltaTime;
+            float yRotation = Mathf.Lerp(startRotation, endRotation, t / 2.0f) % 360.0f;
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, yRotation, transform.eulerAngles.z);
+            yield return null;
+        }
         isLooking = false;
+        agent.isStopped = false;
+        UpdateWaypoint();
     }
 }
