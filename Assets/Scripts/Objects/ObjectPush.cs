@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class ObjectPush : MonoBehaviourPun
+public class ObjectPush : MonoBehaviour
 {
     private Rigidbody objectRB;
 
@@ -12,14 +12,7 @@ public class ObjectPush : MonoBehaviourPun
 
     public void ObjectGotHit(float force, Vector3 forceLocation)
     {
-        Debug.Log("sending rpc call");
-        photonView.RPC(nameof(RPC_ObjectGotHit), RpcTarget.All, force, forceLocation);
-    }
-
-    [PunRPC]
-    public void RPC_ObjectGotHit(float force, Vector3 forceLocation)
-    {
-        Debug.Log("call recieved");
+        Debug.Log("Pushing object");
         objectRB.constraints = RigidbodyConstraints.None;
         Vector3 direction = (objectRB.position - forceLocation).normalized;
         direction.y += 0.3f;
