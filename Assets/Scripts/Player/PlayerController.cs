@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         photonPlayer = player;
         id = player.ActorNumber;
-        GameManager.instance.players[id - 1] = this;
+        TestSceneStart.instance.player = this;
 
         if (!photonView.IsMine)
             playerRB.isKinematic = true;
