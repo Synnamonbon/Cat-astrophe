@@ -674,7 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   agent: {fileID: 0}
   patrolRoute: []
-  routeHolder: {fileID: 244767246}
+  routeHolder: {fileID: 0}
   currentWaypoint: 0
   distBeforeNext: 1
 --- !u!195 &723888199
@@ -1198,10 +1198,10 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 1
-  m_TileSize: 16
-  m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 0bd01d29dce2ef8f1927ae0c76aa4b1f, type: 2}
   m_BuildHeightMesh: 0
@@ -1773,6 +1773,10 @@ PrefabInstance:
       propertyPath: TRANSPARENT_MATERIAL_SRC
       value: 
       objectReference: {fileID: 2100000, guid: 3687b4429d1318349bcaf4d9ff6c2f6b, type: 2}
+    - target: {fileID: 1941079545930727182, guid: 546f59205fde8b24db8b51aaa3c821b0, type: 3}
+      propertyPath: m_CarveOnlyStationary
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6992866043956944281, guid: 546f59205fde8b24db8b51aaa3c821b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.76

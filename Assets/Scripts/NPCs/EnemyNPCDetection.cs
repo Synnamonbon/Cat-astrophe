@@ -56,4 +56,7 @@ public class EnemyNPCDetection : MonoBehaviour
 
         return null;
     }
+
+    // Probably want a function "SeeCat" that forces the NPCNavigation into chase and sends the last known location of the cat.
+    // If the cat is within grabbing distance, grab and force into "Carrying" mode.
 }
