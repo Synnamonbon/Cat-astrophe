@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,25 +6,36 @@ using UnityEngine.AI;
 
 public class EnemyNPCNavigation : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public List<Transform> patrolRoute;             // Patrol route
-    public GameObject routeHolder;                  // Holder for patrol route points
-    public int currentWaypoint = 0;
-    public float distBeforeNext = 1.0f;
+    [NonSerialized] public NavMeshAgent agent;
+    [NonSerialized] private List<Transform> patrolRoute = new List<Transform>();             // Patrol route
+    public GameObject routeHolder;                                                          // Holder for patrol route points
+    private int currentWaypoint = 0;
+
+     [Header("Patrol Balancing")]
+    [SerializeField] private float destinationLeniency = 1.0f;
+    [SerializeField] private float surveyDuration = 2f;
+    [SerializeField] private float patrolSpeed = 2.5f;
+    [SerializeField] private float alertSpeed = 3.5f;
+
     private bool isLooking = false;
     private NPCStates currentState;
-    private List<Transform> alertSources;
-    private bool alertable = true;              // To be used to determine if NPC can be distracted right now. 
+    private List<Transform> alertSources = new List<Transform>();
+    private bool isAlertable = true;              // To be used to determine if NPC can be distracted right now. Turn off when chasing/carrying or if they are idling/lazing around?
 
-    void Awake()
+    void OnEnable()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
-        agent.stoppingDistance = distBeforeNext/2;
+        agent.stoppingDistance = destinationLeniency/2;
+
+        GameObject[] routes = GameObject.FindGameObjectsWithTag("Route");
+        routeHolder = routes[0];
+
         foreach(Transform child in routeHolder.GetComponentsInChildren<Transform>())
         {
             patrolRoute.Add(child);
         }
         patrolRoute.Remove(routeHolder.GetComponent<Transform>());
+
         currentState = NPCStates.Patrolling;
     }
 
@@ -35,7 +47,6 @@ public class EnemyNPCNavigation : MonoBehaviour
                 Patrol();
                 break;
             case NPCStates.Alerted:
-                // Naively Assume we have an alert source for now
                 GoToSoundSource();
                 break;
             case NPCStates.Surveying:
@@ -44,7 +55,6 @@ public class EnemyNPCNavigation : MonoBehaviour
                 {
                     if (alertSources.Count == 0)
                     {
-                        // Increment Patrol Point here instead?
                         currentState = NPCStates.Patrolling;
                     }
                     else
@@ -57,23 +67,18 @@ public class EnemyNPCNavigation : MonoBehaviour
                 Debug.Log("Unhandled State for " + gameObject.name);
                 break;
         }
-        
     }
 
     private void Patrol()
     {
         if(patrolRoute.Count == 0)
         {
+            Debug.Log("Where's my patrol path :<");
             return;
         }
 
         float dist = GetDistance(patrolRoute[currentWaypoint].position, transform.position);
-
-        if (dist < distBeforeNext && !isLooking)
-        {
-            currentState = NPCStates.Surveying;
-            StartCoroutine(LookAround());
-        }
+        SurveyIfArrived(dist);
         
         agent.SetDestination(patrolRoute[currentWaypoint].position);
     }
@@ -88,10 +93,12 @@ public class EnemyNPCNavigation : MonoBehaviour
         Debug.Log("Looking");
         isLooking = true;
         agent.isStopped = true;
+
+        // Surveying behaviour.
         float startRotation = transform.eulerAngles.y;
         float endRotation = startRotation + 360.0f;
         float t = 0.0f;
-        while (t  < 2.0f)
+        while (t  < surveyDuration)
         {
             t += Time.deltaTime;
             float yRotation = Mathf.Lerp(startRotation, endRotation, t / 2.0f) % 360.0f;
@@ -100,7 +107,6 @@ public class EnemyNPCNavigation : MonoBehaviour
         }
         isLooking = false;
         agent.isStopped = false;
-        IncrementPatrolPoint();
     }
 
     public void AlertToSound(Transform source)
@@ -109,20 +115,63 @@ public class EnemyNPCNavigation : MonoBehaviour
         // Currently just stop the current path and go to the source of the object.
         // If new Alert comes, empty list and set newest source at low chaos
         // At high chaos, add to end of list but keep pursuing first.
-        if (alertSources.Count > 0){
+        if (alertSources.Count > 0)
+        {
             alertSources = new List<Transform>();
         }
+
         alertSources.Add(source);
-        currentState = NPCStates.Alerted;
+        
+        if (isAlertable)
+        {
+            StartCoroutine(StopAgentForDuration(1f));
+            currentState = NPCStates.Alerted;
+        }
     }
 
     private void GoToSoundSource()
     {
-        
+        if (alertSources.Count == 0)
+        {
+            // We shouldnt be able to go in here but futureproofing if NPCs can tell others they checked stuff out already.
+            Debug.Log("No sources to go to. Return to patrolling");
+            currentState = NPCStates.Patrolling;
+            return;
+        }
+
+        float dist = GetDistance(alertSources[0].position, transform.position);
+        SurveyIfArrived(dist);
+
+        agent.SetDestination(alertSources[0].position);
     }
 
     private float GetDistance(Vector3 goal, Vector3 source)
     {
         return Vector3.Distance(goal, source);
+    }
+
+    private void SurveyIfArrived(float dist)
+    {
+        if (dist < destinationLeniency)
+        {
+            if (currentState == NPCStates.Alerted)
+            {
+                alertSources.RemoveAt(0);
+            }
+            else if (currentState == NPCStates.Patrolling)
+            {
+                IncrementPatrolPoint();
+            }
+
+            currentState = NPCStates.Surveying;
+            StartCoroutine(LookAround());
+        }
+    }
+
+    public IEnumerator StopAgentForDuration(float waitTime)
+    {
+        agent.isStopped = true;
+        yield return new WaitForSeconds(waitTime);
+        agent.isStopped = false;
     }
 }
