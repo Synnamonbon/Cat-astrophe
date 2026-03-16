@@ -6,17 +6,18 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private float attackCoolDown = 0.5f; 
     [SerializeField] private float attackDuration = 0.2f;
+    [SerializeField] private float attackRotationDuration = 10f;
     [SerializeField] private float pushForce = 20f;
     private bool canAttack = true;
     private BoxCollider boxCollider;
     private Rigidbody playerRB;
-
-    //
+    private PlayerMovement playerMovement;
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
         playerRB = GetComponent<Rigidbody>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void Start()
@@ -27,21 +28,47 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack(object sender, EventArgs e)
     {
-        if (!canAttack)return;
-        StartCoroutine(EnableBoxCollider());
+        if (!canAttack) return;
+        if (!playerMovement.isGrounded) return;
+        Debug.Log("Attack initiated");
+        StartCoroutine(RotateToCamera());
     }
 
     private IEnumerator EnableBoxCollider()
     {
-        canAttack = false;
+        yield return new WaitForSeconds(0.3f);
         boxCollider.enabled = true;
 
         //Debug.Log("Player is attacking");
         yield return new WaitForSeconds(attackDuration);
         boxCollider.enabled = false;
+        playerMovement.AttackLockMove(false);
 
         yield return new WaitForSeconds(attackCoolDown);
         canAttack = true;
+    }
+
+    private IEnumerator RotateToCamera()
+    {
+        canAttack = false;
+        playerMovement.AttackLockMove(true);
+
+        Quaternion startDirection = transform.rotation;
+        Quaternion targetDirection = playerMovement.GetCameraForward();
+        
+        float elapsed = 0f;
+
+        while (elapsed < attackRotationDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / attackRotationDuration;
+
+            transform.rotation = Quaternion.Slerp(startDirection, targetDirection, t);
+            yield return null;
+        }
+
+        transform.rotation = targetDirection;
+        StartCoroutine(EnableBoxCollider());
     }
 
     public void OnTriggerEnter(Collider other)
