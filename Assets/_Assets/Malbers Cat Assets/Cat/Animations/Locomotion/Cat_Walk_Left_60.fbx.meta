@@ -1,7 +1,14 @@
 fileFormatVersion: 2
 guid: 11d6db8fa25bf334bb4a3e2376b4c191
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343080
+  packageName: Milo the Cat PolyArt
+  packageVersion: 1.0a
+  assetPath: Assets/_Assets/Malbers Animations/Cat/Animations/Locomotion/Cat_Walk_Left_60.fbx
+  uploadId: 818398
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -85,6 +92,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -122,8 +132,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e4787d9893583de4e88559fedaffbc85,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e4787d9893583de4e88559fedaffbc85, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
@@ -135,10 +144,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 343080
-  packageName: Milo the Cat PolyArt
-  packageVersion: 1.0a
-  assetPath: Assets/_Assets/Malbers Animations/Cat/Animations/Locomotion/Cat_Walk_Left_60.fbx
-  uploadId: 818398
