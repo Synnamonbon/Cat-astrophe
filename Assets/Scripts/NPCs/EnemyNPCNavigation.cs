@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
-public class EnemyNPCNavigation : MonoBehaviour
+public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 {
     [NonSerialized] public NavMeshAgent agent;
     [NonSerialized] private List<Transform> patrolRoute = new List<Transform>();             // Patrol route
@@ -37,16 +38,27 @@ public class EnemyNPCNavigation : MonoBehaviour
         patrolRoute.Remove(routeHolder.GetComponent<Transform>());
 
         currentState = NPCStates.Patrolling;
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            agent.enabled = false;
+        }
     }
 
     void FixedUpdate()
     {
+        if (agent.enabled == false) return;
+
         switch (currentState)
         {
             case NPCStates.Patrolling:
+                agent.speed = patrolSpeed;
                 Patrol();
                 break;
             case NPCStates.Alerted:
+                agent.speed = alertSpeed;
                 GoToSoundSource();
                 break;
             case NPCStates.Surveying:
@@ -122,7 +134,7 @@ public class EnemyNPCNavigation : MonoBehaviour
 
         alertSources.Add(source);
         
-        if (isAlertable)
+        if (isAlertable && currentState != NPCStates.Alerted && currentState != NPCStates.Surveying)
         {
             StartCoroutine(StopAgentForDuration(1f));
             currentState = NPCStates.Alerted;

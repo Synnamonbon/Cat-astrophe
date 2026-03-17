@@ -5,22 +5,28 @@ using UnityEngine;
 public class EnemyNPCDetection : MonoBehaviour
 {
     public GameObject visionOrigin;
-    private GameObject[] playersList;
+    private List<GameObject> playersList;
     [Header("Detection tinkering:")]
     [Range(0f, 20f)]
     [SerializeField] private float visionDistance = 5f;
     [Range(5f, 80f)]
     [SerializeField] private float visionAngle = 50f;
 
-    void Awake()
+    void OnEnable()
     {
-        playersList = GameObject.FindGameObjectsWithTag("Player");
+        playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         DetectPlayers();
+    }
+
+    // Maybe an RPC?
+    public void SubscribeToPlayer(GameObject player)
+    {
+        playersList.Add(player);
     }
 
     private GameObject[] DetectPlayers()
@@ -37,20 +43,20 @@ public class EnemyNPCDetection : MonoBehaviour
                 // Debug.Log(theta + " Degrees for " + player.name);
                 if (theta > visionAngle)
                 {
-                    Debug.Log("Too far to side to see " + player.name);
+                    //Debug.Log("Too far to side to see " + player.name);
                     continue;
                 }
                 // Tag checking
                 if (!hitObj.CompareTag("Player"))
                 {
-                    Debug.Log("Not hitting Player for " + player.name);
+                    //Debug.Log("Not hitting Player for " + player.name);
                     continue;
                 }
                 Debug.DrawRay(visionOrigin.transform.position, dir.normalized * hit.distance, Color.yellow);
             }
             else
             {
-                Debug.Log("No Hit for " + player.name);
+                //Debug.Log("No Hit for " + player.name);
             }
         }
 
