@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private float verticalInput;
     private float horizontalInput;
+    private bool attackLocked = false;
 
     [Header("Jump Parameters")]
     [SerializeField] private float jumpHeight = 3f;
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (attackLocked) return;
         HandleMovement();
         HandleRotation();
     }
@@ -78,14 +80,38 @@ public class PlayerMovement : MonoBehaviour
         targetDirection += cameraPOV.right * horizontalInput;
         targetDirection.Normalize();
         targetDirection.y = 0;
-
+    
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         transform.rotation = playerRotation;
     }
 
+    public void AttackLockMove(bool value)
+    {
+        attackLocked = value;
+        canJump = !value;
+        if (attackLocked) StopMovement();
+    }
 
+    public Quaternion GetCameraForward()
+    {
+        Vector3 cameraForward = cameraPOV.forward;
+        cameraForward.y = 0f;
+
+        if (cameraForward == Vector3.zero) return transform.rotation;
+
+        return Quaternion.LookRotation(cameraForward);
+    }
+
+    private void StopMovement()
+    {
+        Vector3 velocity = playerRB.linearVelocity;
+        velocity.x = 0f;
+        velocity.z = 0f;
+
+        playerRB.linearVelocity = velocity;
+    }
 
     // Jump functions
     private void Jump(object sender, EventArgs e)
