@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System.Linq;
+using Photon.Pun;
 
-public class EnemyNPCDetection : MonoBehaviour
+public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 {
     public GameObject visionOrigin;
     private List<GameObject> playersList;
@@ -12,7 +14,7 @@ public class EnemyNPCDetection : MonoBehaviour
     [Range(5f, 80f)]
     [SerializeField] private float visionAngle = 50f;
 
-    void OnEnable()
+    private void OnEnable()
     {
         playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
     }
@@ -24,9 +26,13 @@ public class EnemyNPCDetection : MonoBehaviour
     }
 
     // Maybe an RPC?
+    [PunRPC]
     public void SubscribeToPlayer(GameObject player)
     {
-        playersList.Add(player);
+        if (!playersList.Contains(player))
+        {
+            playersList.Add(player);
+        }
     }
 
     private GameObject[] DetectPlayers()

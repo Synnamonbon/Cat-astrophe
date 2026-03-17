@@ -1,18 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
-public class AlertManager : MonoBehaviour
+public class AlertManager : MonoBehaviourPunCallbacks
 {
     public static AlertManager instance;
-    private List<GameObject> enemies = null;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake()
-    {
-        SingletonPattern();
-        DontDestroyOnLoad(gameObject);
-    }
+    private List<GameObject> enemies = new List<GameObject>();
 
     private void SingletonPattern()
     {
@@ -26,7 +21,10 @@ public class AlertManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (instance.enemies is null)
+        SingletonPattern();
+        DontDestroyOnLoad(gameObject);
+
+        if (instance.enemies.Count == 0)
         {
             instance.enemies = GameObject.FindGameObjectsWithTag("EnemyNPC").ToList();
         }
@@ -45,7 +43,7 @@ public class AlertManager : MonoBehaviour
 
     public void AlertNPCsInRange(Transform source, float range)
     {
-        Debug.Log(instance.enemies.Count + " enemies");
+        //Debug.Log(instance.enemies.Count + " enemies");
         foreach(GameObject enemy in enemies)
         {
             float dist = Vector3.Distance(source.position, enemy.transform.position);
@@ -56,7 +54,8 @@ public class AlertManager : MonoBehaviour
                 if (enemy.TryGetComponent<EnemyNPCNavigation>(out EnemyNPCNavigation enemyNav))
                 {
                     // Make this an RPC call instead.
-                    enemyNav.AlertToSound(source);
+                    photonView.RPC(nameof(enemyNav.AlertToSound), RpcTarget.All, source.position);
+                    //enemyNav.AlertToSound(source);
                 }
                 else
                 {

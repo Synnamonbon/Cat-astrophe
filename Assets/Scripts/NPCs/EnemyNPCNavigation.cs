@@ -8,7 +8,7 @@ using Photon.Pun;
 public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 {
     [NonSerialized] public NavMeshAgent agent;
-    [NonSerialized] private List<Transform> patrolRoute = new List<Transform>();             // Patrol route
+    [NonSerialized] private List<Vector3> patrolRoute = new List<Vector3>();             // Patrol route
     public GameObject routeHolder;                                                          // Holder for patrol route points
     private int currentWaypoint = 0;
 
@@ -20,10 +20,10 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
     private bool isLooking = false;
     private NPCStates currentState;
-    private List<Transform> alertSources = new List<Transform>();
+    private List<Vector3> alertSources = new List<Vector3>();
     private bool isAlertable = true;              // To be used to determine if NPC can be distracted right now. Turn off when chasing/carrying or if they are idling/lazing around?
 
-    void OnEnable()
+    private void OnEnable()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         agent.stoppingDistance = destinationLeniency/2;
@@ -33,9 +33,9 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
         foreach(Transform child in routeHolder.GetComponentsInChildren<Transform>())
         {
-            patrolRoute.Add(child);
+            patrolRoute.Add(child.position);
         }
-        patrolRoute.Remove(routeHolder.GetComponent<Transform>());
+        patrolRoute.Remove(routeHolder.GetComponent<Transform>().position);
 
         currentState = NPCStates.Patrolling;
 
@@ -89,10 +89,10 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
             return;
         }
 
-        float dist = GetDistance(patrolRoute[currentWaypoint].position, transform.position);
+        float dist = GetDistance(patrolRoute[currentWaypoint], transform.position);
         SurveyIfArrived(dist);
         
-        agent.SetDestination(patrolRoute[currentWaypoint].position);
+        agent.SetDestination(patrolRoute[currentWaypoint]);
     }
 
     private void IncrementPatrolPoint()
@@ -121,15 +121,18 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         agent.isStopped = false;
     }
 
-    public void AlertToSound(Transform source)
+    [PunRPC]
+    public void AlertToSound(Vector3 source)
     {
         // Behaviour to being alerted to a sound.
         // Currently just stop the current path and go to the source of the object.
         // If new Alert comes, empty list and set newest source at low chaos
         // At high chaos, add to end of list but keep pursuing first.
+        if (!PhotonNetwork.IsMasterClient) {return;}
+        
         if (alertSources.Count > 0)
         {
-            alertSources = new List<Transform>();
+            alertSources = new List<Vector3>();
         }
 
         alertSources.Add(source);
@@ -151,10 +154,10 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
             return;
         }
 
-        float dist = GetDistance(alertSources[0].position, transform.position);
+        float dist = GetDistance(alertSources[0], transform.position);
         SurveyIfArrived(dist);
 
-        agent.SetDestination(alertSources[0].position);
+        agent.SetDestination(alertSources[0]);
     }
 
     private float GetDistance(Vector3 goal, Vector3 source)
