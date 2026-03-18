@@ -73,6 +73,9 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
                     }
                 }
                 break;
+            case NPCStates.Chasing:
+                GoTowardsChaseTarget();
+                break;
             default:
                 Debug.Log("Unhandled State for " + gameObject.name);
                 break;
@@ -190,5 +193,19 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         agent.isStopped = true;
         yield return new WaitForSeconds(waitTime);
         agent.isStopped = false;
+    }
+
+    // Signal that the detection system has seen a cat
+    // Set state to chasing to immediately start chasing, block out alerts to focus on chasing
+    // 
+    public void StartChasingTarget()
+    {
+        currentState = NPCStates.Chasing;
+        isAlertable = false;
+    }
+
+    private void GoTowardsChaseTarget()
+    {
+
     }
 }

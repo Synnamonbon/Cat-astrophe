@@ -8,11 +8,15 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 {
     public GameObject visionOrigin;
     private List<GameObject> playersList;
+    private GameObject playerInChase;
+    private Time chaseTargetLastSeen;
     [Header("Detection tinkering:")]
     [Range(0f, 20f)]
     [SerializeField] private float visionDistance = 5f;
     [Range(5f, 80f)]
     [SerializeField] private float visionAngle = 50f;
+    [Range(0.1f, 3f)]
+    [SerializeField] private float chasePatience = 1f;
 
     private void OnEnable()
     {
@@ -53,7 +57,9 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
                     //Debug.Log("Not hitting Player for " + player.name);
                     continue;
                 }
+                // We are seeing a cat
                 Debug.DrawRay(visionOrigin.transform.position, dir.normalized * hit.distance, Color.yellow);
+                SeeCat(hitObj);
             }
             else
             {
@@ -66,4 +72,10 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 
     // Probably want a function "SeeCat" that forces the NPCNavigation into chase and sends the last known location of the cat.
     // If the cat is within grabbing distance, grab and force into "Carrying" mode.
+
+    private void SeeCat(GameObject player)
+    {
+        // Send Chase Cat command to enemy nav system, which will switch it into chase mode and continuously set goal as latest cat seen position.
+        
+    }
 }
