@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
 
     private InputSystem_Actions inputActions;
 
-    public Vector2 movementInput;
+    private Vector2 movementInput;
 
     private void Awake()
     {

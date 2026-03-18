@@ -121,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Grounded: " + isGrounded);
         Debug.Log("CanJump: " + canJump);
         Debug.Log("CanHop: " + canHop);
+        Debug.Log("Platform Collider: "+ platformCollider);
         if (!isGrounded) return;
 
         if (canHop)
@@ -205,13 +206,13 @@ public class PlayerMovement : MonoBehaviour
         {
             canJump = false;
             canHop = true;
-        }
-        foreach (BoxCollider col in colliders)
-        {
-            if (!col.isTrigger)
+            foreach (BoxCollider col in colliders)
             {
-                platformCollider = col;
-                break;
+                if (!col.isTrigger)
+                {
+                    platformCollider = col;
+                    break;
+                }
             }
         }
     }
@@ -222,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
         {
             canJump = true;
             canHop = false;
+            platformCollider = null;
         }
-        platformCollider = null;
     }
 }

@@ -46,9 +46,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         photonPlayer = player;
         id = player.ActorNumber;
-        TestSceneStart.instance.player = this;
+        if (TestSceneStart.instance != null) TestSceneStart.instance.player = this;
 
-        if (!photonView.IsMine)
+        if (!photonView.IsMine){
             playerRB.isKinematic = true;
+            playerRB.useGravity = false;
+        }
     }
 }

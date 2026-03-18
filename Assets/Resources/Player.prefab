@@ -83,8 +83,8 @@ GameObject:
   - component: {fileID: 8349577437884329599}
   - component: {fileID: 2686491866720014131}
   - component: {fileID: 8160589151971647769}
-  - component: {fileID: 4517783895746465654}
   - component: {fileID: 3937707373804444546}
+  - component: {fileID: 3062449170769415285}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -247,27 +247,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 4517783895746465654}
-  - {fileID: 0}
+  - {fileID: 3062449170769415285}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4517783895746465654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6285022368266240042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!136 &3937707373804444546
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -291,6 +274,18 @@ CapsuleCollider:
   m_Height: 0.42952597
   m_Direction: 2
   m_Center: {x: 0, y: 0.09, z: 0.17476296}
+--- !u!114 &3062449170769415285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285022368266240042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21e4cec879a74b33a0e941e7ddbd685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSync
 --- !u!1001 &6768062247154602309
 PrefabInstance:
   m_ObjectHideFlags: 0
