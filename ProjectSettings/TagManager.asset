@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 3
   tags:
   - BreakableObject
+  - Hoppable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HopTrigger
   - Water
   - UI
   - Ground
-  - 
+  - Player
   - 
   - 
   - 

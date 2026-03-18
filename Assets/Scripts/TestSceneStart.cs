@@ -49,7 +49,11 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
         playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
 
-        ObjectManager.instance.SpawnObjects();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ObjectManager.instance.SpawnObjects();
+            // add spawn enemy here
+        }
     }
 
 }

@@ -42,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
         //Debug.Log("Player is attacking");
         yield return new WaitForSeconds(attackDuration);
         boxCollider.enabled = false;
-        playerMovement.AttackLockMove(false);
+        playerMovement.LockMove(false);
 
         yield return new WaitForSeconds(attackCoolDown);
         canAttack = true;
@@ -51,7 +51,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator RotateToCamera()
     {
         canAttack = false;
-        playerMovement.AttackLockMove(true);
+        playerMovement.LockMove(true);
 
         Quaternion startDirection = transform.rotation;
         Quaternion targetDirection = playerMovement.GetCameraForward();

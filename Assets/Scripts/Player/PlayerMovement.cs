@@ -17,7 +17,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float gravityMultiplier = -1f;
     [HideInInspector] public bool isGrounded;
+    private Collider platformCollider; // Collider for platforms player stands next to
     private bool canJump = true;
+    private bool canHop = false;
     
     private Transform cameraPOV;
     private Rigidbody playerRB;
@@ -87,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = playerRotation;
     }
 
-    public void AttackLockMove(bool value)
+    public void LockMove(bool value)
     {
         attackLocked = value;
         canJump = !value;
@@ -116,7 +118,16 @@ public class PlayerMovement : MonoBehaviour
     // Jump functions
     private void Jump(object sender, EventArgs e)
     {
-        if (canJump && isGrounded)
+        Debug.Log("Grounded: " + isGrounded);
+        Debug.Log("CanJump: " + canJump);
+        Debug.Log("CanHop: " + canHop);
+        if (!isGrounded) return;
+
+        if (canHop)
+        {
+            StartCoroutine(HopUpCoroutine());
+        }
+        else if (canJump)
         {
             StartCoroutine(JumpCoroutine());
         }
@@ -131,18 +142,87 @@ public class PlayerMovement : MonoBehaviour
         playerVelocity.y = jumpVelocity;
         playerRB.linearVelocity = playerVelocity;
         StartCoroutine(FallingCoroutine());
-        yield return new WaitWhile(() => isGrounded = false);
+        yield return new WaitWhile(() => isGrounded == false);
         canJump = true;
+    }
+    
+    private IEnumerator HopUpCoroutine()
+    {
+        float colliderHeight = platformCollider.bounds.max.y;
+        float playerFeet = gameObject.GetComponent<CapsuleCollider>().bounds.min.y;
+        float buffer = 0.4f;
+
+        if ((colliderHeight - playerFeet) <= 0) yield break;
+
+        float jumpVelocity = Mathf.Sqrt((colliderHeight - playerFeet + buffer) * -2f * Physics.gravity.y);
+
+        LockMove(true);
+
+        Vector3 playerVelocity = playerRB.linearVelocity;
+        playerVelocity.y = jumpVelocity;
+        playerRB.linearVelocity = playerVelocity;
+        
+        StartCoroutine(FallForwardCoroutine());
     }
 
     private IEnumerator FallingCoroutine()
     {
-        yield return new WaitUntil(() => playerRB.linearVelocity.y < 0);
+        yield return new WaitUntil(() => playerRB.linearVelocity.y == 0);
+
         while (!isGrounded)
         {
             playerRB.linearVelocity += Vector3.up * Physics.gravity.y * (gravityMultiplier - 1) * Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private IEnumerator FallForwardCoroutine()
+    {
+        Vector3 forwardDirection = platformCollider.transform.position - transform.position;
+        forwardDirection.y = 0f;
+        float forwardVelocity = 3f;
+        float currentYVelocity = playerRB.linearVelocity.y;
+
+        Debug.Log(forwardDirection);
+
+        yield return new WaitWhile(() => playerRB.linearVelocity.y > currentYVelocity/2);
+        Debug.Log("falling forward");
+        while (!isGrounded)
+        {
+            playerRB.linearVelocity += forwardDirection * forwardVelocity * Time.fixedDeltaTime;
 
             yield return new WaitForFixedUpdate();
         }
+        Debug.Log("Ending foward motion");
+        LockMove(false);
+    }
+
+    // Check if jumping or hopping
+    void OnTriggerEnter(Collider other)
+    {
+        Collider[] colliders = other.GetComponentsInParent<Collider>();
+        if (other.CompareTag("Hoppable"))
+        {
+            canJump = false;
+            canHop = true;
+        }
+        foreach (BoxCollider col in colliders)
+        {
+            if (!col.isTrigger)
+            {
+                platformCollider = col;
+                break;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Hoppable"))
+        {
+            canJump = true;
+            canHop = false;
+        }
+        platformCollider = null;
     }
 }
