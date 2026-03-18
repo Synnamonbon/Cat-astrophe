@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2632233199830685966}
   - component: {fileID: 874997378526347527}
   - component: {fileID: 939191033987716345}
-  - component: {fileID: -793216333819005614}
+  - component: {fileID: 160575505210010229}
   m_Layer: 0
   m_Name: EnemyTest
   m_TagString: EnemyNPC
@@ -185,8 +185,8 @@ MonoBehaviour:
   routeHolder: {fileID: 0}
   destinationLeniency: 1
   surveyDuration: 2
-  patrolSpeed: 2.5
-  alertSpeed: 3.5
+  patrolSpeed: 4
+  alertSpeed: 6.5
 --- !u!114 &874997378526347527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,11 +221,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -793216333819005614}
+  - {fileID: 160575505210010229}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-793216333819005614
+--- !u!114 &160575505210010229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,13 +234,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3487283526624640317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonRigidbodyView
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &5690490875668472373
 GameObject:
   m_ObjectHideFlags: 0

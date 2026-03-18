@@ -15,8 +15,8 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
      [Header("Patrol Balancing")]
     [SerializeField] private float destinationLeniency = 1.0f;
     [SerializeField] private float surveyDuration = 2f;
-    [SerializeField] private float patrolSpeed = 2.5f;
-    [SerializeField] private float alertSpeed = 3.5f;
+    [SerializeField] private float patrolSpeed = 4f;
+    [SerializeField] private float alertSpeed = 6.5f;
 
     private bool isLooking = false;
     private NPCStates currentState;
@@ -41,8 +41,6 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient)
         {
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            rb.isKinematic = false;
             agent.enabled = false;
         }
     }
@@ -157,7 +155,11 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         float dist = GetDistance(alertSources[0], transform.position);
         SurveyIfArrived(dist);
 
-        agent.SetDestination(alertSources[0]);
+        // We check again because SurveyIfArrived could have removed our Alert Source
+        if (alertSources.Count != 0)
+        {
+            agent.SetDestination(alertSources[0]);
+        }
     }
 
     private float GetDistance(Vector3 goal, Vector3 source)

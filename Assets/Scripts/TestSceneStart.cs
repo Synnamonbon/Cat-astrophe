@@ -52,7 +52,12 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             ObjectManager.instance.SpawnObjects();
-            // add spawn enemy here
+            NPCManager.instance.SpawnEnemies();
+        }
+        else
+        {
+            AlertManager.instance.photonView.RPC(nameof(AlertManager.instance.ResubscribeEnemies), RpcTarget.All);
+            //AlertManager.instance.SubscribeEnemiesToPlayer(playerObject);
         }
     }
 

@@ -25,14 +25,9 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
         DetectPlayers();
     }
 
-    // Maybe an RPC?
-    [PunRPC]
-    public void SubscribeToPlayer(GameObject player)
+    public void ResubscribeEnemy()
     {
-        if (!playersList.Contains(player))
-        {
-            playersList.Add(player);
-        }
+        playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
     }
 
     private GameObject[] DetectPlayers()

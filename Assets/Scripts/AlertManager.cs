@@ -32,17 +32,20 @@ public class AlertManager : MonoBehaviourPunCallbacks
 
     public void AddEnemy(GameObject enemy)
     {
+        if (!PhotonNetwork.IsMasterClient){return;}
         Debug.Log("Adding " + enemy.name);
         instance.enemies.Add(enemy);
     }
 
     public void RemoveEnemy(GameObject enemy)
     {
+        if (!PhotonNetwork.IsMasterClient){return;}
         instance.enemies.Remove(enemy);
     }
 
     public void AlertNPCsInRange(Transform source, float range)
     {
+        if (!PhotonNetwork.IsMasterClient){return;}
         //Debug.Log(instance.enemies.Count + " enemies");
         foreach(GameObject enemy in enemies)
         {
@@ -54,13 +57,27 @@ public class AlertManager : MonoBehaviourPunCallbacks
                 if (enemy.TryGetComponent<EnemyNPCNavigation>(out EnemyNPCNavigation enemyNav))
                 {
                     // Make this an RPC call instead.
-                    photonView.RPC(nameof(enemyNav.AlertToSound), RpcTarget.All, source.position);
-                    //enemyNav.AlertToSound(source);
+                    //photonView.RPC(nameof(enemyNav.AlertToSound), RpcTarget.All, source.position);
+                    enemyNav.AlertToSound(source.position);
                 }
                 else
                 {
                     Debug.Log("No enemy NPC Navigation script attached to enemy " + enemy.name);
                 }
+            }
+        }
+    }
+
+    [PunRPC]
+    public void ResubscribeEnemies()
+    {
+        if (!PhotonNetwork.IsMasterClient){return;}
+
+        foreach (GameObject enemy in enemies)
+        {
+            if(enemy.TryGetComponent<EnemyNPCDetection>(out EnemyNPCDetection enemyDet))
+            {
+                enemyDet.ResubscribeEnemy();
             }
         }
     }
