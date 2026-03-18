@@ -5,17 +5,18 @@ TagManager:
   serializedVersion: 3
   tags:
   - BreakableObject
+  - Hoppable
   - Route
   - EnemyNPC
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HopTrigger
   - Water
   - UI
   - Ground
-  - 
+  - Player
   - 
   - 
   - 
