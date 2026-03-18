@@ -11,6 +11,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] private float timeBeforeDespawn = 2f;
     [Range(0.01f, 2f)]
     [SerializeField] private float fragmentDespawnSpeed = 0.25f;
+    [Range(0f, 20f)]
+    [SerializeField] private float alertDetectionDistance = 8f;
     [Header("Drag and drop the fractured object PREFAB below:")]
     [SerializeField] public GameObject fractured;
     [Header("Transparent material goes below here:")]
@@ -59,6 +61,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         if (TryGetComponent<Renderer>(out Renderer r))
         {
             r.enabled = false;
+        }
+
+        // Check if I am master client, take responsibility to alert enemies
+        if (PhotonNetwork.IsMasterClient)
+        {
+            AlertManager.instance.AlertNPCsInRange(transform, alertDetectionDistance);
         }
 
         GameObject brokenInstance = Instantiate(fractured, transform.position, transform.rotation);
