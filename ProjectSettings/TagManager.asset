@@ -6,6 +6,8 @@ TagManager:
   tags:
   - BreakableObject
   - Hoppable
+  - Route
+  - EnemyNPC
   layers:
   - Default
   - TransparentFX

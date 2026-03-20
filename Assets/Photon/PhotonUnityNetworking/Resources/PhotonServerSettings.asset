@@ -43,6 +43,10 @@ MonoBehaviour:
   - RPC_ObjectGotHit
   - CreateBrokenObject
   - SendAcknowledgement
+  - AlertToSound
+  - SubscribeToPlayer
+  - SubscribeEnemiesToPlayer
+  - ResubscribeEnemies
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
