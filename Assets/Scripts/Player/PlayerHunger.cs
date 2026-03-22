@@ -22,14 +22,10 @@ public class PlayerHunger : MonoBehaviour
         Debug.Log(currentHunger);
     }
 
-    void OnTriggerEnter(Collider collision)
+    public void RestoreFood(float value)
     {
-        if (collision.CompareTag("Food"))
-        {
-            currentHunger += 20f;
-            Mathf.Clamp(currentHunger, 0f, maxHunger);
-            Destroy(collision.gameObject);
-        }
+        currentHunger += value;
+        Mathf.Clamp(currentHunger, 0f, maxHunger);
     }
 
 }
