@@ -24,10 +24,12 @@ public class PlayerMovement : MonoBehaviour
     
     private Transform cameraPOV;
     private Rigidbody playerRB;
+    private PlayerHunger playerHunger;
 
     private void Awake()
     {
         playerRB = GetComponent<Rigidbody>();
+        playerHunger = GetComponent<PlayerHunger>();
         cameraPOV = Camera.main.transform;
     }
 
@@ -66,7 +68,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection += cameraRight * horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0;
-        if (InputManager.instance.isSprinting) {moveDirection *= sprintSpeed;}
+
+        if (InputManager.instance.isSprinting && playerHunger.currentHunger > 0) {moveDirection *= sprintSpeed;}
         else {moveDirection *= movementSpeed;}
 
         Vector3 moveVelocity = playerRB.linearVelocity;
