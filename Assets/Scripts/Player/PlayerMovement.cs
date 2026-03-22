@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement parameters")]
     [SerializeField] private float movementSpeed = 8f;
+    [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float rotationSpeed = 10f;
     private Vector3 moveDirection;
     private Vector2 moveInput;
@@ -65,7 +66,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection += cameraRight * horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0;
-        moveDirection *= movementSpeed;
+        if (InputManager.instance.isSprinting) {moveDirection *= sprintSpeed;}
+        else {moveDirection *= movementSpeed;}
 
         Vector3 moveVelocity = playerRB.linearVelocity;
         moveVelocity.x = moveDirection.x;
