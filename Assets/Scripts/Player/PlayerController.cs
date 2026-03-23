@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [HideInInspector] public Player photonPlayer;
     [SerializeField] private BoxCollider playerGroundingBC;
     [HideInInspector] public int id;
+    [HideInInspector] public bool isVisible = true;         // Flag to check if the detection system should consider the cat as detecable
 
     private PlayerMovement playerMovement;
     private PlayerAttack playerAttack;
