@@ -105,7 +105,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 
     private void SeeCat(GameObject player)
     {
-        Debug.Log("Seeing " + player.name);
+        // Debug.Log("Seeing " + player.name);
         // Begin chase with cat if we arent yet
         if (playerInChase == null)
         {
@@ -135,7 +135,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
         if (playerInChase != null)
         {
             float dist = Vector3.Distance(playerInChase.transform.position, transform.position);
-            Debug.Log(dist + " units away!");
+            // Debug.Log(dist + " units away!");
             if (dist <= capturingReach)     // In Capturing Range
             {
                 if (!isCapturing)           // if we are just now starting to capture, set start time as now
