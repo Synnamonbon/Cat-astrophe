@@ -158,6 +158,7 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 0}
   playerGroundingBC: {fileID: 3391509123339976155}
   id: 0
+  isVisible: 1
 --- !u!136 &5948632707879458201
 CapsuleCollider:
   m_ObjectHideFlags: 0

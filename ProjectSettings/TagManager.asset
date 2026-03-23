@@ -8,6 +8,7 @@ TagManager:
   - Hoppable
   - Route
   - EnemyNPC
+  - CagePoint
   layers:
   - Default
   - TransparentFX

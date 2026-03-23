@@ -3,26 +3,47 @@ using System.Collections;
 using UnityEngine;
 using System.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 {
     public GameObject visionOrigin;
+    public GameObject visionRot;
     private List<GameObject> playersList;
+    private GameObject playerInChase = null;
+    private float chaseTargetLastSeen = 0f;
+    private bool isCapturing = false;
+    private float captureStartTime;
+    private bool isCarrying = false;
     [Header("Detection tinkering:")]
     [Range(0f, 20f)]
-    [SerializeField] private float visionDistance = 5f;
-    [Range(5f, 80f)]
-    [SerializeField] private float visionAngle = 50f;
+    [SerializeField] private float visionDistance = 10f;
+    [Range(5f, 100f)]
+    [SerializeField] private float visionAngle = 80f;
+    [Range(0.1f, 3f)]
+    [SerializeField] private float chaseFollowthrough = 1f;
+    [SerializeField] private float capturingReach = 1f;
+    [SerializeField] private float capturingDuration = 1f;
+
+    private EnemyNPCNavigation enemyNav;
 
     private void OnEnable()
     {
         playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
+        
+        if (gameObject.TryGetComponent<EnemyNPCNavigation>(out EnemyNPCNavigation nav))
+        {
+            enemyNav = nav;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!PhotonNetwork.IsMasterClient) {return;}
+        if (isCarrying) {return;}
         DetectPlayers();
+        CapturingDetect();
     }
 
     public void ResubscribeEnemy()
@@ -32,38 +53,113 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 
     private GameObject[] DetectPlayers()
     {
+        GameObject nearestCat = null;
+        float nearestDist = visionDistance;
+        // We want to only detect the nearest player
         foreach (GameObject player in playersList)
         {
-            Vector3 dir = player.transform.position - visionOrigin.transform.position;
+            Vector3 lookTarget = new Vector3(player.transform.position.x,
+                                            player.transform.position.y + 0.2f,
+                                            player.transform.position.z);
+            Vector3 dir = lookTarget - visionOrigin.transform.position;
             RaycastHit hit;
             if (Physics.Raycast(visionOrigin.transform.position, dir, out hit, visionDistance))         // Distance handling
             {
                 GameObject hitObj = hit.transform.gameObject;
-                // Angle checking
-                float theta = Vector3.Angle(transform.forward, dir);
-                // Debug.Log(theta + " Degrees for " + player.name);
-                if (theta > visionAngle)
+                
+                float theta = Vector3.Angle(visionOrigin.transform.forward, dir);                       // Angle checking
+                //Debug.Log(theta + " Degrees for " + player.name);
+                if (theta > visionAngle){continue;}
+                
+                if (!hitObj.CompareTag("Player")){continue;}                                            // Tag checking
+
+                if (hitObj.TryGetComponent<PlayerController>(out PlayerController pc))                  // Check if the cat is visible
                 {
-                    //Debug.Log("Too far to side to see " + player.name);
-                    continue;
+                    if (!pc.isVisible) {continue;}
                 }
-                // Tag checking
-                if (!hitObj.CompareTag("Player"))
-                {
-                    //Debug.Log("Not hitting Player for " + player.name);
-                    continue;
-                }
+                
+                // We are seeing a cat, check if its the nearest one
                 Debug.DrawRay(visionOrigin.transform.position, dir.normalized * hit.distance, Color.yellow);
+                if (nearestDist >= hit.distance)
+                {
+                    nearestDist = hit.distance;
+                    nearestCat = hitObj;
+                }
             }
-            else
-            {
-                //Debug.Log("No Hit for " + player.name);
-            }
+        }
+
+        // Call See cat on the nearest cat
+        if (nearestCat != null)
+        {
+            SeeCat(nearestCat);
+        }   // If we arent seeing a cat but we are in chase and we have seen the cat chasePatience seconds ago.
+        else if (playerInChase != null && chaseTargetLastSeen + chaseFollowthrough > Time.time)
+        {
+            // Update Chase Target
+            enemyNav.UpdateChasingTarget(playerInChase.transform.position);
+            // Maybe also reset visionOrigin to forward
         }
 
         return null;
     }
 
-    // Probably want a function "SeeCat" that forces the NPCNavigation into chase and sends the last known location of the cat.
-    // If the cat is within grabbing distance, grab and force into "Carrying" mode.
+    private void SeeCat(GameObject player)
+    {
+        // Debug.Log("Seeing " + player.name);
+        // Begin chase with cat if we arent yet
+        if (playerInChase == null)
+        {
+            playerInChase = player;
+        }   // If we are seeing a new cat who is closer we should swap chase over
+        else if (playerInChase != player)
+        {
+            playerInChase = player;
+        }
+        // Send Chase Cat command to enemy nav system, which will switch it into chase mode.
+        enemyNav.UpdateChasingTarget(playerInChase.transform.position);
+        chaseTargetLastSeen = Time.time;
+
+        // Maybe also make the visionOrigin.forward face towards the player?
+    }
+
+    public void EndChase()
+    {
+        // Call this from Nav system if we have reached the destination and have not captured the cat to tell the detection system to reset.
+        playerInChase = null;
+        isCapturing = false;
+        // Maybe also reset visionOrigin
+    }
+
+    private void CapturingDetect()
+    {
+        if (playerInChase != null)
+        {
+            float dist = Vector3.Distance(playerInChase.transform.position, transform.position);
+            // Debug.Log(dist + " units away!");
+            if (dist <= capturingReach)     // In Capturing Range
+            {
+                if (!isCapturing)           // if we are just now starting to capture, set start time as now
+                {
+                    captureStartTime = Time.time;
+                }
+                isCapturing = true;
+
+                if (Time.time >= captureStartTime + capturingDuration)
+                {
+                    // Capture cat
+                    int caughtID = playerInChase.GetPhotonView().ViewID;
+                    enemyNav.photonView.RPC(nameof(enemyNav.CaptureCat), RpcTarget.All, caughtID);
+                }
+            }
+            else                            // Not In Capturing Range, simply reset
+            {
+                isCapturing = false;        // This effectively resets the capturing time as well
+            }
+        }
+    }
+
+    public void SetCarrying(bool set)
+    {
+        isCarrying = set;
+    }
 }

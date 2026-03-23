@@ -60,7 +60,6 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
         else
         {
             AlertManager.instance.photonView.RPC(nameof(AlertManager.instance.ResubscribeEnemies), RpcTarget.All);
-            //AlertManager.instance.SubscribeEnemiesToPlayer(playerObject);
         }
     }
 
