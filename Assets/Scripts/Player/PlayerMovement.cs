@@ -121,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Grounded: " + isGrounded);
         Debug.Log("CanJump: " + canJump);
         Debug.Log("CanHop: " + canHop);
+        Debug.Log("Platform Collider: "+ platformCollider);
         if (!isGrounded) return;
 
         if (canHop)

@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
         photonView.RPC("JoiningGame", RpcTarget.AllBuffered);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     [PunRPC]
