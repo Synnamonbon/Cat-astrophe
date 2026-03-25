@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -75,6 +76,14 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
         {
+            if (other.TryGetComponent<PhotonView>(out PhotonView pv))
+            {
+                if (!pv.IsMine && pv != null)
+                {
+                    pv.TransferOwnership(PhotonNetwork.LocalPlayer);
+                    Debug.Log("Transferred ownership");
+                }
+            }
             Vector3 currentPos = playerRB.transform.position;
             obj.ObjectGotHit(pushForce, currentPos);
         }

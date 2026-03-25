@@ -19,7 +19,7 @@ public class PlayerHunger : MonoBehaviour
 
         currentHunger -= drain * Time.deltaTime;
         currentHunger = Mathf.Clamp(currentHunger, 0f, maxHunger);
-        Debug.Log(currentHunger);
+        //Debug.Log(currentHunger);
     }
 
     public void RestoreFood(float value)

@@ -123,10 +123,10 @@ public class PlayerMovement : MonoBehaviour
     // Jump functions
     private void Jump(object sender, EventArgs e)
     {
-        Debug.Log("Grounded: " + isGrounded);
-        Debug.Log("CanJump: " + canJump);
-        Debug.Log("CanHop: " + canHop);
-        Debug.Log("Platform Collider: "+ platformCollider);
+        //Debug.Log("Grounded: " + isGrounded);
+        //Debug.Log("CanJump: " + canJump);
+        //Debug.Log("CanHop: " + canHop);
+        //Debug.Log("Platform Collider: "+ platformCollider);
         if (!isGrounded) return;
 
         if (canHop)
