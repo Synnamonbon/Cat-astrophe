@@ -1,12 +1,6 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/ScriptableObjects.meta
-guid: 6a8a39689f27b4b5e9fe9d57297d5692
-folderAsset: yes
-DefaultImporter:
-========
 guid: add354d82c19bcd9493fbcd6dc30f041
 NativeFormatImporter:
->>>>>>>> e453041f7dde0bbebe735a07083b309526eb8548:Assets/Settings/PlayMode/2P.asset.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 

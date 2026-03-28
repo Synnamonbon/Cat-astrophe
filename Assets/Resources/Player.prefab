@@ -159,21 +159,7 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 0}
   playerGroundingBC: {fileID: 3391509123339976155}
   id: 0
---- !u!114 &5291013523954772625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6285022368266240042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3cad74d72ffb4719a9bd310b6b26ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHunger
-  maxHunger: 60
-  hungerPerSecond: 1
-  hungerSprintingPerSecond: 10
+  isVisible: 1
 --- !u!136 &5948632707879458201
 CapsuleCollider:
   m_ObjectHideFlags: 0

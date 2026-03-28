@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/DONOTTOUCH/MainMenu.unity
     guid: 3a7974b4b8625c8448c125e755bbe227
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/DONOTTOUCH/Game.unity
     guid: f355d194e19e1a043b640f729a85fc1d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

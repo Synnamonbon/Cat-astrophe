@@ -9,6 +9,7 @@ TagManager:
   - Route
   - EnemyNPC
   - Food
+  - CagePoint
   layers:
   - Default
   - TransparentFX

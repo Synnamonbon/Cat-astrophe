@@ -4,31 +4,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using Unity.Mathematics;
 
 public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 {
     [NonSerialized] public NavMeshAgent agent;
-    [NonSerialized] private List<Vector3> patrolRoute = new List<Vector3>();             // Patrol route
+    private EnemyNPCDetection enemyDet;
+    [NonSerialized] private List<Vector3> patrolRoute = new List<Vector3>();                // Patrol route
     public GameObject routeHolder;                                                          // Holder for patrol route points
+    public GameObject[] cages;                                                              // Holds all cage dropoff points
+    public GameObject catCarryPoint;
     private int currentWaypoint = 0;
 
-     [Header("Patrol Balancing")]
-    [SerializeField] private float destinationLeniency = 1.0f;
+    [Header("Patrol Balancing")]
+    [SerializeField] private float destinationLeniency = 0.5f;
     [SerializeField] private float surveyDuration = 2f;
     [SerializeField] private float patrolSpeed = 4f;
+    [Header("Alerted Balancing")]
     [SerializeField] private float alertSpeed = 6.5f;
+    [Header("Chasing Balancing")]
+    [SerializeField] private float chaseSpeed = 6.5f;
+    [SerializeField] private float aggroDuration = 2f;
+    [Header("Carrying Balancing")]
+    [SerializeField] private float carrySpeed = 3f;
 
     private bool isLooking = false;
     private NPCStates currentState;
     private List<Vector3> alertSources = new List<Vector3>();
     private bool isAlertable = true;              // To be used to determine if NPC can be distracted right now. Turn off when chasing/carrying or if they are idling/lazing around?
+    private Vector3 chaseTarget;
+    private float chaseLastUpdated = 0f;
+    private int nearestCageIDX = -1;
+    private GameObject carriedCat;
 
     private void OnEnable()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         agent.stoppingDistance = destinationLeniency/2;
 
+        enemyDet = gameObject.GetComponent<EnemyNPCDetection>();
+
         GameObject[] routes = GameObject.FindGameObjectsWithTag("Route");
+        // Currently only gets the first instance of a route holder
         routeHolder = routes[0];
 
         foreach(Transform child in routeHolder.GetComponentsInChildren<Transform>())
@@ -36,6 +53,9 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
             patrolRoute.Add(child.position);
         }
         patrolRoute.Remove(routeHolder.GetComponent<Transform>().position);
+
+        // List of spawnpoints inside of cages.
+        cages = GameObject.FindGameObjectsWithTag("CagePoint");
 
         currentState = NPCStates.Patrolling;
 
@@ -63,7 +83,11 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
                 // we want to start looking around only once. When that is done we want to return to the previous state, Alerted or Patrolling.
                 if (!isLooking)
                 {
-                    if (alertSources.Count == 0)
+                    if (nearestCageIDX != -1)
+                    {
+                        currentState = NPCStates.Carrying;
+                    }
+                    else if (alertSources.Count == 0)
                     {
                         currentState = NPCStates.Patrolling;
                     }
@@ -72,6 +96,14 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
                         currentState = NPCStates.Alerted;
                     }
                 }
+                break;
+            case NPCStates.Chasing:
+                agent.speed = chaseSpeed;
+                GoTowardsChaseTarget();
+                break;
+            case NPCStates.Carrying:
+                agent.speed = carrySpeed;
+                CarryCat();
                 break;
             default:
                 Debug.Log("Unhandled State for " + gameObject.name);
@@ -110,6 +142,13 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         float t = 0.0f;
         while (t  < surveyDuration)
         {
+            if (currentState == NPCStates.Chasing)
+            {
+                Debug.Log("STOP LOOKING, I SEE CAT!");
+                isLooking = false;
+                agent.isStopped = false;
+                yield break;
+            }
             t += Time.deltaTime;
             float yRotation = Mathf.Lerp(startRotation, endRotation, t / 2.0f) % 360.0f;
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, yRotation, transform.eulerAngles.z);
@@ -191,4 +230,177 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(waitTime);
         agent.isStopped = false;
     }
+
+    // Signal that the detection system has seen a cat
+    // Set state to chasing to immediately start chasing, block out alerts to focus on chasing
+    public void UpdateChasingTarget(Vector3 seenPosition)
+    {
+        if (math.abs(seenPosition.y) > math.abs(transform.position.y) + 4 || math.abs(seenPosition.y) < math.abs(transform.position.y) - 4)  // If cat is too far above or too far below
+        {
+            seenPosition.y = transform.position.y;
+        }
+        currentState = NPCStates.Chasing;
+        isAlertable = false;
+        chaseTarget = seenPosition;
+        chaseLastUpdated = Time.time;
+    }
+
+    private void GoTowardsChaseTarget()
+    {
+        // Walk towards the target
+        // If close enough to the cat, record consecutive amount of time within capturing range
+        // If not close enough to the cat but reached the destination, record we have reached dest and after we've been at destination for a time, end chase
+        if (chaseTarget == null)
+        {
+            Debug.Log("Nothing to chase");
+            currentState = NPCStates.Patrolling;
+        }
+
+        agent.SetDestination(chaseTarget);
+
+        // Only focus on chasing, Capturing detect handled in NPC Detection
+        // If we are at destination and no update in a certain amount of time, End Chase.
+        float dist = GetDistance(chaseTarget, transform.position);
+        if (dist <= destinationLeniency && Time.time > chaseLastUpdated + aggroDuration)
+        {
+            EndChase();
+        }
+    }
+
+    // Ends chase, enables alerts and then proceeds to either Patrol or Alert
+    private void EndChase()
+    {
+        isAlertable = true;
+        currentState = NPCStates.Surveying;
+        enemyDet.EndChase();
+    }
+
+    [PunRPC]
+    public void CaptureCat(int caughtID)
+    {
+        Debug.Log("Capture!");
+        GameObject player = PhotonView.Find(caughtID).gameObject;
+        
+        // Disable cat controls and physics
+        if (player.TryGetComponent<PhotonView>(out PhotonView pv))
+        {   // Get Photon View of the player
+            carriedCat = player;
+            // Make cat not visible to detection?
+            if (pv.IsMine)
+            {   // Only disable stuff if it is our player, everybody else's is already disabled
+                if (carriedCat.TryGetComponent<PlayerMovement>(out PlayerMovement pm))
+                {   // Disable player movement
+                    pm.LockMove(true);
+                }
+                else
+                {
+                    Debug.Log("No Player Movement attached!");
+                }
+
+                if (carriedCat.TryGetComponent<Rigidbody>(out Rigidbody rb))
+                {   // Disable rigidbody
+                    rb.isKinematic = true;
+                }
+                else
+                {
+                    Debug.Log("No Rigidbody!");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("No PhotonView found!");
+        }   
+        
+        // Teleport cat to the carry point
+        carriedCat.transform.SetLocalPositionAndRotation(catCarryPoint.transform.position, catCarryPoint.transform.rotation);
+        carriedCat.transform.SetParent(gameObject.transform);
+
+        // Make Cat not visible
+        if (carriedCat.TryGetComponent<PlayerController>(out PlayerController pc))
+        {
+            pc.isVisible = false;
+        }
+        else
+        {
+            Debug.Log("No Player Controller???");
+        }
+        
+        // Enter Carry mode
+        currentState = NPCStates.Carrying;
+        EndChase();
+        isAlertable = false;
+        enemyDet.SetCarrying(true);
+        RouteToNearestCage();
+    }
+
+    private void RouteToNearestCage()
+    {
+        float shortestDist = -1;
+        for (int i = 0; i < cages.Length; i++)
+        {
+            float dist = GetDistance(transform.position, cages[i].transform.position);
+            if (dist < shortestDist || shortestDist < 0)
+            {   // If distance is shorter than the shortest recorded or if it is not yet initialised
+                nearestCageIDX = i;
+                shortestDist = dist;
+            }
+        }
+        Debug.Log("Nearest cage at idx " + nearestCageIDX);
+    }
+
+    private void CarryCat()
+    {
+        // Make sure cat is synced as well
+        // Otherwise should be able to simply walk towards specific cage
+        Vector3 goal = cages[nearestCageIDX].transform.position;
+        agent.destination = goal;
+        // Check if arrived at cage, if yes: put cat in cage and administer any punishment
+        float dist = GetDistance(goal, transform.position);
+        if (dist <= destinationLeniency)
+        {
+            Debug.Log("Putting cat in cage");
+            photonView.RPC(nameof(PutCatInCage), RpcTarget.All);
+            // Return to patrolling
+            currentState = NPCStates.Surveying;
+        }
+    }
+
+    [PunRPC]
+    private void PutCatInCage()
+    {
+        // Place cat on the CagePoint
+        carriedCat.transform.SetParent(null);
+        carriedCat.transform.SetLocalPositionAndRotation(cages[nearestCageIDX].transform.position, cages[nearestCageIDX].transform.rotation);
+
+        // if cat .IsMine, reenable rb and movement
+        if (carriedCat.TryGetComponent<PhotonView>(out PhotonView pv))
+        {
+            if (pv.IsMine)
+            {
+                if (carriedCat.TryGetComponent<PlayerMovement>(out PlayerMovement pm))
+                {   // Enable player movement
+                    pm.LockMove(false);
+                }
+                else
+                {
+                    Debug.Log("No Player Movement attached!");
+                }
+
+                if (carriedCat.TryGetComponent<Rigidbody>(out Rigidbody rb))
+                {   // Disable rigidbody
+                    rb.isKinematic = false;
+                }
+                else
+                {
+                    Debug.Log("No Rigidbody!");
+                }
+            }
+        }
+        nearestCageIDX = -1;
+        isAlertable = true;
+        enemyDet.SetCarrying(false);
+    }
+
+    // Potentially a DropCat if we want to stun the NPC and save a cat being carried
 }

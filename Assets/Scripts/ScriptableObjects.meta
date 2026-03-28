@@ -1,14 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/ScriptableObjects.meta
 guid: a43b7826c76b94e4ca9e7339681d4ba2
 folderAsset: yes
 DefaultImporter:
-========
-guid: add354d82c19bcd9493fbcd6dc30f041
-NativeFormatImporter:
->>>>>>>> e453041f7dde0bbebe735a07083b309526eb8548:Assets/Settings/PlayMode/2P.asset.meta
   externalObjects: {}
-  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
