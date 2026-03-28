@@ -9,7 +9,7 @@ public class FoodData : MonoBehaviour
         if (other.TryGetComponent<PlayerHunger>(out PlayerHunger playerHunger))
         {
             playerHunger.RestoreFood(foodData.HungerRestoreValue);
-            Destroy(gameObject);
+            InteractableManager.instance.DestroyForAll(gameObject);
         }
     }
 }

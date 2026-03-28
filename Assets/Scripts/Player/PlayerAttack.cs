@@ -76,7 +76,15 @@ public class PlayerAttack : MonoBehaviour
     {
         if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
         {
-            if (other.TryGetComponent<PhotonView>(out PhotonView pv))
+            TransferOwnership(other.gameObject);
+            Vector3 currentPos = playerRB.transform.position;
+            obj.ObjectGotHit(pushForce, currentPos);
+        }
+    }
+
+    private void TransferOwnership(GameObject gameObject)
+    {
+        if (gameObject.TryGetComponent<PhotonView>(out PhotonView pv))
             {
                 if (!pv.IsMine && pv != null)
                 {
@@ -84,8 +92,5 @@ public class PlayerAttack : MonoBehaviour
                     Debug.Log("Transferred ownership");
                 }
             }
-            Vector3 currentPos = playerRB.transform.position;
-            obj.ObjectGotHit(pushForce, currentPos);
-        }
     }
 }

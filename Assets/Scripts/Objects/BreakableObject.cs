@@ -140,6 +140,6 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private IEnumerator DestroyOriginalObject()
     {
         yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
-        ObjectManager.instance.DestroyForAll(gameObject);
+        InteractableManager.instance.DestroyForAll(gameObject);
     }
 }

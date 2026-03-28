@@ -5,6 +5,8 @@ public class ObjectPush : MonoBehaviour
 {
     private Rigidbody objectRB;
     private PhotonView pv;
+    private float lastTransferTime;
+    private const float transferCooldown = 0.2f;
 
     private void Awake()
     {
@@ -14,11 +16,19 @@ public class ObjectPush : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (pv == null) return;
         if (!collision.gameObject.CompareTag("Player")) return;
-        if (!pv.IsMine && pv != null)
-        {
-            pv.TransferOwnership(PhotonNetwork.LocalPlayer);
-        }
+
+        PhotonView playerPv = collision.collider.GetComponentInParent<PhotonView>();
+        if (playerPv == null) return;
+        if (!playerPv.IsMine) return;
+
+        if (pv.Owner == PhotonNetwork.LocalPlayer) return;
+        if (Time.time - lastTransferTime < transferCooldown) return;
+
+        lastTransferTime = Time.time;
+        pv.TransferOwnership(PhotonNetwork.LocalPlayer);
+        Debug.Log($"Transferred ownership to {PhotonNetwork.LocalPlayer.NickName}");
     }
 
     public void ObjectGotHit(float force, Vector3 forceLocation)
