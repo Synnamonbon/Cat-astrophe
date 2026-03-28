@@ -62,6 +62,8 @@ public class InteractableManager : MonoBehaviour
 
     public void DestroyForAll(GameObject obj)
     {
+        PhotonView pv = obj.GetComponent<PhotonView>();
+        if (pv == null) return;
         PhotonNetwork.Destroy(obj);
     }
 

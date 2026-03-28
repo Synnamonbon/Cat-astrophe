@@ -22,10 +22,20 @@ public class PlayerHunger : MonoBehaviour
         //Debug.Log(currentHunger);
     }
 
-    public void RestoreFood(float value)
+    private void RestoreHunger(float value)
     {
         currentHunger += value;
         Mathf.Clamp(currentHunger, 0f, maxHunger);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<FoodData>(out FoodData food))
+        {
+            if (food.isUsed) return;
+            RestoreHunger(food.Consume());
+            food.DestroyFood();
+        }
     }
 
 }

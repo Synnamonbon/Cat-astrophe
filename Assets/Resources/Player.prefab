@@ -78,8 +78,8 @@ GameObject:
   - component: {fileID: 6857674179014425562}
   - component: {fileID: 124253452294101590}
   - component: {fileID: 4892907224806089151}
+  - component: {fileID: 9136224214978436184}
   - component: {fileID: 4003452005008305006}
-  - component: {fileID: 5291013523954772625}
   - component: {fileID: 5948632707879458201}
   - component: {fileID: 8349577437884329599}
   - component: {fileID: 2686491866720014131}
@@ -144,6 +144,21 @@ MonoBehaviour:
   attackDuration: 0.2
   attackRotationDuration: 0.1
   pushForce: 150
+--- !u!114 &9136224214978436184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285022368266240042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3cad74d72ffb4719a9bd310b6b26ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHunger
+  maxHunger: 60
+  hungerPerSecond: 1
+  hungerSprintingPerSecond: 10
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0
