@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (!photonView.IsMine){
             playerRB.isKinematic = true;
-            playerRB.useGravity = false;
+            // playerRB.useGravity = false;
         }
     }
 }

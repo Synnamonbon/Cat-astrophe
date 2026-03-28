@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement parameters")]
     [SerializeField] private float movementSpeed = 8f;
+    [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float rotationSpeed = 10f;
     private Vector3 moveDirection;
     private Vector2 moveInput;
@@ -23,10 +24,12 @@ public class PlayerMovement : MonoBehaviour
     
     private Transform cameraPOV;
     private Rigidbody playerRB;
+    private PlayerHunger playerHunger;
 
     private void Awake()
     {
         playerRB = GetComponent<Rigidbody>();
+        playerHunger = GetComponent<PlayerHunger>();
         cameraPOV = Camera.main.transform;
     }
 
@@ -65,7 +68,9 @@ public class PlayerMovement : MonoBehaviour
         moveDirection += cameraRight * horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0;
-        moveDirection *= movementSpeed;
+
+        if (InputManager.instance.isSprinting && playerHunger.currentHunger > 0) {moveDirection *= sprintSpeed;}
+        else {moveDirection *= movementSpeed;}
 
         Vector3 moveVelocity = playerRB.linearVelocity;
         moveVelocity.x = moveDirection.x;
@@ -118,10 +123,10 @@ public class PlayerMovement : MonoBehaviour
     // Jump functions
     private void Jump(object sender, EventArgs e)
     {
-        Debug.Log("Grounded: " + isGrounded);
-        Debug.Log("CanJump: " + canJump);
-        Debug.Log("CanHop: " + canHop);
-        Debug.Log("Platform Collider: "+ platformCollider);
+        //Debug.Log("Grounded: " + isGrounded);
+        //Debug.Log("CanJump: " + canJump);
+        //Debug.Log("CanHop: " + canHop);
+        //Debug.Log("Platform Collider: "+ platformCollider);
         if (!isGrounded) return;
 
         if (canHop)

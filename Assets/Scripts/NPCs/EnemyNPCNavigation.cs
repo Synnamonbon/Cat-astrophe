@@ -115,7 +115,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     {
         if(patrolRoute.Count == 0)
         {
-            Debug.Log("Where's my patrol path :<");
+           // Debug.Log("Where's my patrol path :<");
             return;
         }
 

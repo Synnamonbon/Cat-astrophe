@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 6857674179014425562}
   - component: {fileID: 124253452294101590}
   - component: {fileID: 4892907224806089151}
+  - component: {fileID: 9136224214978436184}
   - component: {fileID: 4003452005008305006}
   - component: {fileID: 5948632707879458201}
   - component: {fileID: 8349577437884329599}
@@ -85,7 +86,6 @@ GameObject:
   - component: {fileID: 8160589151971647769}
   - component: {fileID: 3937707373804444546}
   - component: {fileID: 1586625433028776425}
-  - component: {fileID: 7924488204095912228}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   movementSpeed: 4
+  sprintSpeed: 20
   rotationSpeed: 5
   jumpHeight: 1
   gravityMultiplier: 2
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6285022368266240042}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d11b68ccf8a2147138b4408ff26a1926, type: 3}
   m_Name: 
@@ -143,6 +144,21 @@ MonoBehaviour:
   attackDuration: 0.2
   attackRotationDuration: 0.1
   pushForce: 150
+--- !u!114 &9136224214978436184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285022368266240042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3cad74d72ffb4719a9bd310b6b26ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHunger
+  maxHunger: 60
+  hungerPerSecond: 1
+  hungerSprintingPerSecond: 10
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +266,6 @@ MonoBehaviour:
   observableSearch: 0
   ObservedComponents:
   - {fileID: 1586625433028776425}
-  - {fileID: 7924488204095912228}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -293,22 +308,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &7924488204095912228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6285022368266240042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonRigidbodyView
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1001 &6768062247154602309
 PrefabInstance:
   m_ObjectHideFlags: 0

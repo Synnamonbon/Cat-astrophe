@@ -5,18 +5,8 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
-    [Range(0f, 10f)]
-    [SerializeField] private float breakSpeed = 0.5f;
-    [Range(0.2f, 10f)]
-    [SerializeField] private float timeBeforeDespawn = 2f;
-    [Range(0.01f, 2f)]
-    [SerializeField] private float fragmentDespawnSpeed = 0.25f;
-    [Range(0f, 20f)]
-    [SerializeField] private float alertDetectionDistance = 8f;
-    [Header("Drag and drop the fractured object PREFAB below:")]
-    [SerializeField] public GameObject fractured;
-    [Header("Transparent material goes below here:")]
-    [SerializeField] private Material TRANSPARENT_MATERIAL_SRC;
+    [SerializeField] private BreakableObject_SO breakableObjectData;
+
     private int GROUND_LAYER;
     private Rigidbody RIGIDBODY;
     private PhotonRigidbodyView RIGIDBODY_VIEW;
@@ -39,7 +29,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         // if velocity is above a certain threshold
         float vel = RIGIDBODY.linearVelocity.magnitude;
         //Debug.Log(vel);
-        if (vel > breakSpeed)
+        if (vel > breakableObjectData.BreakSpeed)
         {   
             photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
             StartCoroutine(DestroyOriginalObject());
@@ -66,10 +56,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         // Check if I am master client, take responsibility to alert enemies
         if (PhotonNetwork.IsMasterClient)
         {
-            AlertManager.instance.AlertNPCsInRange(transform, alertDetectionDistance);
+            AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
         }
 
-        GameObject brokenInstance = Instantiate(fractured, transform.position, transform.rotation);
+        GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);
         Rigidbody[] rbs = brokenInstance.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody b in rbs)
         {
@@ -80,7 +70,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     private IEnumerator DespawnFragments(Rigidbody[] rbs, GameObject brokenInstance)
     {
-        WaitForSeconds wait = new WaitForSeconds(timeBeforeDespawn);
+        WaitForSeconds wait = new WaitForSeconds(breakableObjectData.TimeBeforeDespawn);
         int activeRBS = rbs.Length;
         //Debug.Log(activeRBS);
 
@@ -110,7 +100,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         while (t < 1)
         {
-            float step = Time.deltaTime * fragmentDespawnSpeed;
+            float step = Time.deltaTime * breakableObjectData.FragmentDespawnSpeed;
             foreach (Renderer renderer in renderers)
             {
                 Color c = renderer.material.color;
@@ -143,13 +133,13 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     private Renderer ReplaceWithTransparent(Renderer ren)
     {
-        ren.material = new Material(TRANSPARENT_MATERIAL_SRC);
+        ren.material = new Material(breakableObjectData.TRANSPARENT_MATERIAL_SRC);
         return ren;
     }
 
     private IEnumerator DestroyOriginalObject()
     {
         yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
-        ObjectManager.instance.DestroyForAll(gameObject);
+        InteractableManager.instance.DestroyForAll(gameObject);
     }
 }
