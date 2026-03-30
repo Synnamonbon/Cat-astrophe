@@ -12,7 +12,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     private EnemyNPCDetection enemyDet;
     [NonSerialized] private List<Vector3> patrolRoute = new List<Vector3>();                // Patrol route
     public GameObject routeHolder;                                                          // Holder for patrol route points
-    public GameObject[] cages;                                                              // Holds all cage dropoff points
+    public CageScript[] cages;                                                              // Holds all cage dropoff points
     public GameObject catCarryPoint;
     private int currentWaypoint = 0;
 
@@ -35,7 +35,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     private Vector3 chaseTarget;
     private float chaseLastUpdated = 0f;
     private int nearestCageIDX = -1;
-    private GameObject carriedCat;
+    private PlayerController carriedCat;
 
     private void OnEnable()
     {
@@ -55,7 +55,15 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         patrolRoute.Remove(routeHolder.GetComponent<Transform>().position);
 
         // List of spawnpoints inside of cages.
-        cages = GameObject.FindGameObjectsWithTag("CagePoint");
+        GameObject[] cagesGOs = GameObject.FindGameObjectsWithTag("CagePoint");
+        cages = new CageScript[cagesGOs.Length];
+        for(int i = 0; i < cagesGOs.Length; i++)
+        {
+            if (cagesGOs[i].TryGetComponent<CageScript>(out CageScript cs))
+            {
+                cages[i] = cs;
+            }
+        }
 
         currentState = NPCStates.Patrolling;
 
@@ -83,18 +91,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
                 // we want to start looking around only once. When that is done we want to return to the previous state, Alerted or Patrolling.
                 if (!isLooking)
                 {
-                    if (nearestCageIDX != -1)
-                    {
-                        currentState = NPCStates.Carrying;
-                    }
-                    else if (alertSources.Count == 0)
-                    {
-                        currentState = NPCStates.Patrolling;
-                    }
-                    else
-                    {
-                        currentState = NPCStates.Alerted;
-                    }
+                    ChangeState();
                 }
                 break;
             case NPCStates.Chasing:
@@ -128,6 +125,22 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     private void IncrementPatrolPoint()
     {
         currentWaypoint = (currentWaypoint + 1) % patrolRoute.Count;
+    }
+
+    private void ChangeState()
+    {
+        if (nearestCageIDX != -1)
+        {
+            currentState = NPCStates.Carrying;
+        }
+        else if (alertSources.Count == 0)
+        {
+            currentState = NPCStates.Patrolling;
+        }
+        else
+        {
+            currentState = NPCStates.Alerted;
+        }
     }
 
     private IEnumerator LookAround()
@@ -281,51 +294,65 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         Debug.Log("Capture!");
         GameObject player = PhotonView.Find(caughtID).gameObject;
         
-        // Disable cat controls and physics
-        if (player.TryGetComponent<PhotonView>(out PhotonView pv))
-        {   // Get Photon View of the player
-            carriedCat = player;
-            // Make cat not visible to detection?
-            if (pv.IsMine)
-            {   // Only disable stuff if it is our player, everybody else's is already disabled
-                if (carriedCat.TryGetComponent<PlayerMovement>(out PlayerMovement pm))
-                {   // Disable player movement
-                    pm.LockMove(true);
-                }
-                else
-                {
-                    Debug.Log("No Player Movement attached!");
-                }
-
-                if (carriedCat.TryGetComponent<Rigidbody>(out Rigidbody rb))
-                {   // Disable rigidbody
-                    rb.isKinematic = true;
-                }
-                else
-                {
-                    Debug.Log("No Rigidbody!");
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("No PhotonView found!");
-        }   
+        SetCarriedCat(player); 
         
         // Teleport cat to the carry point
         carriedCat.transform.SetLocalPositionAndRotation(catCarryPoint.transform.position, catCarryPoint.transform.rotation);
         carriedCat.transform.SetParent(gameObject.transform);
 
         // Make Cat not visible
-        if (carriedCat.TryGetComponent<PlayerController>(out PlayerController pc))
-        {
-            pc.isVisible = false;
+        ToggleCatVisibility(false);
+        
+        // Enter Carry mode
+        EnterCarryMode();
+    }
+
+    private void SetCarriedCat(GameObject player)
+    {
+        // Disable cat controls and physics
+        if (player.TryGetComponent<PlayerController>(out PlayerController pc))
+        {   // Get Photon View of the player
+            carriedCat = pc;
+            // Make cat not visible to detection?
+            if (pc.photonView.IsMine)
+            {   // Only disable stuff if it is our player, everybody else's is already disabled
+                ToggleOwnDisabled(true);
+            }
         }
         else
         {
-            Debug.Log("No Player Controller???");
+            Debug.Log("No PhotonView found!");
+        }   
+    }
+
+    private void ToggleOwnDisabled(bool s)
+    {
+        if (carriedCat.TryGetComponent<PlayerMovement>(out PlayerMovement pm))
+        {   // Disable player movement
+            pm.LockMove(s);
         }
-        
+        else
+        {
+            Debug.Log("No Player Movement attached!");
+        }
+
+        if (carriedCat.TryGetComponent<Rigidbody>(out Rigidbody rb))
+        {   // Disable rigidbody
+            rb.isKinematic = s;
+        }
+        else
+        {
+            Debug.Log("No Rigidbody!");
+        }
+    }
+
+    private void ToggleCatVisibility(bool vis)
+    {
+        carriedCat.isVisible = vis;
+    }
+
+    private void EnterCarryMode()
+    {
         // Enter Carry mode
         currentState = NPCStates.Carrying;
         EndChase();
@@ -356,7 +383,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         Vector3 goal = cages[nearestCageIDX].transform.position;
         agent.destination = goal;
         // Check if arrived at cage, if yes: put cat in cage and administer any punishment
-        float dist = GetDistance(goal, transform.position);
+        float dist = GetDistance(goal, carriedCat.transform.position);
         if (dist <= destinationLeniency)
         {
             Debug.Log("Putting cat in cage");
@@ -373,30 +400,23 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         carriedCat.transform.SetParent(null);
         carriedCat.transform.SetLocalPositionAndRotation(cages[nearestCageIDX].transform.position, cages[nearestCageIDX].transform.rotation);
 
-        // if cat .IsMine, reenable rb and movement
-        if (carriedCat.TryGetComponent<PhotonView>(out PhotonView pv))
-        {
-            if (pv.IsMine)
-            {
-                if (carriedCat.TryGetComponent<PlayerMovement>(out PlayerMovement pm))
-                {   // Enable player movement
-                    pm.LockMove(false);
-                }
-                else
-                {
-                    Debug.Log("No Player Movement attached!");
-                }
+        cages[nearestCageIDX].LockCat(carriedCat);
 
-                if (carriedCat.TryGetComponent<Rigidbody>(out Rigidbody rb))
-                {   // Disable rigidbody
-                    rb.isKinematic = false;
-                }
-                else
-                {
-                    Debug.Log("No Rigidbody!");
-                }
-            }
+        ReenableMovement();
+        PostCageCleanup();
+    }
+
+    private void ReenableMovement()
+    {
+        // if cat .IsMine, reenable rb and movement
+        if (carriedCat.photonView.IsMine)
+        {
+            ToggleOwnDisabled(false);
         }
+    }
+
+    private void PostCageCleanup()
+    {
         nearestCageIDX = -1;
         isAlertable = true;
         enemyDet.SetCarrying(false);

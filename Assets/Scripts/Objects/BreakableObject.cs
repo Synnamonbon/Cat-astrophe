@@ -13,6 +13,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] private float fragmentDespawnSpeed = 0.25f;
     [Range(0f, 20f)]
     [SerializeField] private float alertDetectionDistance = 8f;
+    [SerializeField] private ObjectType ownType = ObjectType.Small;
     [Header("Drag and drop the fractured object PREFAB below:")]
     [SerializeField] public GameObject fractured;
     [Header("Transparent material goes below here:")]
@@ -22,6 +23,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private PhotonRigidbodyView RIGIDBODY_VIEW;
     private int ackCounter;
 
+    public event Action<int, ObjectType> OnBreak;
     
     public void Awake()
     {
@@ -67,6 +69,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             AlertManager.instance.AlertNPCsInRange(transform, alertDetectionDistance);
+            // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
+            OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType);
         }
 
         GameObject brokenInstance = Instantiate(fractured, transform.position, transform.rotation);

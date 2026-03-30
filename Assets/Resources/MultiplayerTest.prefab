@@ -160,6 +160,7 @@ MonoBehaviour:
   timeBeforeDespawn: 2
   fragmentDespawnSpeed: 0.25
   alertDetectionDistance: 8
+  ownType: 0
   fractured: {fileID: 7478934424128525196, guid: 7bc400e8d6022294b9e9d6d9724e8c3e, type: 3}
   TRANSPARENT_MATERIAL_SRC: {fileID: 2100000, guid: 3687b4429d1318349bcaf4d9ff6c2f6b, type: 2}
 --- !u!114 &34001997667127597
