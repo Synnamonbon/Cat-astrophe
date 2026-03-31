@@ -2657,6 +2657,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 288801500593710528, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 340920002078927642, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2697,13 +2701,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 587281350420511116, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1307710523611638686, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
       propertyPath: foodPrefab
       value: 
-      objectReference: {fileID: 873048173242761682, guid: 5415a3cad4b9143fa965152d1460a9f4, type: 3}
+      objectReference: {fileID: 6908907124024303011, guid: 1d390eee5b8614f80af5af42ef548364, type: 3}
+    - target: {fileID: 1830274199777337558, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300456071300436732, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6104724786044711072, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
       propertyPath: m_Name
       value: _InteractableManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8048174438535941618, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
