@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     private InputSystem_Actions inputActions;
 
     private Vector2 movementInput;
+    public bool isSprinting {get; private set;}
 
     private void Awake()
     {
@@ -41,6 +42,8 @@ public class InputManager : MonoBehaviour
             
             inputActions.Player.Move.performed += i => movementInput = i.ReadValue<Vector2>();
             inputActions.Player.Move.canceled += i => movementInput = Vector2.zero;
+            inputActions.Player.Sprint.started += _ => isSprinting = true;
+            inputActions.Player.Sprint.canceled += _ => isSprinting = false;
             inputActions.Player.Attack.performed += _ => OnAttack?.Invoke(this, EventArgs.Empty);
             inputActions.Player.Jump.performed += _ => OnJump?.Invoke(this, EventArgs.Empty);
         }

@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             SpawnPlayer();
             if (PhotonNetwork.IsMasterClient)
             {
-                ObjectManager.instance.SpawnObjects();
+                InteractableManager.instance.SpawnObjects();
             }
         }
     }

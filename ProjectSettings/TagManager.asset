@@ -8,6 +8,7 @@ TagManager:
   - Hoppable
   - Route
   - EnemyNPC
+  - Food
   - CagePoint
   layers:
   - Default

@@ -54,7 +54,7 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            ObjectManager.instance.SpawnObjects();
+            InteractableManager.instance.SpawnObjects();
             NPCManager.instance.SpawnEnemies();
         }
         else

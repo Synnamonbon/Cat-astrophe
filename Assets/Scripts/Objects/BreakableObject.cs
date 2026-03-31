@@ -41,7 +41,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         // if velocity is above a certain threshold
         float vel = RIGIDBODY.linearVelocity.magnitude;
         //Debug.Log(vel);
-        if (vel > breakSpeed)
+        if (vel > breakableObjectData.BreakSpeed)
         {   
             photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
             StartCoroutine(DestroyOriginalObject());
@@ -73,7 +73,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType);
         }
 
-        GameObject brokenInstance = Instantiate(fractured, transform.position, transform.rotation);
+        GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);
         Rigidbody[] rbs = brokenInstance.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody b in rbs)
         {
@@ -84,7 +84,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     private IEnumerator DespawnFragments(Rigidbody[] rbs, GameObject brokenInstance)
     {
-        WaitForSeconds wait = new WaitForSeconds(timeBeforeDespawn);
+        WaitForSeconds wait = new WaitForSeconds(breakableObjectData.TimeBeforeDespawn);
         int activeRBS = rbs.Length;
         //Debug.Log(activeRBS);
 
@@ -114,7 +114,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         while (t < 1)
         {
-            float step = Time.deltaTime * fragmentDespawnSpeed;
+            float step = Time.deltaTime * breakableObjectData.FragmentDespawnSpeed;
             foreach (Renderer renderer in renderers)
             {
                 Color c = renderer.material.color;
@@ -147,13 +147,13 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     private Renderer ReplaceWithTransparent(Renderer ren)
     {
-        ren.material = new Material(TRANSPARENT_MATERIAL_SRC);
+        ren.material = new Material(breakableObjectData.TRANSPARENT_MATERIAL_SRC);
         return ren;
     }
 
     private IEnumerator DestroyOriginalObject()
     {
         yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
-        ObjectManager.instance.DestroyForAll(gameObject);
+        InteractableManager.instance.DestroyForAll(gameObject);
     }
 }
