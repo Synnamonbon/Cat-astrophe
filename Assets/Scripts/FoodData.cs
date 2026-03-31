@@ -1,34 +1,29 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class FoodData : MonoBehaviour
+public class FoodData : MonoBehaviourPun
 {
     [SerializeField] private Food_SO foodData;
-    private PhotonView pv;
-    public bool isUsed {get; private set;}
+    private bool isUsed;
 
     private void OnEnable()
     {
-        pv = GetComponent<PhotonView>();
         isUsed = false;
     }
 
-    public float Consume()
+    [PunRPC]
+    public void RequestConsume(int playerPVID, PhotonMessageInfo info)
     {
-        if (pv == null)
-        {
-            Debug.Log("Food missing photonview");
-            return 0f;
-        }
+        if (!PhotonNetwork.IsMasterClient) return;
+        if (isUsed) return;
+
+        PhotonView playerPV = PhotonView.Find(playerPVID);
+        if (playerPV == null) return;
+        
         isUsed = true;
-        pv.TransferOwnership(PhotonNetwork.LocalPlayer);
-        return foodData.HungerRestoreValue;
-    }
-    
-    public void DestroyFood()
-    {
-        if (pv == null) return;
-        if (!pv.IsMine) return;
+        Debug.Log("Consume request received");
+
+        playerPV.RPC(nameof(PlayerHunger.RestoreHunger), playerPV.Owner, foodData.HungerRestoreValue);
         PhotonNetwork.Destroy(gameObject);
     }
 }

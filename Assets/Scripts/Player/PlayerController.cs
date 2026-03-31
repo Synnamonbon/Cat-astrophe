@@ -3,7 +3,7 @@ using Photon.Realtime;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviourPunCallbacks
+public class PlayerController : MonoBehaviourPun
 {
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [HideInInspector] public Player photonPlayer;
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private PlayerMovement playerMovement;
     private PlayerAttack playerAttack;
     private PlayerGrounding playerGrounding;
+    private PlayerHunger playerHunger;
 
     private Rigidbody playerRB;
 
@@ -22,12 +23,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         playerRB = gameObject.GetComponent<Rigidbody>();
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerAttack = gameObject.GetComponent<PlayerAttack>();
+        playerHunger = gameObject.GetComponent<PlayerHunger>();
         playerGrounding = gameObject.GetComponentInChildren<PlayerGrounding>();
 
         if (photonView.IsMine)
         {
             playerMovement.enabled = true;
             playerAttack.enabled = true;
+            playerHunger.enabled = true;
             playerGroundingBC.enabled = true;
             playerGrounding.enabled = true;
         }

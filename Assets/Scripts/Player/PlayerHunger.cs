@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerHunger : MonoBehaviour
+public class PlayerHunger : MonoBehaviourPun
 {
     [SerializeField] private float maxHunger = 60f;
     [SerializeField] private float hungerPerSecond = 1f;
@@ -15,6 +16,7 @@ public class PlayerHunger : MonoBehaviour
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
         float drain = InputManager.instance.isSprinting ? hungerSprintingPerSecond : hungerPerSecond;
 
         currentHunger -= drain * Time.deltaTime;
@@ -22,20 +24,21 @@ public class PlayerHunger : MonoBehaviour
         //Debug.Log(currentHunger);
     }
 
-    private void RestoreHunger(float value)
+    [PunRPC]
+    public void RestoreHunger(float value)
     {
         currentHunger += value;
         Mathf.Clamp(currentHunger, 0f, maxHunger);
+        Debug.Log("Player hunger restored to "+ currentHunger);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine) return;
+
         if (other.TryGetComponent<FoodData>(out FoodData food))
         {
-            if (food.isUsed) return;
-            RestoreHunger(food.Consume());
-            food.DestroyFood();
+            food.photonView.RPC(nameof(food.RequestConsume), RpcTarget.MasterClient, photonView.ViewID);
         }
     }
-
 }
