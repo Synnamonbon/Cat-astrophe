@@ -7,7 +7,7 @@ public class CageScript : MonoBehaviour
 
     void OnEnable()
     {
-        freePoint = this.transform.GetChild(0).gameObject;
+        freePoint = transform.GetChild(0).gameObject;
         cagedCat = null;
     }
 
