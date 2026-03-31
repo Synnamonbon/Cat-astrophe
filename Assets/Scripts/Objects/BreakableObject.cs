@@ -5,19 +5,9 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
-    [Range(0f, 10f)]
-    [SerializeField] private float breakSpeed = 0.5f;
-    [Range(0.2f, 10f)]
-    [SerializeField] private float timeBeforeDespawn = 2f;
-    [Range(0.01f, 2f)]
-    [SerializeField] private float fragmentDespawnSpeed = 0.25f;
-    [Range(0f, 20f)]
-    [SerializeField] private float alertDetectionDistance = 8f;
+    [SerializeField] private BreakableObject_SO breakableObjectData;
     [SerializeField] private ObjectType ownType = ObjectType.Small;
-    [Header("Drag and drop the fractured object PREFAB below:")]
-    [SerializeField] public GameObject fractured;
-    [Header("Transparent material goes below here:")]
-    [SerializeField] private Material TRANSPARENT_MATERIAL_SRC;
+
     private int GROUND_LAYER;
     private Rigidbody RIGIDBODY;
     private PhotonRigidbodyView RIGIDBODY_VIEW;
@@ -68,7 +58,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         // Check if I am master client, take responsibility to alert enemies
         if (PhotonNetwork.IsMasterClient)
         {
-            AlertManager.instance.AlertNPCsInRange(transform, alertDetectionDistance);
+            AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
             // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
             OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType);
         }
