@@ -17769,8 +17769,8 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 292370661}
   - {fileID: 1360088014}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1455045290}
+  - {fileID: 1682459808}
   player: {fileID: 0}
 --- !u!4 &521296319
 Transform:
