@@ -2,12 +2,14 @@ using Photon.Pun;
 using Photon.Realtime;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPun
 {
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [HideInInspector] public Player photonPlayer;
     [SerializeField] private BoxCollider playerGroundingBC;
+    [SerializeField] private GameObject cameraPOV;
     [HideInInspector] public int id;
     [HideInInspector] public bool isVisible = true;         // Flag to check if the detection system should consider the cat as detecable
 
@@ -23,14 +25,12 @@ public class PlayerController : MonoBehaviourPun
         playerRB = gameObject.GetComponent<Rigidbody>();
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerAttack = gameObject.GetComponent<PlayerAttack>();
-        playerHunger = gameObject.GetComponent<PlayerHunger>();
         playerGrounding = gameObject.GetComponentInChildren<PlayerGrounding>();
 
         if (photonView.IsMine)
         {
             playerMovement.enabled = true;
             playerAttack.enabled = true;
-            playerHunger.enabled = true;
             playerGroundingBC.enabled = true;
             playerGrounding.enabled = true;
         }
@@ -41,8 +41,12 @@ public class PlayerController : MonoBehaviourPun
         // Make camera follow player
         if (!photonView.IsMine) return;
         CinemachineCamera cam = FindFirstObjectByType<CinemachineCamera>();
+        UIManager playerUI = FindFirstObjectByType<UIManager>();
+        playerHunger = gameObject.GetComponent<PlayerHunger>();
         //Debug.Log(cam);
-        cam.Follow = transform;
+        cam.Target.TrackingTarget = cameraPOV.transform;
+        cam.PreviousStateIsValid = false;
+        playerUI.AssignPlayerHungerUI(playerHunger);
     }
 
     [PunRPC]
