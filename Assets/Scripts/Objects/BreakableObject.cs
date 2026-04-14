@@ -6,12 +6,14 @@ using UnityEngine;
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] private BreakableObject_SO breakableObjectData;
+    [SerializeField] private ObjectType ownType = ObjectType.Small;
 
     private int GROUND_LAYER;
     private Rigidbody RIGIDBODY;
     private PhotonRigidbodyView RIGIDBODY_VIEW;
     private int ackCounter;
 
+    public event Action<int, ObjectType> OnBreak;
     
     public void Awake()
     {
@@ -57,6 +59,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
+            // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
+            OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType);
         }
 
         GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);
