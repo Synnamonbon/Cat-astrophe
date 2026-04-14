@@ -39,26 +39,34 @@ public class InteractableManager : MonoBehaviour
         objectSpawnPoints.Clear();
         foodSpawnPoints.Clear();
 
-        foreach (Transform child in objectSpawner.transform)
-        {
-            objectSpawnPoints.Add(child);
+        if (objectSpawner != null) {
+            foreach (Transform child in objectSpawner.transform)
+            {
+                objectSpawnPoints.Add(child);
+            }
         }
-        foreach (Transform child in foodSpawner.transform)
-        {
-            foodSpawnPoints.Add(child);
+        if (foodSpawner != null){
+            foreach (Transform child in foodSpawner.transform)
+            {
+                foodSpawnPoints.Add(child);
+            }
         }
     }
 
     public void SpawnObjects()
     {
-        foreach (Transform spawn in objectSpawnPoints)
-        {
-            PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+        if (objectSpawnPoints != null){
+            foreach (Transform spawn in objectSpawnPoints)
+            {
+                PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+            }
         }
-        foreach (Transform spawn in foodSpawnPoints)
-        {
-            PhotonNetwork.InstantiateRoomObject(foodPrefab.name,spawn.position, spawn.rotation);
-            Debug.Log($"{spawn.name} | self: {spawn.gameObject.activeSelf} | hierarchy: {spawn.gameObject.activeInHierarchy}");
+        if (foodSpawnPoints != null){
+            foreach (Transform spawn in foodSpawnPoints)
+            {
+                PhotonNetwork.InstantiateRoomObject(foodPrefab.name,spawn.position, spawn.rotation);
+                Debug.Log($"{spawn.name} | self: {spawn.gameObject.activeSelf} | hierarchy: {spawn.gameObject.activeInHierarchy}");
+            }
         }
     }
 
