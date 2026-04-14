@@ -58,7 +58,9 @@ public class InteractableManager : MonoBehaviour
         if (objectSpawnPoints != null){
             foreach (Transform spawn in objectSpawnPoints)
             {
-                PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+                GameObject spawned = PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+                BreakableObject bo = GetBreakableObj(spawned);
+                bo.OnBreak += BreakEvent;
             }
         }
         if (foodSpawnPoints != null){

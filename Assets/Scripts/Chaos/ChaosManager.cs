@@ -36,7 +36,7 @@ public class ChaosManager : MonoBehaviour
 
     private void SubscribeToChaosEvents()
     {
-        ObjectManager.instance.OnBreakEvent += BreakPoints;
+        InteractableManager.instance.OnBreakEvent += BreakPoints;
     }
 
     [PunRPC]
