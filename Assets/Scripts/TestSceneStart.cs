@@ -48,9 +48,8 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
             playerPrefabPath, 
             spawnPoints[Random.Range(0, spawnPoints.Length)].position, 
             Quaternion.identity);
-        
+
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
-        playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -61,6 +60,12 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
         {
             AlertManager.instance.photonView.RPC(nameof(AlertManager.instance.ResubscribeEnemies), RpcTarget.All);
         }
+
+        if (playerScript == null) return;
+        playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
+
+        if (SoundManager.instance == null) return;
+        SoundManager.instance.SubscribeToPlayer(playerScript);
     }
 
 }

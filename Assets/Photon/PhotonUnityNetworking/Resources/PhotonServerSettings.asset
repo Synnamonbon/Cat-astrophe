@@ -52,6 +52,7 @@ MonoBehaviour:
   - RequestConsume
   - RestoreHunger
   - AddPlayer
+  - PlaySound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
