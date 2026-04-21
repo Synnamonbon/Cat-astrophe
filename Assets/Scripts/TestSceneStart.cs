@@ -40,6 +40,7 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         SpawnPlayer();
+        ChaosManager.instance.InitChaosTarget(2);
     }
 
     private void SpawnPlayer()

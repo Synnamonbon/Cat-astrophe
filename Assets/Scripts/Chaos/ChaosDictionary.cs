@@ -7,7 +7,8 @@ public static class ChaosDictionary
     {
         {"ObjectType.Small", 10},
         {"ObjectType.Medium", 25},
-        {"ObjectType.Large", 50}
+        {"ObjectType.Large", 50},
+        {"Task.Easy", 100}
     };
 
     public static int GetPointsForEvent(ObjectType objectType)
@@ -16,5 +17,10 @@ public static class ChaosDictionary
         int points;
         dict.TryGetValue(key, out points);
         return points;
+    }
+
+    public static int GetPointsForEvent()
+    {
+        return 0;
     }
 }

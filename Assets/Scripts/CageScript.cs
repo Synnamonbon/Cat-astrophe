@@ -5,7 +5,7 @@ public class CageScript : MonoBehaviour
     private PlayerController cagedCat;
     private GameObject freePoint;
 
-    void OnEnable()
+    void Start()
     {
         freePoint = transform.GetChild(0).gameObject;
         cagedCat = null;

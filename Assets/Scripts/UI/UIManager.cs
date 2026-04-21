@@ -4,8 +4,14 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Slider hungerSlider;
+    [SerializeField] private Slider chaosSlider;
     private PlayerHunger playerHunger;
     private float maxHunger;
+
+    private void Start()
+    {
+        ChaosManager.instance.PointsUpdated += UpdateChaos;
+    }
 
     private void Update()
     {
@@ -18,6 +24,11 @@ public class UIManager : MonoBehaviour
         {
             hungerSlider.value = playerHunger.currentHunger/maxHunger;
         }
+    }
+
+    private void UpdateChaos()
+    {
+        chaosSlider.value = ChaosManager.instance.GetCurrChaos() / ChaosManager.instance.GetTargetChaos();
     }
 
     public void AssignPlayerHungerUI(PlayerHunger player)

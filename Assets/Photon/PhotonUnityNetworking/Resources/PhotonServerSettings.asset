@@ -52,6 +52,9 @@ MonoBehaviour:
   - RequestConsume
   - RestoreHunger
   - AddPlayer
+  - PlayerScorePoints
+  - InitChaosTarget
+  - IncreaseCurrent
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

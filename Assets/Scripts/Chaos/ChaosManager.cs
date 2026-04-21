@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
-public class ChaosManager : MonoBehaviour
+public class ChaosManager : MonoBehaviourPun
 {
     public static ChaosManager instance;
     // Tracks numeric value of Chaos Meter, will need to connect to UI eventually.
@@ -16,6 +18,7 @@ public class ChaosManager : MonoBehaviour
     // Task abstract class with event "Condition", int counter and int targetValue
 
     // Subscribe to Object Manager's "SomethingBroke" Action with argument in playerID and EnumObjectType objectType
+    public event Action PointsUpdated;
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class ChaosManager : MonoBehaviour
         instance = this;
     }
 
+    // Subscribe to any event that should be adding chaos points here
     private void SubscribeToChaosEvents()
     {
         InteractableManager.instance.OnBreakEvent += BreakPoints;
@@ -50,12 +54,12 @@ public class ChaosManager : MonoBehaviour
         // Remove from chaos contrib when dc
     }
 
-    private void InitChaosTarget()
+    [PunRPC]
+    public void InitChaosTarget(int players)
     {
-        numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        numberOfPlayers = players;
         currentChaos = 0;
         targetChaos = 600 * numberOfPlayers;
-        Debug.Log(numberOfPlayers);
     }
 
     private void BreakPoints(int playerID, ObjectType objectType)
@@ -68,8 +72,7 @@ public class ChaosManager : MonoBehaviour
 
     private void PlayerScorePoints(int playerID, int pts)
     {
-        currentChaos += pts;
-        Debug.Log(playerID);
+        instance.photonView.RPC(nameof(instance.IncreaseCurrent), RpcTarget.AllBuffered, pts);
         if (!chaosContribution.ContainsKey(playerID))
         {
             AddPlayer(playerID);
@@ -85,5 +88,23 @@ public class ChaosManager : MonoBehaviour
     private bool CheckWinCon()
     {
         return currentChaos >= targetChaos;
+    }
+
+    [PunRPC]
+    private void IncreaseCurrent(int pts)
+    {
+        currentChaos += pts;
+        // Invoke Updated points event
+        PointsUpdated?.Invoke();
+    }
+
+    public float GetCurrChaos()
+    {
+        return currentChaos;
+    }
+
+    public float GetTargetChaos()
+    {
+        return targetChaos;
     }
 }
