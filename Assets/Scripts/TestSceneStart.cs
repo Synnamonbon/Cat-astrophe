@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using Unity.Cinemachine;
@@ -11,6 +12,8 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     [SerializeField] private string playerPrefabPath;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] public PlayerController player;
+
+    private Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
 
     private void Awake()
     {
@@ -51,6 +54,10 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
 
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
 
+        // Track every player's controller
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        players[actorNumber] = playerScript;
+
         if (PhotonNetwork.IsMasterClient)
         {
             InteractableManager.instance.SpawnObjects();
@@ -66,6 +73,27 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
 
         if (SoundManager.instance == null) return;
         SoundManager.instance.SubscribeToPlayer(playerScript);
+    }
+
+    private void AddChaosManagerPlayer(int ID)
+    {
+        ChaosManager.instance.AddPlayer(ID);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        int actorNumber = otherPlayer.ActorNumber;
+
+        if (players.TryGetValue(actorNumber, out PlayerController controller))
+        {
+            SoundManager.instance?.UnsubscribeFromPlayer(controller);
+            players.Remove(actorNumber);
+        }
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        AlertManager.instance.ResubscribeEnemies();
     }
 
 }

@@ -48,6 +48,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 
     public void ResubscribeEnemy()
     {
+        playersList = null;
         playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
     }
 
@@ -58,6 +59,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
         // We want to only detect the nearest player
         foreach (GameObject player in playersList)
         {
+            if (player == null) break;  
             Vector3 lookTarget = new Vector3(player.transform.position.x,
                                             player.transform.position.y + 0.2f,
                                             player.transform.position.z);
