@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
-using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -61,7 +59,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             Quaternion.identity);
 
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
+        if (playerScript == null) return;
         playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
+
+        if (SoundManager.instance == null) return;
+        SoundManager.instance.SubscribeToPlayer(playerScript);
     }
 
     // Add money stuff and data stored during session

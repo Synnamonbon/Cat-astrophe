@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using Photon.Realtime;
 using Unity.Cinemachine;
@@ -17,6 +18,9 @@ public class PlayerController : MonoBehaviourPun
     private PlayerAttack playerAttack;
     private PlayerGrounding playerGrounding;
     private PlayerHunger playerHunger;
+    private PlayerMeow playerMeow;
+    
+    public event Action<Vector3> PlayerMeow;
 
     private Rigidbody playerRB;
 
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviourPun
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerAttack = gameObject.GetComponent<PlayerAttack>();
         playerGrounding = gameObject.GetComponentInChildren<PlayerGrounding>();
+        playerMeow = gameObject.GetComponent<PlayerMeow>();
 
         if (photonView.IsMine)
         {
@@ -33,6 +38,7 @@ public class PlayerController : MonoBehaviourPun
             playerAttack.enabled = true;
             playerGroundingBC.enabled = true;
             playerGrounding.enabled = true;
+            playerMeow.enabled = true;
         }
     }
 
@@ -58,7 +64,12 @@ public class PlayerController : MonoBehaviourPun
 
         if (!photonView.IsMine){
             playerRB.isKinematic = true;
-            // playerRB.useGravity = false;
+            //playerRB.useGravity = false;
         }
+    }
+
+    public void MakePlayerMeow()
+    {
+        PlayerMeow?.Invoke(gameObject.transform.position);
     }
 }

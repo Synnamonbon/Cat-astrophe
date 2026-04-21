@@ -77,6 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6857674179014425562}
   - component: {fileID: 124253452294101590}
+  - component: {fileID: 8343128575755319995}
   - component: {fileID: 4892907224806089151}
   - component: {fileID: 9136224214978436184}
   - component: {fileID: 4003452005008305006}
@@ -129,6 +130,19 @@ MonoBehaviour:
   jumpHeight: 1
   gravityMultiplier: 2
   isGrounded: 0
+--- !u!114 &8343128575755319995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285022368266240042}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbe12fee089d436fa5fe3fbc68a5196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMeow
+  meowCooldown: 0.5
 --- !u!114 &4892907224806089151
 MonoBehaviour:
   m_ObjectHideFlags: 0
