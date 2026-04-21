@@ -27,6 +27,11 @@ public class PlayerAttack : MonoBehaviour
         boxCollider.enabled = false;
     }
 
+    private void OnDestroy()
+    {
+        InputManager.instance.OnAttack -= Attack;
+    }
+
     private void Attack(object sender, EventArgs e)
     {
         if (!canAttack) return;

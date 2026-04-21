@@ -52,6 +52,7 @@ MonoBehaviour:
   - RequestConsume
   - RestoreHunger
   - AddPlayer
+  - PlaySound
   - PlayerScorePoints
   - InitChaosTarget
   - IncreaseCurrent
