@@ -61,10 +61,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
         if (playerScript == null) return;
         playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
+        //ChaosManager.instance.AddPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+        photonView.RPC(nameof(AddChaosManagerPlayer), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+
+        private void AddChaosManagerPlayer(int ID)
+        {
+            ChaosManager.instance.AddPlayer(ID);
+        }
 
         if (SoundManager.instance == null) return;
         SoundManager.instance.SubscribeToPlayer(playerScript);
     }
 
     // Add money stuff and data stored during session
+    // Add rounds and Game Start.
 }

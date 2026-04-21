@@ -16,6 +16,8 @@ public class InteractableManager : MonoBehaviour
     private List<Transform> objectSpawnPoints = new List<Transform>();
     private List<Transform> foodSpawnPoints = new List<Transform>();
 
+    public event Action<int, ObjectType> OnBreakEvent;
+
     private void Awake()
     {
         SingletonPattern();
@@ -56,7 +58,9 @@ public class InteractableManager : MonoBehaviour
         if (objectSpawnPoints != null){
             foreach (Transform spawn in objectSpawnPoints)
             {
-                PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+                GameObject spawned = PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+                BreakableObject bo = GetBreakableObj(spawned);
+                bo.OnBreak += BreakEvent;
             }
         }
         if (foodSpawnPoints != null){
@@ -66,6 +70,31 @@ public class InteractableManager : MonoBehaviour
                 Debug.Log($"{spawn.name} | self: {spawn.gameObject.activeSelf} | hierarchy: {spawn.gameObject.activeInHierarchy}");
             }
         }
+    }
+
+    private void BreakEvent(int playerID, ObjectType objectType)
+    {
+        // Invoke its own BreakEvent event action
+        // When refactoring move Alert system call to listen to this event too
+        OnBreakEvent?.Invoke(playerID, objectType);
+    }
+
+    private BreakableObject GetBreakableObj(GameObject obj)
+    {
+        if (obj.TryGetComponent<BreakableObject>(out BreakableObject bo))
+        {
+            return bo;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private void UnsubscribeOnBreak(GameObject obj)
+    {
+        BreakableObject bo = GetBreakableObj(obj);
+        bo.OnBreak -= BreakEvent;
     }
 
     public void DestroyForAll(GameObject obj)
