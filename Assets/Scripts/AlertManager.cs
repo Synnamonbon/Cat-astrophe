@@ -70,7 +70,7 @@ public class AlertManager : MonoBehaviourPunCallbacks
     public void ResubscribeEnemies()
     {
         if (!PhotonNetwork.IsMasterClient){return;}
-        Debug.Log("resubscribing enemies");
+        //Debug.Log("resubscribing enemies");
 
         foreach (GameObject enemy in enemies)
         {

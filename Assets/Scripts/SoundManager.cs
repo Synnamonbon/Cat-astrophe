@@ -36,21 +36,10 @@ public class SoundManager : MonoBehaviourPun
 
     public void SubscribeToPlayer(PlayerController playerController)
     {
-        
         if (subscribedPlayers.Contains(playerController)) return;
 
         playerController.PlayerMeow += OnPlayerMeow;
         subscribedPlayers.Add(playerController);
-    }
-
-    public void UnsubscribeFromPlayer(PlayerController playerController)
-    {
-        if (playerController == null) return;
-        if (!subscribedPlayers.Contains(playerController)) return;
-
-        //playerController.PlayerMeow -= OnPlayerMeow;
-        subscribedPlayers.Remove(playerController);
-        Debug.Log("Unsubscribed player");
     }
 
     private void OnPlayerMeow(Vector3 location)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -76,17 +77,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void AddChaosManagerPlayer(int ID)
     {
         ChaosManager.instance.AddPlayer(ID);
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        int actorNumber = otherPlayer.ActorNumber;
-
-        if (players.TryGetValue(actorNumber, out PlayerController controller))
-        {
-            SoundManager.instance?.UnsubscribeFromPlayer(controller);
-            players.Remove(actorNumber);
-        }
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)

@@ -55,6 +55,11 @@ public class PlayerController : MonoBehaviourPun
         playerUI.AssignPlayerHungerUI(playerHunger);
     }
 
+    private void OnDestroy()
+    {
+        PlayerMeow = null;
+    }
+
     [PunRPC]
     public void Initialise (Player player)
     {
