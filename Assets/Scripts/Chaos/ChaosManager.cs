@@ -41,6 +41,7 @@ public class ChaosManager : MonoBehaviourPun
     private void SubscribeToChaosEvents()
     {
         InteractableManager.instance.OnBreakEvent += BreakPoints;
+        NPCManager.instance.OnSaveCatEvent += SaveCatPoints;
     }
 
     [PunRPC]
@@ -68,6 +69,12 @@ public class ChaosManager : MonoBehaviourPun
         int pts = ChaosDictionary.GetPointsForEvent(objectType);
         PlayerScorePoints(playerID, pts);
         // Check for tasks requiring BreakEvent
+    }
+
+    private void SaveCatPoints(int playerID)
+    {
+        // points?
+        Debug.Log("Save");
     }
 
     private void PlayerScorePoints(int playerID, int pts)

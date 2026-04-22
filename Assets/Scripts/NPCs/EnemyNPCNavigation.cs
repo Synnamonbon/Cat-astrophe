@@ -37,6 +37,8 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     private int nearestCageIDX = -1;
     private PlayerController carriedCat;
 
+    public event Action<int> SaveCat;               // playerID
+
     private void OnEnable()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
@@ -75,7 +77,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (agent.enabled == false) return;
+        if (agent.enabled == false || !PhotonNetwork.IsMasterClient) return;
 
         switch (currentState)
         {
@@ -423,4 +425,26 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     }
 
     // Potentially a DropCat if we want to stun the NPC and save a cat being carried
+    public void StunForDuration(float duration, int playerID)
+    {
+        // Stun for duration
+        StartCoroutine(StopAgentForDuration(duration));
+        // Disable vision for same duration
+        enemyDet.BlindAgentForDuration(duration);
+        // Drop Cat if carrying and trigger CatSave event.
+        if (currentState == NPCStates.Carrying)
+        {
+            photonView.RPC(nameof(DropCat), RpcTarget.All);
+            SaveCat?.Invoke(playerID);
+        }
+        EndChase();     // In case the cat was in chase, doubles as reenabling alertness and switching back to surveying
+    }
+
+    [PunRPC]
+    private void DropCat()
+    {
+        carriedCat.transform.SetParent(null);
+        ReenableMovement();
+        PostCageCleanup();
+    }
 }

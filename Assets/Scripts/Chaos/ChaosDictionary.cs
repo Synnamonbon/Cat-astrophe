@@ -8,7 +8,7 @@ public static class ChaosDictionary
         {"ObjectType.Small", 10},
         {"ObjectType.Medium", 25},
         {"ObjectType.Large", 50},
-        {"Task.Easy", 100}
+        {"CatSave", 50}
     };
 
     public static int GetPointsForEvent(ObjectType objectType)
