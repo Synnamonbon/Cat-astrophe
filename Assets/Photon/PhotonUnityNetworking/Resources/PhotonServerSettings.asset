@@ -53,6 +53,7 @@ MonoBehaviour:
   - RestoreHunger
   - AddPlayer
   - PlaySound
+  - TryGetHit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -13,7 +13,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private PhotonRigidbodyView RIGIDBODY_VIEW;
     private int ackCounter;
 
-    public event Action<int, ObjectType> OnBreak;
+    public event Action<int, ObjectType, Vector3> OnBreak;
     
     public void Awake()
     {
@@ -60,7 +60,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         {
             AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
             // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
-            OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType);
+            OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType, RIGIDBODY.transform.position);
         }
 
         GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);

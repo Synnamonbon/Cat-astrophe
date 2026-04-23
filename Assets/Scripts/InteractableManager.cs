@@ -16,7 +16,7 @@ public class InteractableManager : MonoBehaviour
     private List<Transform> objectSpawnPoints = new List<Transform>();
     private List<Transform> foodSpawnPoints = new List<Transform>();
 
-    public event Action<int, ObjectType> OnBreakEvent;
+    public event Action<int, ObjectType, Vector3> OnBreakEvent;
 
     private void Awake()
     {
@@ -72,11 +72,11 @@ public class InteractableManager : MonoBehaviour
         }
     }
 
-    private void BreakEvent(int playerID, ObjectType objectType)
+    private void BreakEvent(int playerID, ObjectType objectType, Vector3 objectPosition)
     {
         // Invoke its own BreakEvent event action
         // When refactoring move Alert system call to listen to this event too
-        OnBreakEvent?.Invoke(playerID, objectType);
+        OnBreakEvent?.Invoke(playerID, objectType, objectPosition);
     }
 
     private BreakableObject GetBreakableObj(GameObject obj)
@@ -101,6 +101,7 @@ public class InteractableManager : MonoBehaviour
     {
         PhotonView pv = obj.GetComponent<PhotonView>();
         if (pv == null) return;
+        UnsubscribeOnBreak(obj);
         PhotonNetwork.Destroy(obj);
     }
 

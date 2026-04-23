@@ -24,9 +24,15 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        SoundManager.instance.SubscribeToObjects();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void OnDestroy()
+    {
+        SoundManager.instance.UnSubscribeToObjects();
     }
 
     public override void OnConnectedToMaster()

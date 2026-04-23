@@ -55,8 +55,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 57a600eb561fbc946b1c3db09c2dddc1, type: 3}
   - {fileID: 8300000, guid: 5bd3e2b2537457847a72a246a088b6a2, type: 3}
   meowVolume: 0.63
-  objectBrokenSounds: []
-  objectBrokenVolume: 0
+  objectBrokenSounds:
+  - {fileID: 8300000, guid: 54365f0cbaf99465db928542cf9076db, type: 3}
+  - {fileID: 8300000, guid: eeed94781c5054d879c511a2281f3a9c, type: 3}
+  - {fileID: 8300000, guid: a114e75b13712401b97c83681421cb8e, type: 3}
+  - {fileID: 8300000, guid: 80cd0e528e4c64c1d9588bce45d33ebe, type: 3}
+  objectBrokenVolume: 1
 --- !u!114 &7996893357840591494
 MonoBehaviour:
   m_ObjectHideFlags: 0

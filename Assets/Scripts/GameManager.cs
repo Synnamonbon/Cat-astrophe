@@ -33,9 +33,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         photonView.RPC("JoiningGame", RpcTarget.AllBuffered);
+        SoundManager.instance.SubscribeToObjects();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void OnDestroy()
+    {
+        SoundManager.instance.UnSubscribeToObjects();
     }
 
     [PunRPC]

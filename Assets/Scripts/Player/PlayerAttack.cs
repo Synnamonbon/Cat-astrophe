@@ -90,7 +90,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (playerController.photonView.IsMine) return;
             Player owner = playerController.photonView.Owner;
-            playerController.photonView.RPC("TryGetHit", owner, pushForce/10, currentPos);
+            playerController.photonView.RPC("TryGetHit", owner, pushForce/5, currentPos);
             Debug.Log("Sending RPC call");
         }
     }
