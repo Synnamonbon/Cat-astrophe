@@ -36,20 +36,20 @@ public class SoundManager : MonoBehaviourPun
 
     public void SubscribeToPlayer(PlayerController playerController)
     {
-        
         if (subscribedPlayers.Contains(playerController)) return;
 
         playerController.PlayerMeow += OnPlayerMeow;
         subscribedPlayers.Add(playerController);
     }
 
-    public void UnsubscribeFromPlayer(PlayerController playerController)
+    public void SubscribeToObjects()
     {
-        if (playerController == null) return;
-        if (!subscribedPlayers.Contains(playerController)) return;
+        InteractableManager.instance.OnBreakEvent += OnObjectBroken;
+    }
 
-        //playerController.PlayerMeow -= OnPlayerMeow;
-        subscribedPlayers.Remove(playerController);
+    public void UnSubscribeToObjects()
+    {
+        InteractableManager.instance.OnBreakEvent -= OnObjectBroken;
     }
 
     private void OnPlayerMeow(Vector3 location)
@@ -57,6 +57,13 @@ public class SoundManager : MonoBehaviourPun
         int index = Random.Range(0, meowSounds.Length);
 
         photonView.RPC(nameof(PlaySound), RpcTarget.All, SoundType.Meow, index, location);
+    }
+
+    private void OnObjectBroken(int actorNumber, ObjectType objectType, Vector3 location)
+    {
+        int index = Random.Range(0, objectBrokenSounds.Length);
+
+        photonView.RPC(nameof(PlaySound), RpcTarget.All, SoundType.Object, index, location);
     }
 
     [PunRPC]

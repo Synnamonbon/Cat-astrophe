@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/AriTest2.unity
+    guid: e6dca6e57e19d48b4b1308adca5711ff
+  - enabled: 1
     path: Assets/Scenes/Shannon_Level.unity
-    guid: 192c4c68c534b4a949390b9b4c773a60
+    guid: 2bfd900ea48114508b905de56740d11e
   - enabled: 1
     path: Assets/Scenes/DONOTTOUCH/MainMenu.unity
     guid: 3a7974b4b8625c8448c125e755bbe227

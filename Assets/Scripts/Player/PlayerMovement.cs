@@ -101,6 +101,17 @@ public class PlayerMovement : MonoBehaviour
         if (attackLocked) StopMovement();
     }
 
+    public IEnumerator GetKnockedBack(float forceMagnitude, Vector3 direction)
+    {
+        direction.y += 0.3f;
+        direction.Normalize();
+        LockMove(true);
+        playerRB.AddForce(direction * forceMagnitude, ForceMode.Impulse);
+
+        yield return new WaitForSeconds(0.2f);
+        LockMove(false);
+    }
+
     public Quaternion GetCameraForward()
     {
         Vector3 cameraForward = cameraPOV.forward;

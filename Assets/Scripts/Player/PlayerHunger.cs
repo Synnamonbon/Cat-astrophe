@@ -8,9 +8,23 @@ public class PlayerHunger : MonoBehaviourPun
     [SerializeField] private float hungerPerSecond = 1f;
     [SerializeField] private float hungerSprintingPerSecond = 2f;
     [SerializeField] private float eatCD = 0.1f;
+    [Header("Low hunger settings")]
+    [SerializeField] private float hungryMeowRate50 = 5f; // Second intervals where meow check is done at 50% hunger
+    [SerializeField] private float hungryMeowRate25 = 3.33f; // Second intervals where meow check is done at 25% hunger
+    [SerializeField] private float hungryMeowChance50 = 0.33f;
+    [SerializeField] private float hungryMeowChance25 = 0.5f;
+
+    private PlayerController playerController;
 
     [HideInInspector] public float currentHunger {get; private set;}
     private bool canEat = true;
+    private Coroutine debuffCoroutine;
+
+    private void OnEnable()
+    {
+        playerController = GetComponent<PlayerController>();
+        StartCoroutine(HungryMeowRoutine());
+    }
 
     private void Update()
     {
@@ -19,6 +33,8 @@ public class PlayerHunger : MonoBehaviourPun
 
         currentHunger -= drain * Time.deltaTime;
         currentHunger = Mathf.Clamp(currentHunger, 0f, maxHunger);
+
+        //CheckDebuffs();
         //Debug.Log(currentHunger);
     }
 
@@ -52,5 +68,41 @@ public class PlayerHunger : MonoBehaviourPun
     {
         currentHunger = maxHunger;
         return maxHunger;
+    }
+
+    private void CheckDebuffs()
+    {
+        
+    }
+
+    private IEnumerator HungryMeowRoutine()
+    {
+        float meowInterval;
+        float meowChance;
+        while (true) {
+            if (currentHunger > (maxHunger * 0.5)) yield return null;
+            else
+            {
+                if (currentHunger <= (maxHunger * 0.25)) {
+                    meowInterval = hungryMeowRate25;
+                    meowChance = hungryMeowChance25;
+                }
+                else {
+                    meowInterval = hungryMeowRate50;
+                    meowChance = hungryMeowChance50;
+                }
+                Debug.Log("Chance to meow: " + meowChance);
+                HungryMeow(meowChance);
+                yield return new WaitForSeconds(meowInterval);
+            }
+        }
+    }
+
+    private void HungryMeow(float meowChance)
+    {
+        if (Random.value < meowChance)
+        {
+            playerController.MakePlayerMeow();
+        }
     }
 }
