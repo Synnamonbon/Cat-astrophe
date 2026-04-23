@@ -157,7 +157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
   breakableObjectData: {fileID: 11400000, guid: 150a27590d33947609ff2cc344260739, type: 2}
-  ownType: 0
 --- !u!114 &34001997667127597
 MonoBehaviour:
   m_ObjectHideFlags: 0

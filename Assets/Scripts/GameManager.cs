@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
-        ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaosTarget), RpcTarget.All, PhotonNetwork.PlayerList.Length);
+        ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
     }
 
     [PunRPC]

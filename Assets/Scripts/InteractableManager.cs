@@ -78,7 +78,7 @@ public class InteractableManager : MonoBehaviour
     {
         // Invoke its own BreakEvent event action
         // When refactoring move Alert system call to listen to this event too
-        OnBreakEvent?.Invoke(playerID, objectType);
+        OnBreakEvent?.Invoke(playerID, objectType);         // Add tag
     }
 
     private void NPCBreakEvent(int playerID, int NPCID)

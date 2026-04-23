@@ -19,6 +19,10 @@ public class NPCManager : MonoBehaviour
     {
         SingletonPattern();
         InitialiseSpawnPoints();
+    }
+
+    private void Start()
+    {
         SubscribeToEvents();
     }
     private void SingletonPattern()

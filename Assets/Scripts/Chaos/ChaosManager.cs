@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class ChaosManager : MonoBehaviourPun
     private int numberOfPlayers = 0;
     private Dictionary<int, int> chaosContribution;
     // Task abstract class with event "Condition", int counter and int targetValue
+    private Dictionary<int, List<Task>> playerTasks;
+    private List<TaskDetails_SO> allTasks;
 
     // Subscribe to Object Manager's "SomethingBroke" Action with argument in playerID and EnumObjectType objectType
     public event Action PointsUpdated;
@@ -23,8 +26,10 @@ public class ChaosManager : MonoBehaviourPun
     private void Awake()
     {
         chaosContribution = new Dictionary<int, int>() {};
+        playerTasks = new Dictionary<int, List<Task>>() {};
         SingletonPattern();
         SubscribeToChaosEvents();
+        LoadAllTasks();
     }
 
     private void SingletonPattern()
@@ -44,6 +49,30 @@ public class ChaosManager : MonoBehaviourPun
         NPCManager.instance.OnSaveCatEvent += SaveCatPoints;
     }
 
+    private void LoadAllTasks()
+    {
+        allTasks = new List<TaskDetails_SO>(Resources.LoadAll<TaskDetails_SO>("Tasks"));
+    }
+
+    private void GenerateTaskIndexesForPlayer(int playerID, int number)
+    {
+        // When task is randomly generated here, RPC to all users to generate the same task
+        List<int> ints = new List<int>();
+        for (int i = 0; i < number; i++)
+        {
+            int j = UnityEngine.Random.Range(0, allTasks.Count);
+            if (!ints.Contains(j))
+            {
+                ints.Append(j);
+                photonView.RPC(nameof(AssignTaskAtIndexToPlayer), RpcTarget.AllBuffered, j, playerID);
+            }
+            else
+            {
+                i--;
+            }
+        }
+    }
+
     [PunRPC]
     public void AddPlayer(int playerID)
     {
@@ -53,14 +82,42 @@ public class ChaosManager : MonoBehaviourPun
     public void RemovePlayer(int playerID)
     {
         // Remove from chaos contrib when dc
+        // Lower target
     }
 
     [PunRPC]
-    public void InitChaosTarget(int players)
+    private void AssignTaskAtIndexToPlayer(int idx, int playerID)
+    {
+        if (!playerTasks.ContainsKey(playerID))
+        {
+            playerTasks.Add(playerID, new List<Task>());
+        }
+        Task t = new Task();
+        t.InitTask(playerID, allTasks[idx]);
+        playerTasks[playerID].Add(t);
+        t.CompleteTaskEvent += ScoreTask;
+        Debug.Log("Added task " + t.taskName + " to " + playerID);
+    }
+
+    [PunRPC]
+    public void InitChaos(int players)
     {
         numberOfPlayers = players;
         currentChaos = 0;
         targetChaos = 600 * numberOfPlayers;
+        // Master client assigns tasks to everyone, RPC call to them specifically to receive their tasks?
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playerTasks = new Dictionary<int, List<Task>>() {};
+            // Get all players in room
+            Player[] allPlayers = PhotonNetwork.PlayerList;
+            // Generate random tasks for each player based on number of players
+            foreach (Player player in allPlayers)
+            {
+                int playerID = player.ActorNumber;
+                GenerateTaskIndexesForPlayer(playerID, 1);
+            }
+        }
     }
 
     private void BreakPoints(int playerID, ObjectType objectType)
@@ -69,12 +126,19 @@ public class ChaosManager : MonoBehaviourPun
         int pts = ChaosDictionary.GetPointsForEvent(objectType);
         PlayerScorePoints(playerID, pts);
         // Check for tasks requiring BreakEvent
+        // for loop through tasks, check their conditions, if the condition is break and the tag matches, call increment
+        foreach (Task t in playerTasks[playerID])
+        {
+            if (t.conditionTrack == ConditionTrack.BreakObject)
+            {
+                t.IncrementCondition();
+            }
+        }
     }
 
     private void SaveCatPoints(int playerID)
     {
-        // points?
-        Debug.Log("Save");
+        PlayerScorePoints(playerID, ChaosDictionary.GetPointsForEvent("CatSave"));
     }
 
     private void PlayerScorePoints(int playerID, int pts)
@@ -89,6 +153,16 @@ public class ChaosManager : MonoBehaviourPun
         if (CheckWinCon())
         {
             Debug.Log("Points Reached!");
+        }
+    }
+
+    private void ScoreTask(Task task)
+    {
+        // get points from the task for the player.
+        if (task.playerID == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            Debug.Log("Score Task " + task.taskName);
+            PlayerScorePoints(task.playerID, ChaosDictionary.GetPointsForEvent(task.taskType));
         }
     }
 

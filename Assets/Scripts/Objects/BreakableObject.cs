@@ -6,7 +6,6 @@ using UnityEngine;
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] private BreakableObject_SO breakableObjectData;
-    [SerializeField] private ObjectType ownType = ObjectType.Small;
 
     private int GROUND_LAYER;
     private Rigidbody RIGIDBODY;
@@ -75,7 +74,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         {
             AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
             // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
-            OnBreak?.Invoke(photonView.Owner.ActorNumber, ownType);
+            OnBreak?.Invoke(photonView.Owner.ActorNumber, breakableObjectData.ObjectType);
         }
 
         GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);
