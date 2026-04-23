@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviourPun
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerAttack = gameObject.GetComponent<PlayerAttack>();
         playerGrounding = gameObject.GetComponentInChildren<PlayerGrounding>();
+        playerHunger = gameObject.GetComponent<PlayerHunger>();
         playerMeow = gameObject.GetComponent<PlayerMeow>();
 
         if (photonView.IsMine)
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviourPun
             playerAttack.enabled = true;
             playerGroundingBC.enabled = true;
             playerGrounding.enabled = true;
+            playerHunger.enabled = true;
             playerMeow.enabled = true;
         }
     }
@@ -48,7 +50,6 @@ public class PlayerController : MonoBehaviourPun
         if (!photonView.IsMine) return;
         CinemachineCamera cam = FindFirstObjectByType<CinemachineCamera>();
         UIManager playerUI = FindFirstObjectByType<UIManager>();
-        playerHunger = gameObject.GetComponent<PlayerHunger>();
         //Debug.Log(cam);
         cam.Target.TrackingTarget = cameraPOV.transform;
         cam.PreviousStateIsValid = false;

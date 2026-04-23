@@ -85,6 +85,10 @@ public class PlayerAttack : MonoBehaviour
             Vector3 currentPos = playerRB.transform.position;
             obj.ObjectGotHit(pushForce, currentPos);
         }
+        if (other.TryGetComponent<PlayerController>(out PlayerController playerController))
+        {
+            playerController.MakePlayerMeow();
+        }
     }
 
     private void TransferOwnership(GameObject gameObject)
