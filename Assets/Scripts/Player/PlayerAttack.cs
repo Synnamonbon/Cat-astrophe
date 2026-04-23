@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -79,15 +80,18 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        Vector3 currentPos = playerRB.transform.position;
         if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
         {
             TransferOwnership(other.gameObject);
-            Vector3 currentPos = playerRB.transform.position;
             obj.ObjectGotHit(pushForce, currentPos);
         }
         if (other.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            playerController.MakePlayerMeow();
+            if (playerController.photonView.IsMine) return;
+            Player owner = playerController.photonView.Owner;
+            playerController.photonView.RPC("TryGetHit", owner, pushForce/10, currentPos);
+            Debug.Log("Sending RPC call");
         }
     }
 
