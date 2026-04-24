@@ -120,7 +120,7 @@ public class ChaosManager : MonoBehaviourPun
         }
     }
 
-    private void BreakPoints(int playerID, ObjectType objectType)
+    private void BreakPoints(int playerID, ObjectType objectType, Vector3 objectPosition)
     {
         // Update points according to object type
         int pts = ChaosDictionary.GetPointsForEvent(objectType);

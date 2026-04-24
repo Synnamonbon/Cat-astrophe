@@ -166,7 +166,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6285022368266240042}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3cad74d72ffb4719a9bd310b6b26ebe, type: 3}
   m_Name: 
@@ -175,6 +175,10 @@ MonoBehaviour:
   hungerPerSecond: 1
   hungerSprintingPerSecond: 10
   eatCD: 0.1
+  hungryMeowRate50: 5
+  hungryMeowRate25: 3.33
+  hungryMeowChance50: 0.33
+  hungryMeowChance25: 0.5
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0
