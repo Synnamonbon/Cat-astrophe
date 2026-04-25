@@ -74,8 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 InteractableManager.instance.SpawnObjects();
                 ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
                 // To ensure round starts only once, start the game timer here?
-                float st = Time.timeSinceLevelLoad;
-                instance.photonView.RPC(nameof(GameStart), RpcTarget.AllBuffered, st);
+                instance.photonView.RPC(nameof(GameStart), RpcTarget.AllBuffered);
             }
         }
     }
