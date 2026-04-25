@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   enemyPrefab: {fileID: 3487283526624640317, guid: 961d318fae774844981e302f33609397, type: 3}
+  stunDuration: 3
 --- !u!1 &4777472384770879318
 GameObject:
   m_ObjectHideFlags: 0

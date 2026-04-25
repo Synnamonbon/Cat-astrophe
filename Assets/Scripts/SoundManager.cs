@@ -59,7 +59,7 @@ public class SoundManager : MonoBehaviourPun
         photonView.RPC(nameof(PlaySound), RpcTarget.All, SoundType.Meow, index, location);
     }
 
-    private void OnObjectBroken(int actorNumber, ObjectType objectType, Vector3 location)
+    private void OnObjectBroken(int actorNumber, ObjectType objectType, Vector3 location, string tag)
     {
         int index = Random.Range(0, objectBrokenSounds.Length);
 

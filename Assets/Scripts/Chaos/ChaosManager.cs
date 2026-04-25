@@ -22,12 +22,18 @@ public class ChaosManager : MonoBehaviourPun
 
     // Subscribe to Object Manager's "SomethingBroke" Action with argument in playerID and EnumObjectType objectType
     public event Action PointsUpdated;
+    public event Action TasksAssigned;
+    public event Action<bool> GameWonEvent;
 
     private void Awake()
     {
+        SingletonPattern();
+    }
+
+    private void OnLevelWasLoaded()
+    {
         chaosContribution = new Dictionary<int, int>() {};
         playerTasks = new Dictionary<int, List<Task>>() {};
-        SingletonPattern();
         SubscribeToChaosEvents();
         LoadAllTasks();
     }
@@ -47,6 +53,7 @@ public class ChaosManager : MonoBehaviourPun
     {
         InteractableManager.instance.OnBreakEvent += BreakPoints;
         NPCManager.instance.OnSaveCatEvent += SaveCatPoints;
+        GameManager.instance.EndGame += EndGameEvent;
     }
 
     private void LoadAllTasks()
@@ -115,12 +122,12 @@ public class ChaosManager : MonoBehaviourPun
             foreach (Player player in allPlayers)
             {
                 int playerID = player.ActorNumber;
-                GenerateTaskIndexesForPlayer(playerID, 1);
+                GenerateTaskIndexesForPlayer(playerID, 3);
             }
         }
     }
 
-    private void BreakPoints(int playerID, ObjectType objectType, Vector3 objectPosition)
+    private void BreakPoints(int playerID, ObjectType objectType, Vector3 objectPosition, string tag)
     {
         // Update points according to object type
         int pts = ChaosDictionary.GetPointsForEvent(objectType);
@@ -131,7 +138,10 @@ public class ChaosManager : MonoBehaviourPun
         {
             if (t.conditionTrack == ConditionTrack.BreakObject)
             {
-                t.IncrementCondition();
+                if (t.conditionTag == tag)
+                {
+                    t.IncrementCondition();
+                }
             }
         }
     }
@@ -150,10 +160,6 @@ public class ChaosManager : MonoBehaviourPun
         }
         chaosContribution[playerID] += pts;
         Debug.Log("New player contribuion: " + playerID + " - " + chaosContribution[playerID]);
-        if (CheckWinCon())
-        {
-            Debug.Log("Points Reached!");
-        }
     }
 
     private void ScoreTask(Task task)
@@ -169,6 +175,11 @@ public class ChaosManager : MonoBehaviourPun
     private bool CheckWinCon()
     {
         return currentChaos >= targetChaos;
+    }
+
+    private void EndGameEvent()
+    {
+        GameWonEvent?.Invoke(CheckWinCon());
     }
 
     [PunRPC]

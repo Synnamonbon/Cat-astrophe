@@ -12,7 +12,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private PhotonRigidbodyView RIGIDBODY_VIEW;
     private int ackCounter;
 
-    public event Action<int, ObjectType, Vector3> OnBreak;           // playerID, Object Type
+    public event Action<int, ObjectType, Vector3, string> OnBreak;           // playerID, Object Type, Position, Tag
     public event Action<int, int> OnBreakOnNPC;             // playerID, enemy photonview ID
     
     public void Awake()
@@ -20,6 +20,14 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         GROUND_LAYER = LayerMask.NameToLayer("Ground");
         RIGIDBODY = gameObject.GetComponent<Rigidbody>();
         RIGIDBODY_VIEW = gameObject.GetComponent<PhotonRigidbodyView>();
+    }
+
+    public void Start()
+    {
+        if (breakableObjectData.ObjectTag != "")
+        {
+            gameObject.tag = breakableObjectData.ObjectTag;
+        }
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -74,7 +82,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         {
             AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
             // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
-            OnBreak?.Invoke(photonView.Owner.ActorNumber, breakableObjectData.ObjectType, RIGIDBODY.transform.position);
+            OnBreak?.Invoke(photonView.Owner.ActorNumber, breakableObjectData.ObjectType, RIGIDBODY.transform.position, gameObject.tag);
         }
 
         GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);
