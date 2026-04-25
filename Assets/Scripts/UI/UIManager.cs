@@ -46,11 +46,11 @@ public class UIManager : MonoBehaviour
         {
             timerRemaining -= Time.fixedDeltaTime;
             timer.text = ((int)(timerRemaining / 60)).ToString() + ":" + ((int)(timerRemaining % 60)).ToString();
-            Debug.Log("Update timer!");
+            //Debug.Log("Update timer!");
         }
         else
         {
-            Debug.Log("NotSet");
+            //Debug.Log("NotSet");
         }
     }
 
