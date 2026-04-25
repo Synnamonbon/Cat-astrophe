@@ -58,8 +58,8 @@ public class UIManager : MonoBehaviour
     {
         playerHunger = player;
         maxHunger = playerHunger.InitialiseHunger();
-        Debug.Log("max hunger: " + maxHunger);
-        Debug.Log("current hunger: " + playerHunger.currentHunger);
+        //Debug.Log("max hunger: " + maxHunger);
+        //Debug.Log("current hunger: " + playerHunger.currentHunger);
     }
 
     private void SetTimer(float remaining)

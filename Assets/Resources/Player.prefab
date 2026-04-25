@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 8343128575755319995}
   - component: {fileID: 4892907224806089151}
   - component: {fileID: 9136224214978436184}
+  - component: {fileID: 3815011515437339736}
   - component: {fileID: 4003452005008305006}
   - component: {fileID: 5948632707879458201}
   - component: {fileID: 8349577437884329599}
@@ -179,6 +180,19 @@ MonoBehaviour:
   hungryMeowRate25: 3.33
   hungryMeowChance50: 0.33
   hungryMeowChance25: 0.5
+--- !u!114 &3815011515437339736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285022368266240042}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0909af8496f4d485db745c979a07d000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
+  range: 1
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0

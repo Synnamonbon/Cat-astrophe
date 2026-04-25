@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviourPun
     private PlayerGrounding playerGrounding;
     private PlayerHunger playerHunger;
     private PlayerMeow playerMeow;
+    private PlayerInteract playerInteract;
     
     public event Action<Vector3> PlayerMeow;
 
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviourPun
         playerGrounding = gameObject.GetComponentInChildren<PlayerGrounding>();
         playerHunger = gameObject.GetComponent<PlayerHunger>();
         playerMeow = gameObject.GetComponent<PlayerMeow>();
+        playerInteract = gameObject.GetComponent<PlayerInteract>();
 
         if (photonView.IsMine)
         {
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviourPun
             playerGrounding.enabled = true;
             playerHunger.enabled = true;
             playerMeow.enabled = true;
+            playerInteract.enabled = true;
         }
     }
 

@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnAttack;
     public event EventHandler OnJump;
     public event EventHandler OnMeow;
+    public event EventHandler OnInteract;
 
     private InputSystem_Actions inputActions;
 
@@ -48,6 +49,7 @@ public class InputManager : MonoBehaviour
             inputActions.Player.Attack.performed += _ => OnAttack?.Invoke(this, EventArgs.Empty);
             inputActions.Player.Jump.performed += _ => OnJump?.Invoke(this, EventArgs.Empty);
             inputActions.Player.Meow.performed += _ => OnMeow?.Invoke(this, EventArgs.Empty);
+            inputActions.Player.Interact.performed += _ => OnInteract?.Invoke(this, EventArgs.Empty);
         }
 
         inputActions.Enable();

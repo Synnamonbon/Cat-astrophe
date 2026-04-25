@@ -91,7 +91,7 @@ public class PlayerHunger : MonoBehaviourPun
                     meowInterval = hungryMeowRate50;
                     meowChance = hungryMeowChance50;
                 }
-                Debug.Log("Chance to meow: " + meowChance);
+                //Debug.Log("Chance to meow: " + meowChance);
                 HungryMeow(meowChance);
                 yield return new WaitForSeconds(meowInterval);
             }

@@ -37,7 +37,6 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected to room");
         StartCoroutine(ConnectToRoom());
     }
 

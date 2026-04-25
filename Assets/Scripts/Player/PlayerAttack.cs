@@ -37,7 +37,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!canAttack) return;
         if (!playerMovement.isGrounded) return;
-        Debug.Log("Attack initiated");
         StartCoroutine(RotateToCamera());
     }
 
