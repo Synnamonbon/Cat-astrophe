@@ -15,6 +15,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
     private bool isCapturing = false;
     private float captureStartTime;
     private bool isCarrying = false;
+    private bool isBlinded = false;
     [Header("Detection tinkering:")]
     [Range(0f, 20f)]
     [SerializeField] private float visionDistance = 10f;
@@ -42,6 +43,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) {return;}
         if (isCarrying) {return;}
+        if (isBlinded) {return;}
         DetectPlayers();
         CapturingDetect();
     }
@@ -163,5 +165,19 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
     public void SetCarrying(bool set)
     {
         isCarrying = set;
+    }
+
+    public void BlindAgentForDuration(float waitTime)
+    {
+        StartCoroutine(BlindCoroutine(waitTime));
+    }
+
+    public IEnumerator BlindCoroutine(float waitTime)
+    {
+        Debug.Log("Blinded");
+        isBlinded = true;
+        yield return new WaitForSeconds(waitTime);
+        isBlinded = false;
+        Debug.Log("Unblinded");
     }
 }
