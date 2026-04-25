@@ -16,7 +16,8 @@ public class InteractableManager : MonoBehaviour
     private List<Transform> objectSpawnPoints = new List<Transform>();
     private List<Transform> foodSpawnPoints = new List<Transform>();
 
-    public event Action<int, ObjectType, Vector3> OnBreakEvent;
+    public event Action<int, ObjectType, Vector3, string> OnBreakEvent;
+    public event Action<int, int> OnBreakOnNPCEvent;
 
     private void Awake()
     {
@@ -61,6 +62,7 @@ public class InteractableManager : MonoBehaviour
                 GameObject spawned = PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
                 BreakableObject bo = GetBreakableObj(spawned);
                 bo.OnBreak += BreakEvent;
+                bo.OnBreakOnNPC += NPCBreakEvent;
             }
         }
         if (foodSpawnPoints != null){
@@ -71,11 +73,16 @@ public class InteractableManager : MonoBehaviour
         }
     }
 
-    private void BreakEvent(int playerID, ObjectType objectType, Vector3 objectPosition)
+    private void BreakEvent(int playerID, ObjectType objectType, Vector3 objectPosition, string tag)
     {
         // Invoke its own BreakEvent event action
         // When refactoring move Alert system call to listen to this event too
-        OnBreakEvent?.Invoke(playerID, objectType, objectPosition);
+        OnBreakEvent?.Invoke(playerID, objectType, objectPosition, tag);         // Add tag
+    }
+
+    private void NPCBreakEvent(int playerID, int NPCID)
+    {
+        OnBreakOnNPCEvent?.Invoke(playerID, NPCID);
     }
 
     private BreakableObject GetBreakableObj(GameObject obj)

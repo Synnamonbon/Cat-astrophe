@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
@@ -11,9 +12,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Players")]
     [SerializeField] private string playerPrefabPath;
     [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private float gameLength = 240f;       // In Seconds
 
     private Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
     private int playersInGame;
+    public event Action<float> SetTimer;
+    public event Action EndGame;
+    private float timeRemaining;
 
     private void Awake()
     {
@@ -32,11 +37,23 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        photonView.RPC("JoiningGame", RpcTarget.AllBuffered);
+        instance.photonView.RPC(nameof(JoiningGame), RpcTarget.AllBuffered);
         SoundManager.instance.SubscribeToObjects();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
+        ChaosManager.instance.GameWonEvent += EndRoundProcedure;
+    }
+
+    private void FixedUpdate()
+    {
+        timeRemaining -= Time.fixedDeltaTime;
+        if (timeRemaining <= 0f)
+        {
+            EndGame?.Invoke();
+        }
     }
 
     private void OnDestroy()
@@ -55,6 +72,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 InteractableManager.instance.SpawnObjects();
+                ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
+                // To ensure round starts only once, start the game timer here?
+                instance.photonView.RPC(nameof(GameStart), RpcTarget.AllBuffered);
             }
         }
     }
@@ -63,7 +83,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         GameObject playerObject = PhotonNetwork.Instantiate(
             playerPrefabPath, 
-            spawnPoints[Random.Range(0, spawnPoints.Length)].position, 
+            spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position, 
             Quaternion.identity);
 
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
@@ -75,11 +95,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (playerScript == null) return;
         playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
         //ChaosManager.instance.AddPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
-        photonView.RPC(nameof(AddChaosManagerPlayer), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+        instance.photonView.RPC(nameof(AddChaosManagerPlayer), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
 
         SoundManager.instance?.SubscribeToPlayer(playerScript);
-        }
+    }
 
+    [PunRPC]
     private void AddChaosManagerPlayer(int ID)
     {
         ChaosManager.instance.AddPlayer(ID);
@@ -92,4 +113,25 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // Add money stuff and data stored during session
     // Add rounds and Game Start.
+    [PunRPC]
+    private void GameStart()
+    {
+        instance.timeRemaining = instance.gameLength;
+        SetTimer?.Invoke(instance.timeRemaining);
+    }
+
+    private void EndRoundProcedure(bool win)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (win)
+            {
+                Debug.Log("You won! Load shop area");
+            }
+            else
+            {
+                Debug.Log("You lose! Start again");
+            }
+        }
+    }
 }

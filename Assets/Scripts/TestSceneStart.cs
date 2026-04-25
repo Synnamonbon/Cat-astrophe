@@ -49,6 +49,7 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         SpawnPlayer();
+        ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
     }
 
     private void SpawnPlayer()
