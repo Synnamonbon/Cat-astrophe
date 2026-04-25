@@ -67,7 +67,6 @@ public class InteractableManager : MonoBehaviour
             foreach (Transform spawn in foodSpawnPoints)
             {
                 PhotonNetwork.InstantiateRoomObject(foodPrefab.name,spawn.position, spawn.rotation);
-                Debug.Log($"{spawn.name} | self: {spawn.gameObject.activeSelf} | hierarchy: {spawn.gameObject.activeInHierarchy}");
             }
         }
     }
