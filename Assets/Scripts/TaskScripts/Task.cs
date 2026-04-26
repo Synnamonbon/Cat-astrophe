@@ -12,6 +12,7 @@ public class Task
     public TaskType taskType;                      // Level of task for rewards
     public ConditionTrack conditionTrack;          // Event condition type
     public string conditionTag;                    // Tag of condition type
+    public event Action<string, int> UpdateProgressEvent;
     public event Action<Task> CompleteTaskEvent;
 
     public void InitTask(int pid, TaskDetails_SO taskDetails)
@@ -41,6 +42,7 @@ public class Task
         progress++;
         Debug.Log(taskName + ": " + progress + "/" + target + " for " + playerID);
         // Replace with updating UI layer.
+        UpdateProgressEvent?.Invoke(taskName, progress);
         if (progress >= target)
         {
             complete = true;

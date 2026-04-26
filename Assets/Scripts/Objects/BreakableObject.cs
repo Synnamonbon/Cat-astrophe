@@ -3,7 +3,7 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
-public class BreakableObject : MonoBehaviourPunCallbacks
+public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
 {
     [SerializeField] private BreakableObject_SO breakableObjectData;
 
@@ -167,5 +167,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
         InteractableManager.instance.DestroyForAll(gameObject);
+    }
+
+    public void Interact(int playerID)
+    {
+        Debug.Log($"Me when I ({playerID}) lick the breakable object or smtn idk");
     }
 }
