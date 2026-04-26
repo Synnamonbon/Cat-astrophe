@@ -170,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator HopUpCoroutine()
     {
         float colliderHeight = platformCollider.bounds.max.y;
+        Debug.Log("Collider height: " + colliderHeight);
         float playerFeet = gameObject.GetComponent<CapsuleCollider>().bounds.min.y;
         float buffer = 0.4f;
 
@@ -214,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
-        Debug.Log("Ending foward motion");
+        //Debug.Log("Ending foward motion");
         LockMove(false);
     }
 
@@ -256,5 +257,8 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat("horizontal", input.x, dampTime, Time.deltaTime);
         animator.SetFloat("vertical", input.y, dampTime, Time.deltaTime);
+
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetFloat("jumpVelocity", playerRB.linearVelocity.y);
     }
 }
