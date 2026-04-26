@@ -1,7 +1,14 @@
 fileFormatVersion: 2
 guid: ae8ec999637386542bafe0f94cfc252f
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343080
+  packageName: Milo the Cat PolyArt
+  packageVersion: 1.0a
+  assetPath: Assets/_Assets/Malbers Animations/Cat/Animations/Jump/Cat_Jump_Run.fbx
+  uploadId: 818398
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -15,7 +22,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
-    motionNodeName: Root
+    motionNodeName: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -46,10 +53,10 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -114,6 +121,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -151,8 +161,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e4787d9893583de4e88559fedaffbc85,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e4787d9893583de4e88559fedaffbc85, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
@@ -164,10 +173,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 343080
-  packageName: Milo the Cat PolyArt
-  packageVersion: 1.0a
-  assetPath: Assets/_Assets/Malbers Animations/Cat/Animations/Jump/Cat_Jump_Run.fbx
-  uploadId: 818398

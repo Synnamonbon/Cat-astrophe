@@ -14,12 +14,14 @@ public class PlayerAttack : MonoBehaviour
     private BoxCollider boxCollider;
     private Rigidbody playerRB;
     private PlayerMovement playerMovement;
+    private Animator animator;
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
         playerRB = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -42,6 +44,7 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator EnableBoxCollider()
     {
+        animator.SetBool("attack", true);
         yield return new WaitForSeconds(0.3f);
         boxCollider.enabled = true;
 
@@ -51,6 +54,7 @@ public class PlayerAttack : MonoBehaviour
         playerMovement.LockMove(false);
 
         yield return new WaitForSeconds(attackCoolDown);
+        animator.SetBool("attack", false);
         canAttack = true;
     }
 
