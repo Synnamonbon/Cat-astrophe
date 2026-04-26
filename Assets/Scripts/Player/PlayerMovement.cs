@@ -24,24 +24,28 @@ public class PlayerMovement : MonoBehaviour
     
     private Transform cameraPOV;
     private Rigidbody playerRB;
+    private Animator animator;
     private PlayerHunger playerHunger;
 
     private void Awake()
     {
         playerRB = GetComponent<Rigidbody>();
         playerHunger = GetComponent<PlayerHunger>();
+        animator = GetComponentInChildren<Animator>();
         cameraPOV = Camera.main.transform;
     }
 
     private void Start()
     {
         InputManager.instance.OnJump += Jump;
+        animator.applyRootMotion = false;
     }
 
     private void Update()
     {
         moveInput = InputManager.instance.HandleMovementInput();
         SetMovementInput();
+        UpdateAnimation();
     }
 
     private void FixedUpdate()
@@ -241,5 +245,16 @@ public class PlayerMovement : MonoBehaviour
             canHop = false;
             platformCollider = null;
         }
+    }
+
+    private void UpdateAnimation()
+    {
+        float multiplier = (InputManager.instance.isSprinting && playerHunger.currentHunger > 0) ? 2f : 1f; //Change values based on walking and sprinting
+        float dampTime = 0.3f;
+
+        Vector2 input = moveInput.normalized * Mathf.Clamp01(moveInput.magnitude) * multiplier;
+
+        animator.SetFloat("horizontal", input.x, dampTime, Time.deltaTime);
+        animator.SetFloat("vertical", input.y, dampTime, Time.deltaTime);
     }
 }
