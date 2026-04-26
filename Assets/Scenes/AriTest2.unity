@@ -433,7 +433,7 @@ Transform:
   m_GameObject: {fileID: 222201313}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.22, y: 0.87, z: -0.54}
+  m_LocalPosition: {x: -2.172, y: 0.854, z: 0.008}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2253,7 +2253,7 @@ MonoBehaviour:
   debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 1
+  transmitEnabled: 0
   samplingRate: 24000
   frameDuration: 40000
   bitrate: 30000
@@ -2759,6 +2759,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test shelf
       objectReference: {fileID: 0}
+    - target: {fileID: 6999811165467418595, guid: 28035e7e8c9cf478eb62e783a43fb7d3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7608830794419734540, guid: 28035e7e8c9cf478eb62e783a43fb7d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.08
@@ -3070,6 +3074,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 174742341548590736, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 740877401430257736, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1161451897214795223, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.32455
@@ -3110,9 +3122,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2636716228147961162, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169550059845949484, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735617018591424244, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6006020203715679625, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
       propertyPath: m_Name
       value: HopShelves
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006020203715679625, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593826541225555246, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3262,6 +3294,10 @@ PrefabInstance:
     - target: {fileID: 7103815850918058989, guid: c211edb7a470e4a86a02baf079a3e01e, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8141252018700538793, guid: c211edb7a470e4a86a02baf079a3e01e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8576495669506603520, guid: c211edb7a470e4a86a02baf079a3e01e, type: 3}
       propertyPath: m_AnchorMax.y
