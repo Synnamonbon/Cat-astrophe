@@ -342,7 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0909af8496f4d485db745c979a07d000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
-  range: 1
+  range: 2
+  playerInteractor: {fileID: 4565698898537564564}
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +518,7 @@ GameObject:
   m_Layer: 0
   m_Name: LookAt
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

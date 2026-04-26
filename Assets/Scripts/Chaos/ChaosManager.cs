@@ -22,7 +22,9 @@ public class ChaosManager : MonoBehaviourPun
 
     // Subscribe to Object Manager's "SomethingBroke" Action with argument in playerID and EnumObjectType objectType
     public event Action PointsUpdated;
-    public event Action TasksAssigned;
+    public event Action<string, int> TaskAssigned;
+    public event Action<string, int> TaskProgUpdated;
+    public event Action<string> TaskComplete;
     public event Action<bool> GameWonEvent;
 
     private void Awake()
@@ -54,6 +56,8 @@ public class ChaosManager : MonoBehaviourPun
         InteractableManager.instance.OnBreakEvent += BreakPoints;
         NPCManager.instance.OnSaveCatEvent += SaveCatPoints;
         GameManager.instance.EndGame += EndGameEvent;
+        GameManager.instance.InteractForTask += InteractChaos;
+        GameManager.instance.PawForTask += PawChaos;
     }
 
     private void LoadAllTasks()
@@ -103,7 +107,13 @@ public class ChaosManager : MonoBehaviourPun
         t.InitTask(playerID, allTasks[idx]);
         playerTasks[playerID].Add(t);
         t.CompleteTaskEvent += ScoreTask;
+        t.UpdateProgressEvent += UpdateTaskDelegate;
         Debug.Log("Added task " + t.taskName + " to " + playerID);
+        if (PhotonNetwork.LocalPlayer.ActorNumber == playerID)
+        {
+            // Invoke assign task event
+            TaskAssigned?.Invoke(t.taskName, t.target);
+        }
     }
 
     [PunRPC]
@@ -138,12 +148,45 @@ public class ChaosManager : MonoBehaviourPun
         {
             if (t.conditionTrack == ConditionTrack.BreakObject)
             {
-                if (t.conditionTag == tag)
+                if (t.conditionTag == tag || t.conditionTag == "Any")
                 {
                     t.IncrementCondition();
                 }
             }
         }
+    }
+
+    private void InteractChaos(int playerID, string tag)
+    {
+        foreach (Task t in playerTasks[playerID])
+        {
+            if (t.conditionTrack == ConditionTrack.InteractObject)
+            {
+                if (t.conditionTag == tag || t.conditionTag == "Any")
+                {
+                    t.IncrementCondition();
+                }
+            }
+        }
+    }
+
+    private void PawChaos(int playerID, string tag)
+    {
+        foreach (Task t in playerTasks[playerID])
+        {
+            if (t.conditionTrack == ConditionTrack.PawObject)
+            {
+                if (t.conditionTag == tag || t.conditionTag == "Any")
+                {
+                    t.IncrementCondition();
+                }
+            }
+        }
+    }
+
+    private void DragChaos(int playerID, string tag)
+    {
+        
     }
 
     private void SaveCatPoints(int playerID)
@@ -162,6 +205,11 @@ public class ChaosManager : MonoBehaviourPun
         Debug.Log("New player contribuion: " + playerID + " - " + chaosContribution[playerID]);
     }
 
+    private void UpdateTaskDelegate(string title, int newProg)
+    {
+        TaskProgUpdated?.Invoke(title, newProg);
+    }
+
     private void ScoreTask(Task task)
     {
         // get points from the task for the player.
@@ -169,6 +217,7 @@ public class ChaosManager : MonoBehaviourPun
         {
             Debug.Log("Score Task " + task.taskName);
             PlayerScorePoints(task.playerID, ChaosDictionary.GetPointsForEvent(task.taskType));
+            TaskComplete?.Invoke(task.taskName);
         }
     }
 

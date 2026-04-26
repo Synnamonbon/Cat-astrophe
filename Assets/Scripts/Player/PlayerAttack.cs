@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     private BoxCollider boxCollider;
     private Rigidbody playerRB;
     private PlayerMovement playerMovement;
+    public event Action<int, string> PawedAt;
 
     private void Awake()
     {

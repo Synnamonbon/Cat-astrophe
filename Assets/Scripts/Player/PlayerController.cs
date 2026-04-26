@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviourPun
     private PlayerInteract playerInteract;
     
     public event Action<Vector3> PlayerMeow;
+    public event Action<int, string> InteractEventDelegate;
+    public event Action<int, string> PawEventDelegate;
 
     private Rigidbody playerRB;
 
@@ -47,6 +49,13 @@ public class PlayerController : MonoBehaviourPun
             playerMeow.enabled = true;
             playerInteract.enabled = true;
         }
+        SubscribeToInteractEvents();
+    }
+
+    private void SubscribeToInteractEvents()
+    {
+        playerInteract.InteractWith += InteractEventTrigger;
+        playerAttack.PawedAt += PawEventTrigger;
     }
 
     private void Start()
@@ -58,6 +67,7 @@ public class PlayerController : MonoBehaviourPun
         //Debug.Log(cam);
         cam.Target.TrackingTarget = cameraPOV.transform;
         cam.PreviousStateIsValid = false;
+        playerInteract.SetLookDir(cam.gameObject.transform);
         playerUI.AssignPlayerHungerUI(playerHunger);
     }
 
@@ -104,5 +114,15 @@ public class PlayerController : MonoBehaviourPun
         hitRecently = true;
         yield return new WaitForSeconds(1f);
         hitRecently = false;
+    }
+
+    private void InteractEventTrigger(int playerID, string tag)
+    {
+        InteractEventDelegate?.Invoke(playerID, tag);
+    }
+
+    private void PawEventTrigger(int playerID, string tag)
+    {
+        PawEventDelegate?.Invoke(playerID, tag);
     }
 }

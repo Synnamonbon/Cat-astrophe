@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviourPunCallbacks
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int playersInGame;
     public event Action<float> SetTimer;
     public event Action EndGame;
+    public event Action<int, string> InteractForTask;
+    public event Action<int, string> PawForTask;
     private float timeRemaining;
 
     private void Awake()
@@ -43,7 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
-        ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
+        // ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
         ChaosManager.instance.GameWonEvent += EndRoundProcedure;
     }
 
@@ -87,6 +90,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Quaternion.identity);
 
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
+        SubToPlayerEvents(playerScript);
 
         // Track every player's controller
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
@@ -106,9 +110,25 @@ public class GameManager : MonoBehaviourPunCallbacks
         ChaosManager.instance.AddPlayer(ID);
     }
 
+    private void SubToPlayerEvents(PlayerController pc)
+    {
+        pc.InteractEventDelegate += InteractDelegateEvent;
+        pc.PawEventDelegate += PawDelegateEvent;
+    }
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         AlertManager.instance.ResubscribeEnemies();
+    }
+
+    private void InteractDelegateEvent(int playerID, string tag)
+    {
+        InteractForTask?.Invoke(playerID, tag);
+    }
+
+    private void PawDelegateEvent(int playerID, string tag)
+    {
+        PawForTask?.Invoke(playerID, tag);
     }
 
     // Add money stuff and data stored during session
