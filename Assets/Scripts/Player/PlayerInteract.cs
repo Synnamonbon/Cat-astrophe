@@ -10,16 +10,9 @@ public interface IInteractable
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float range = 10f;
-    private PlayerMovement playerMovement;
     [SerializeField] private Transform playerInteractor;
-
+    private Transform lookDir;
     public event Action<int, string> InteractWith;          // playerID, tag
-    
-    private void Awake()
-    {
-        // playerInteractor = transform;
-        playerMovement = GetComponent<PlayerMovement>();
-    }
 
     private void OnEnable()
     {
@@ -33,10 +26,8 @@ public class PlayerInteract : MonoBehaviour
 
     private void InteractAction(object sender, EventArgs e)
     {
-        Quaternion camForward = playerMovement.GetCameraForward();
-        Vector3 direction = camForward * Vector3.forward;
-
-        Ray r = new Ray(playerInteractor.position, direction);
+        Ray r = new Ray(playerInteractor.position, (playerInteractor.position - lookDir.position).normalized);
+        Debug.DrawRay(playerInteractor.position, (playerInteractor.position - lookDir.position).normalized, Color.yellow, 1f);
         if (Physics.Raycast(r, out RaycastHit hitInfo, range))
         {
             GameObject go = hitInfo.collider.gameObject;
@@ -51,6 +42,6 @@ public class PlayerInteract : MonoBehaviour
 
     public void SetLookDir(Transform tf)
     {
-        
+        lookDir = tf;
     }
 }

@@ -1172,6 +1172,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test shelf
       objectReference: {fileID: 0}
+    - target: {fileID: 6999811165467418595, guid: 28035e7e8c9cf478eb62e783a43fb7d3, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7608830794419734540, guid: 28035e7e8c9cf478eb62e783a43fb7d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.19
