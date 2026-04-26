@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerGrounding
   playerMovement: {fileID: 124253452294101590}
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  furnitureLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!65 &3391509123339976155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1007,6 +1013,18 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: vertical
+  - Type: 1
+    SynchronizeType: 0
+    Name: jumpHeight
+  - Type: 1
+    SynchronizeType: 2
+    Name: jumpVelocity
+  - Type: 4
+    SynchronizeType: 2
+    Name: isGrounded
+  - Type: 9
+    SynchronizeType: 2
+    Name: attack
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

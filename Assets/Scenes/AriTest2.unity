@@ -2759,6 +2759,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test shelf
       objectReference: {fileID: 0}
+    - target: {fileID: 6999811165467418595, guid: 28035e7e8c9cf478eb62e783a43fb7d3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7608830794419734540, guid: 28035e7e8c9cf478eb62e783a43fb7d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.08
@@ -3070,6 +3074,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 174742341548590736, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 740877401430257736, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1161451897214795223, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.32455
@@ -3110,9 +3122,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2636716228147961162, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169550059845949484, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735617018591424244, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6006020203715679625, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
       propertyPath: m_Name
       value: HopShelves
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006020203715679625, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593826541225555246, guid: 2024757393a7e4224ae99d3669ef234e, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
