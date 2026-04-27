@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviourPun
 {
-    [SerializeField] private CinemachineCamera cinemachineCamera;
+    private CinemachineCamera cinemachineCamera;
     [HideInInspector] public Player photonPlayer;
     [SerializeField] private BoxCollider playerGroundingBC;
     [SerializeField] private GameObject cameraPOV;
