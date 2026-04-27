@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void Interact(int playerID);
+    public void Interact(GameObject go);
 }
 
 public class PlayerInteract : MonoBehaviour
@@ -34,7 +34,7 @@ public class PlayerInteract : MonoBehaviour
             Debug.Log(go.tag);
             if (go.TryGetComponent(out IInteractable obj))
             {
-                obj.Interact(PhotonNetwork.LocalPlayer.ActorNumber);
+                obj.Interact(gameObject);
                 InteractWith?.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, go.tag);
             }
         }

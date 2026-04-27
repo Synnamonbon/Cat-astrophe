@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe61600f0760467e850836f7326267b, type: 3}
+  m_Name: Camera
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject_SO
+  breakSpeed: 0.5
+  timeBeforeDespawn: 2
+  fragmentDespawnSpeed: 0.25
+  alertDetectionDistance: 15
+  objectTag: Camera
+  objectType: 2
+  original: {fileID: 6149060826343717159, guid: 691ca0b81b6672f49982e7a2c30a16bb, type: 3}
+  fractured: {fileID: 2661779940624987263, guid: a052c04322b4b684a8b8e5f072247bfb, type: 3}
+  transparent_material_src: {fileID: 2100000, guid: 3687b4429d1318349bcaf4d9ff6c2f6b, type: 2}
