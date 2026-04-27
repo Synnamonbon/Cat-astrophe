@@ -2,5 +2,6 @@ public enum ConditionTrack{
     PawObject,
     InteractObject,
     BreakObject,
-    Distance
+    Distance,
+    MeowDistance
 }

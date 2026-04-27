@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private string playerPrefabPath;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float gameLength = 240f;       // In Seconds
+    [SerializeField] private float spawnNewObjectsTimer = 120f;
 
     private Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
     private int playersInGame;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public event Action<int, string> InteractForTask;
     public event Action<int, string> PawForTask;
     private float timeRemaining;
+    private float lastTimeSpawned;
 
     private void Awake()
     {
@@ -137,6 +139,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void GameStart()
     {
         instance.timeRemaining = instance.gameLength;
+        instance.lastTimeSpawned = Time.time;
         SetTimer?.Invoke(instance.timeRemaining);
     }
 

@@ -58,6 +58,7 @@ public class ChaosManager : MonoBehaviourPun
         GameManager.instance.EndGame += EndGameEvent;
         GameManager.instance.InteractForTask += InteractChaos;
         GameManager.instance.PawForTask += PawChaos;
+        InteractableManager.instance.OnDraggedFarEvent += DragChaos;
     }
 
     private void LoadAllTasks()
@@ -74,7 +75,7 @@ public class ChaosManager : MonoBehaviourPun
             int j = UnityEngine.Random.Range(0, allTasks.Count);
             if (!ints.Contains(j))
             {
-                ints.Append(j);
+                ints.Add(j);
                 photonView.RPC(nameof(AssignTaskAtIndexToPlayer), RpcTarget.AllBuffered, j, playerID);
             }
             else
@@ -132,7 +133,7 @@ public class ChaosManager : MonoBehaviourPun
             foreach (Player player in allPlayers)
             {
                 int playerID = player.ActorNumber;
-                GenerateTaskIndexesForPlayer(playerID, 3);
+                GenerateTaskIndexesForPlayer(playerID, 5);
             }
         }
     }
@@ -186,7 +187,16 @@ public class ChaosManager : MonoBehaviourPun
 
     private void DragChaos(int playerID, string tag)
     {
-        
+        foreach (Task t in playerTasks[playerID])
+        {
+            if (t.conditionTrack == ConditionTrack.Distance)
+            {
+                if (t.conditionTag == tag || t.conditionTag == "Any")
+                {
+                    t.IncrementCondition();
+                }
+            }
+        }
     }
 
     private void SaveCatPoints(int playerID)

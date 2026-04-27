@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Hide : MonoBehaviour, IInteractable
 {
-    public void Interact(int playerID)
+    public void Interact(GameObject go)
     {
         Debug.Log("Hiding");
     }

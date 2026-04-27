@@ -4,7 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviourPun
 {
     [SerializeField] private float attackCoolDown = 0.5f; 
     [SerializeField] private float attackDuration = 0.2f;
@@ -84,6 +84,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        PawedAt?.Invoke(photonView.Owner.ActorNumber, other.gameObject.tag);
         Vector3 currentPos = playerRB.transform.position;
         if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
         {
