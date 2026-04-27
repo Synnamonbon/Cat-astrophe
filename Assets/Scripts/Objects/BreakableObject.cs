@@ -169,8 +169,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
         InteractableManager.instance.DestroyForAll(gameObject);
     }
 
-    public void Interact(int playerID)
+    public void Interact(GameObject go)
     {
-        Debug.Log($"Me when I ({playerID}) lick the breakable object or smtn idk");
+        Debug.Log($"Me when I ({go.name}) lick the breakable object or smtn idk");
     }
 }

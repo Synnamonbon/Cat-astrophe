@@ -10,14 +10,18 @@ public class InteractableManager : MonoBehaviour
 
     [SerializeField] private GameObject objectPrefab;
     [SerializeField] private GameObject foodPrefab;
+    [SerializeField] private GameObject draggablePrefab;
     [SerializeField] private GameObject objectSpawner;
     [SerializeField] private GameObject foodSpawner;
+    [SerializeField] private GameObject draggableSpawner;
 
     private List<Transform> objectSpawnPoints = new List<Transform>();
     private List<Transform> foodSpawnPoints = new List<Transform>();
+    private List<Transform> draggableSpawnPoints = new List<Transform>();
 
     public event Action<int, ObjectType, Vector3, string> OnBreakEvent;
     public event Action<int, int> OnBreakOnNPCEvent;
+    public event Action<int, string> OnDraggedFarEvent;
 
     private void Awake()
     {
@@ -39,6 +43,7 @@ public class InteractableManager : MonoBehaviour
     {
         objectSpawnPoints.Clear();
         foodSpawnPoints.Clear();
+        draggableSpawnPoints.Clear();
 
         if (objectSpawner != null) {
             foreach (Transform child in objectSpawner.transform)
@@ -50,6 +55,12 @@ public class InteractableManager : MonoBehaviour
             foreach (Transform child in foodSpawner.transform)
             {
                 foodSpawnPoints.Add(child);
+            }
+        }
+        if (draggableSpawner != null){
+            foreach (Transform child in draggableSpawner.transform)
+            {
+                draggableSpawnPoints.Add(child);
             }
         }
     }
@@ -71,6 +82,14 @@ public class InteractableManager : MonoBehaviour
                 PhotonNetwork.InstantiateRoomObject(foodPrefab.name,spawn.position, spawn.rotation);
             }
         }
+        if (draggableSpawnPoints != null){
+            foreach (Transform spawn in draggableSpawnPoints)
+            {
+                GameObject spawned = PhotonNetwork.InstantiateRoomObject(draggablePrefab.name,spawn.position, spawn.rotation);
+                ObjectDrag od = GetDraggableObject(spawned);
+                od.OnDraggedFar += DragFarEvent;
+            }
+        }
     }
 
     private void BreakEvent(int playerID, ObjectType objectType, Vector3 objectPosition, string tag)
@@ -85,11 +104,28 @@ public class InteractableManager : MonoBehaviour
         OnBreakOnNPCEvent?.Invoke(playerID, NPCID);
     }
 
+    private void DragFarEvent(int playerID, string tag)
+    {
+        OnDraggedFarEvent?.Invoke(playerID, tag);
+    }
+
     private BreakableObject GetBreakableObj(GameObject obj)
     {
         if (obj.TryGetComponent<BreakableObject>(out BreakableObject bo))
         {
             return bo;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private ObjectDrag GetDraggableObject(GameObject obj)
+    {
+        if (obj.TryGetComponent<ObjectDrag>(out ObjectDrag od))
+        {
+            return od;
         }
         else
         {

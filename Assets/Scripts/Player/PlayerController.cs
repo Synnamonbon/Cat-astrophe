@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviourPun
 
     private void PawEventTrigger(int playerID, string tag)
     {
+        Debug.Log(tag);
         PawEventDelegate?.Invoke(playerID, tag);
     }
 }
