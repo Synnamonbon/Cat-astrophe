@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1963893131298313490}
   - component: {fileID: 4920119571852692348}
   - component: {fileID: 9183491683170414416}
+  - component: {fileID: 6472636189932916009}
   m_Layer: 0
   m_Name: ThirdPersonCamera
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 30
+    FieldOfView: 48.6
     OrthographicSize: 4
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -98,12 +99,12 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  OrbitStyle: 0
+  OrbitStyle: 1
   Radius: 5
   Orbits:
     Top:
-      Radius: 2
-      Height: 5
+      Radius: 0.21
+      Height: 2
     Center:
       Radius: 4
       Height: 2.25
@@ -113,7 +114,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: -13.407602
+    Value: 0
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -123,9 +124,9 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: -2.8900433
+    Value: 17.5
     Center: 17.5
-    Range: {x: -10, y: 45}
+    Range: {x: -5.47, y: 62.7}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineRotationComposer
   Composition:
-    ScreenPosition: {x: 0, y: 0.17}
+    ScreenPosition: {x: 0, y: 0}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -178,7 +179,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5929374260136015128}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
   m_Name: 
@@ -188,12 +189,12 @@ MonoBehaviour:
     Enabled: 1
     ObstacleLayers:
       serializedVersion: 2
-      m_Bits: 65
+      m_Bits: 321
     UseFollowTarget:
       Enabled: 1
       YOffset: 0
-    Damping: 0.5
-    SmoothingTime: 0
+    Damping: 2.19
+    SmoothingTime: 0.5
   TerrainResolution:
     Enabled: 1
     TerrainLayers:
@@ -253,3 +254,42 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &6472636189932916009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5929374260136015128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDeoccluder
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 321
+  IgnoreTag: 
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  MinimumDistanceFromTarget: 0.1
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0
+    MinimumOcclusionTime: 0
+    CameraRadius: 0.4
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 1.08
+    Strategy: 0
+    MaximumEffort: 10
+    SmoothingTime: 0.35
+    Damping: 4.08
+    DampingWhenOccluded: 4.14
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
