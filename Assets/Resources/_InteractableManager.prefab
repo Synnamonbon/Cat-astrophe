@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe866672ec074ca5949b7cb150515a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjecManager
-  objectPrefab: {fileID: 873048173242761682, guid: 5415a3cad4b9143fa965152d1460a9f4, type: 3}
+  objectPrefab: {fileID: 873048173242761682, guid: 339fb0d5c9d42dc4c94169e0649045ce, type: 3}
   foodPrefab: {fileID: 6908907124024303011, guid: 1d390eee5b8614f80af5af42ef548364, type: 3}
   draggablePrefab: {fileID: 3639453433325979164, guid: 78b932e97be626d438daa44f143aaf8a, type: 3}
   objectSpawner: {fileID: 3533076812655647268}

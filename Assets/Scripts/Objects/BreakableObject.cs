@@ -10,6 +10,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
     private int GROUND_LAYER;
     private Rigidbody RIGIDBODY;
     private PhotonRigidbodyView RIGIDBODY_VIEW;
+    private MeshCollider MESH_COLLIDER;
+    private MeshFilter MESH_FILTER;
     private int ackCounter;
 
     public event Action<int, ObjectType, Vector3, string> OnBreak;           // playerID, Object Type, Position, Tag
@@ -20,6 +22,14 @@ public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
         GROUND_LAYER = LayerMask.NameToLayer("Ground");
         RIGIDBODY = gameObject.GetComponent<Rigidbody>();
         RIGIDBODY_VIEW = gameObject.GetComponent<PhotonRigidbodyView>();
+        MESH_FILTER = GetComponent<MeshFilter>();
+        MESH_COLLIDER = GetComponent<MeshCollider>();
+
+        if (breakableObjectData != null)
+        {
+            MESH_FILTER.sharedMesh = breakableObjectData.Original.GetComponent<MeshFilter>().sharedMesh;
+            MESH_COLLIDER.sharedMesh = MESH_FILTER.sharedMesh;
+        }
     }
 
     public void Start()

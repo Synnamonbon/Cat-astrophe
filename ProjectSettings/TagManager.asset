@@ -12,6 +12,11 @@ TagManager:
   - CagePoint
   - Rubbish
   - Furniture
+  - Plate
+  - Camera
+  - Cup
+  - Lamp
+  - Document
   layers:
   - Default
   - TransparentFX
