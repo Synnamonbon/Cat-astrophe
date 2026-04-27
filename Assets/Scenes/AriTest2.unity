@@ -2253,7 +2253,7 @@ MonoBehaviour:
   debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 0
+  transmitEnabled: 1
   samplingRate: 24000
   frameDuration: 40000
   bitrate: 30000
@@ -3057,6 +3057,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1307710523611638686, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
+      propertyPath: objectPrefab
+      value: 
+      objectReference: {fileID: 873048173242761682, guid: f163847a661f74d1a8edd269fb91f128, type: 3}
     - target: {fileID: 6104724786044711072, guid: 4b6112295eb354d2ba533a1c4156f771, type: 3}
       propertyPath: m_Name
       value: _InteractableManager
