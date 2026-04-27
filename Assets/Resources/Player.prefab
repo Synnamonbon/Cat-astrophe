@@ -285,7 +285,7 @@ MonoBehaviour:
   movementSpeed: 2
   sprintSpeed: 8
   rotationSpeed: 3
-  jumpHeight: 1
+  jumpHeight: 1.5
   gravityMultiplier: 2
   isGrounded: 0
 --- !u!114 &8343128575755319995

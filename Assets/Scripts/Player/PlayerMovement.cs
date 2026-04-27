@@ -222,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
     // Check if jumping or hopping
     void OnTriggerEnter(Collider other)
     {
-        Collider[] colliders = other.GetComponentsInParent<Collider>();
+        BoxCollider[] colliders = other.GetComponentsInParent<BoxCollider>();
         if (other.CompareTag("Hoppable"))
         {
             canJump = false;
