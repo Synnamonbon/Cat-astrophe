@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5c1a050d49c554ecc930c161cb06240c
+guid: 41859251e8cd74741bfcb97f57e959c6
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Happy Walk
+      name: Standing Idle 02
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 33
+      lastFrame: 156
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
