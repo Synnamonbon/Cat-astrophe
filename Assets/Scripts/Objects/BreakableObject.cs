@@ -3,7 +3,7 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
-public class BreakableObject : MonoBehaviourPunCallbacks
+public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
 {
     [SerializeField] private BreakableObject_SO breakableObjectData;
 
@@ -12,6 +12,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private PhotonRigidbodyView RIGIDBODY_VIEW;
     private int ackCounter;
 
+    public event Action<int, ObjectType, Vector3, string> OnBreak;           // playerID, Object Type, Position, Tag
+    public event Action<int, int> OnBreakOnNPC;             // playerID, enemy photonview ID
     
     public void Awake()
     {
@@ -20,19 +22,41 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         RIGIDBODY_VIEW = gameObject.GetComponent<PhotonRigidbodyView>();
     }
 
+    public void Start()
+    {
+        if (breakableObjectData.ObjectTag != "")
+        {
+            gameObject.tag = breakableObjectData.ObjectTag;
+        }
+    }
+
     public void OnCollisionEnter(Collision collision)
     {
         if (!photonView.IsMine) return;
-        //Debug.Log(collision.gameObject.layer);
-        // if collision has tag ground
-        if (collision.gameObject.layer != GROUND_LAYER){return;}
+        // Debug.Log(collision.gameObject.layer);
         // if velocity is above a certain threshold
         float vel = RIGIDBODY.linearVelocity.magnitude;
-        //Debug.Log(vel);
-        if (vel > breakableObjectData.BreakSpeed)
-        {   
-            photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
-            StartCoroutine(DestroyOriginalObject());
+        // if collision has tag ground
+        if (collision.gameObject.layer == GROUND_LAYER)
+        {
+            //Debug.Log(vel);
+            if (vel > breakableObjectData.BreakSpeed)
+            {   
+                photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
+                StartCoroutine(DestroyOriginalObject());
+            }
+        }
+        else if (collision.gameObject.tag == "EnemyNPC")
+        {
+            if (vel > 0)
+            {
+                if(collision.gameObject.TryGetComponent<PhotonView>(out PhotonView pv))
+                {
+                    OnBreakOnNPC?.Invoke(photonView.Owner.ActorNumber, pv.ViewID);
+                }
+                photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
+                StartCoroutine(DestroyOriginalObject());
+            }
         }
     }
 
@@ -57,6 +81,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
+            // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
+            OnBreak?.Invoke(photonView.Owner.ActorNumber, breakableObjectData.ObjectType, RIGIDBODY.transform.position, gameObject.tag);
         }
 
         GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);
@@ -141,5 +167,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
         InteractableManager.instance.DestroyForAll(gameObject);
+    }
+
+    public void Interact(int playerID)
+    {
+        Debug.Log($"Me when I ({playerID}) lick the breakable object or smtn idk");
     }
 }

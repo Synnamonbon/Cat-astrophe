@@ -16,6 +16,9 @@ public class InteractableManager : MonoBehaviour
     private List<Transform> objectSpawnPoints = new List<Transform>();
     private List<Transform> foodSpawnPoints = new List<Transform>();
 
+    public event Action<int, ObjectType, Vector3, string> OnBreakEvent;
+    public event Action<int, int> OnBreakOnNPCEvent;
+
     private void Awake()
     {
         SingletonPattern();
@@ -37,33 +40,74 @@ public class InteractableManager : MonoBehaviour
         objectSpawnPoints.Clear();
         foodSpawnPoints.Clear();
 
-        foreach (Transform child in objectSpawner.transform)
-        {
-            objectSpawnPoints.Add(child);
+        if (objectSpawner != null) {
+            foreach (Transform child in objectSpawner.transform)
+            {
+                objectSpawnPoints.Add(child);
+            }
         }
-        foreach (Transform child in foodSpawner.transform)
-        {
-            foodSpawnPoints.Add(child);
+        if (foodSpawner != null){
+            foreach (Transform child in foodSpawner.transform)
+            {
+                foodSpawnPoints.Add(child);
+            }
         }
     }
 
     public void SpawnObjects()
     {
-        foreach (Transform spawn in objectSpawnPoints)
-        {
-            PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+        if (objectSpawnPoints != null){
+            foreach (Transform spawn in objectSpawnPoints)
+            {
+                GameObject spawned = PhotonNetwork.InstantiateRoomObject(objectPrefab.name,spawn.position, spawn.rotation);
+                BreakableObject bo = GetBreakableObj(spawned);
+                bo.OnBreak += BreakEvent;
+                bo.OnBreakOnNPC += NPCBreakEvent;
+            }
         }
-        foreach (Transform spawn in foodSpawnPoints)
-        {
-            PhotonNetwork.InstantiateRoomObject(foodPrefab.name,spawn.position, spawn.rotation);
-            Debug.Log($"{spawn.name} | self: {spawn.gameObject.activeSelf} | hierarchy: {spawn.gameObject.activeInHierarchy}");
+        if (foodSpawnPoints != null){
+            foreach (Transform spawn in foodSpawnPoints)
+            {
+                PhotonNetwork.InstantiateRoomObject(foodPrefab.name,spawn.position, spawn.rotation);
+            }
         }
+    }
+
+    private void BreakEvent(int playerID, ObjectType objectType, Vector3 objectPosition, string tag)
+    {
+        // Invoke its own BreakEvent event action
+        // When refactoring move Alert system call to listen to this event too
+        OnBreakEvent?.Invoke(playerID, objectType, objectPosition, tag);         // Add tag
+    }
+
+    private void NPCBreakEvent(int playerID, int NPCID)
+    {
+        OnBreakOnNPCEvent?.Invoke(playerID, NPCID);
+    }
+
+    private BreakableObject GetBreakableObj(GameObject obj)
+    {
+        if (obj.TryGetComponent<BreakableObject>(out BreakableObject bo))
+        {
+            return bo;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private void UnsubscribeOnBreak(GameObject obj)
+    {
+        BreakableObject bo = GetBreakableObj(obj);
+        bo.OnBreak -= BreakEvent;
     }
 
     public void DestroyForAll(GameObject obj)
     {
         PhotonView pv = obj.GetComponent<PhotonView>();
         if (pv == null) return;
+        UnsubscribeOnBreak(obj);
         PhotonNetwork.Destroy(obj);
     }
 

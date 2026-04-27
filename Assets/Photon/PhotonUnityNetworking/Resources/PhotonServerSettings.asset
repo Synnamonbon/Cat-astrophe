@@ -11,12 +11,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.ServerSettings
+  m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: fd0dff75-89cb-4843-b201-f549bf356398
     AppIdFusion: 
     AppIdChat: 
-    AppIdVoice: 
+    AppIdVoice: 1389d1e8-a554-46b7-a0bb-241d2b3bb3fe
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -28,27 +28,38 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: eu
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - CantHearYou
+  - ChangeColour
   - ClickRpc
   - DestroyRpc
-  - ChangeScene
-  - UpdateLobbyUI
-  - JoiningGame
-  - Initialise
-  - RPC_ObjectGotHit
-  - CreateBrokenObject
-  - SendAcknowledgement
+  - HeresWhy
+  - AddChaosManagerPlayer
+  - AddPlayer
   - AlertToSound
-  - SubscribeToPlayer
-  - SubscribeEnemiesToPlayer
-  - ResubscribeEnemies
+  - AssignTaskAtIndexToPlayer
   - CaptureCat
+  - ChangeScene
+  - CreateBrokenObject
+  - DropCat
+  - GameStart
+  - IncreaseCurrent
+  - InitChaos
+  - Initialise
+  - JoiningGame
+  - PlaySound
   - PutCatInCage
+  - RequestConsume
+  - RestoreHunger
+  - ResubscribeEnemies
+  - SendAcknowledgement
+  - TryGetHit
+  - UpdateLobbyUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0

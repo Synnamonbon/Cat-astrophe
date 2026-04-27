@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class AlertManager : MonoBehaviourPunCallbacks
@@ -22,7 +21,6 @@ public class AlertManager : MonoBehaviourPunCallbacks
     private void OnEnable()
     {
         SingletonPattern();
-        DontDestroyOnLoad(gameObject);
 
         if (instance.enemies.Count == 0)
         {
@@ -72,6 +70,7 @@ public class AlertManager : MonoBehaviourPunCallbacks
     public void ResubscribeEnemies()
     {
         if (!PhotonNetwork.IsMasterClient){return;}
+        //Debug.Log("resubscribing enemies");
 
         foreach (GameObject enemy in enemies)
         {

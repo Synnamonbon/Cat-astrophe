@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using Unity.Cinemachine;
@@ -12,6 +14,8 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] public PlayerController player;
 
+    private Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
+
     private void Awake()
     {
         instance = this;
@@ -20,14 +24,19 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        SoundManager.instance.SubscribeToObjects();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
+    private void OnDestroy()
+    {
+        SoundManager.instance.UnSubscribeToObjects();
+    }
+
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected to room");
         StartCoroutine(ConnectToRoom());
     }
 
@@ -40,6 +49,7 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         SpawnPlayer();
+        ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
     }
 
     private void SpawnPlayer()
@@ -48,9 +58,12 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
             playerPrefabPath, 
             spawnPoints[Random.Range(0, spawnPoints.Length)].position, 
             Quaternion.identity);
-        
+
         PlayerController playerScript = playerObject.GetComponent<PlayerController>();
-        playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
+
+        // Track every player's controller
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        players[actorNumber] = playerScript;
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -61,6 +74,22 @@ public class TestSceneStart : MonoBehaviourPunCallbacks
         {
             AlertManager.instance.photonView.RPC(nameof(AlertManager.instance.ResubscribeEnemies), RpcTarget.All);
         }
+
+        if (playerScript == null) return;
+        playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
+
+        if (SoundManager.instance == null) return;
+        SoundManager.instance.SubscribeToPlayer(playerScript);
+    }
+
+    private void AddChaosManagerPlayer(int ID)
+    {
+        ChaosManager.instance.AddPlayer(ID);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        AlertManager.instance.ResubscribeEnemies();
     }
 
 }

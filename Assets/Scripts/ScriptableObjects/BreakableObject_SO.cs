@@ -11,6 +11,8 @@ public class BreakableObject_SO : ScriptableObject
     [SerializeField] private float fragmentDespawnSpeed = 0.25f;
     [Range(0f, 20f)]
     [SerializeField] private float alertDetectionDistance = 8f;
+    [SerializeField] private string objectTag = "";
+    [SerializeField] private ObjectType objectType;
     [Header("Drag and drop the original object PREFAB below:")]
     [SerializeField] private GameObject original;
     [Header("Drag and drop the fractured object PREFAB below:")]
@@ -22,6 +24,8 @@ public class BreakableObject_SO : ScriptableObject
     public float TimeBeforeDespawn => timeBeforeDespawn;
     public float FragmentDespawnSpeed => fragmentDespawnSpeed;
     public float AlertDetectionDistance => alertDetectionDistance;
+    public string ObjectTag => objectTag;
+    public ObjectType ObjectType => objectType;
     public GameObject Original => original;
     public GameObject Fractured => fractured;
     public Material TRANSPARENT_MATERIAL_SRC => transparent_material_src;

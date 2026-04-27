@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -13,12 +14,15 @@ public class PlayerAttack : MonoBehaviour
     private BoxCollider boxCollider;
     private Rigidbody playerRB;
     private PlayerMovement playerMovement;
+    private Animator animator;
+    public event Action<int, string> PawedAt;
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
         playerRB = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -27,16 +31,21 @@ public class PlayerAttack : MonoBehaviour
         boxCollider.enabled = false;
     }
 
+    private void OnDestroy()
+    {
+        InputManager.instance.OnAttack -= Attack;
+    }
+
     private void Attack(object sender, EventArgs e)
     {
         if (!canAttack) return;
         if (!playerMovement.isGrounded) return;
-        Debug.Log("Attack initiated");
         StartCoroutine(RotateToCamera());
     }
 
     private IEnumerator EnableBoxCollider()
     {
+        animator.SetBool("attack", true);
         yield return new WaitForSeconds(0.3f);
         boxCollider.enabled = true;
 
@@ -46,6 +55,7 @@ public class PlayerAttack : MonoBehaviour
         playerMovement.LockMove(false);
 
         yield return new WaitForSeconds(attackCoolDown);
+        animator.SetBool("attack", false);
         canAttack = true;
     }
 
@@ -74,11 +84,18 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        Vector3 currentPos = playerRB.transform.position;
         if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
         {
             TransferOwnership(other.gameObject);
-            Vector3 currentPos = playerRB.transform.position;
             obj.ObjectGotHit(pushForce, currentPos);
+        }
+        if (other.TryGetComponent<PlayerController>(out PlayerController playerController))
+        {
+            if (playerController.photonView.IsMine) return;
+            Player owner = playerController.photonView.Owner;
+            playerController.photonView.RPC("TryGetHit", owner, pushForce/5, currentPos);
+            Debug.Log("Sending RPC call");
         }
     }
 
