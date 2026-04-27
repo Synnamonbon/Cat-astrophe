@@ -52,7 +52,7 @@ public class ObjectDrag : MonoBehaviourPun, IInteractable
 
     private void DraggedFar()
     {
-        Debug.Log("Dragged Far");
+        //Debug.Log("Dragged Far");
         farFromHome = true;
         if (holder != null)
         {
