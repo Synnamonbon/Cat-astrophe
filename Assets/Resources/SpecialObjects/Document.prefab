@@ -14,27 +14,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalScale.z
-      value: 35
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -95.14935
+      value: 0.091
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.231
+      value: -0.116
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.606308
+      value: -0.201
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalRotation.w
@@ -75,14 +75,14 @@ PrefabInstance:
     - target: {fileID: -5754084199372789682, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 389517490016902291, guid: 65fa2f5b831d1d749b0ef8b04a0672ed, type: 3}
+      objectReference: {fileID: 389517490016902291, guid: ba05729bcc748944ab19dc77729ce98a, type: 3}
     - target: {fileID: 919132149155446097, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_Name
       value: Document
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_TagString
-      value: Document
+      value: BreakableObject
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -133,7 +133,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 389517490016902291, guid: ba05729bcc748944ab19dc77729ce98a, type: 3}
+  m_Mesh: {fileID: 0}
 --- !u!54 &2151821208161456126
 Rigidbody:
   m_ObjectHideFlags: 0
