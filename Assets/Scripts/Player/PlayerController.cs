@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviourPun
     public event Action<int, string> InteractEventDelegate;
     public event Action<int, string> PawEventDelegate;
     public event Action<int, string> MeowEventDelegate;
+    public event Action<Transform, float> SoundAlertDelegate;
 
     private Rigidbody playerRB;
 
@@ -61,6 +62,8 @@ public class PlayerController : MonoBehaviourPun
         playerInteract.InteractWith += InteractEventTrigger;
         playerAttack.PawedAt += PawEventTrigger;
         playerMeow.OnMeowAndDistance += MeowEventTrigger;
+        playerMeow.MeowAlert += SoundAlert;
+        playerGrounding.LandAlert += SoundAlert;
     }
 
     private void Start()
@@ -134,6 +137,11 @@ public class PlayerController : MonoBehaviourPun
     private void MeowEventTrigger(string layer)
     {
         MeowEventDelegate?.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, layer);
+    }
+
+    private void SoundAlert(Transform tf, float radius)
+    {
+        SoundAlertDelegate?.Invoke(tf, radius);
     }
 
     [PunRPC]

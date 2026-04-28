@@ -14,7 +14,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private MeshFilter MESH_FILTER;
     private int ackCounter;
 
-    public event Action<int, ObjectType, Vector3, string> OnBreak;           // playerID, Object Type, Position, Tag
+    public event Action<GameObject, ObjectType, Vector3, string, float> OnBreak;           // this, Object Type, Position, Tag, dist Alert
     public event Action<int, int> OnBreakOnNPC;             // playerID, enemy photonview ID
     
     public void Awake()
@@ -105,9 +105,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         // Check if I am master client, take responsibility to alert enemies
         if (PhotonNetwork.IsMasterClient)
         {
-            AlertManager.instance.AlertNPCsInRange(transform, breakableObjectData.AlertDetectionDistance);
             // Invoke your own OnBreak event passing your photonView ownerID and EnumObjectType objectType
-            OnBreak?.Invoke(photonView.Owner.ActorNumber, breakableObjectData.ObjectType, RIGIDBODY.transform.position, gameObject.tag);
+            OnBreak?.Invoke(gameObject, breakableObjectData.ObjectType, RIGIDBODY.transform.position, gameObject.tag, breakableObjectData.AlertDetectionDistance);
         }
 
         GameObject brokenInstance = Instantiate (breakableObjectData.Fractured, transform.position, transform.rotation);

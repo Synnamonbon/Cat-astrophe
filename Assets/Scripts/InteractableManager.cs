@@ -29,6 +29,7 @@ public class InteractableManager : MonoBehaviour
     private List<Transform> interactableSpawnPoints = new List<Transform>();
 
     public event Action<int, ObjectType, Vector3, string> OnBreakEvent;
+    public event Action<Transform, float> BreakAlert;
     public event Action<int, int> OnBreakOnNPCEvent;
     public event Action<int, string> OnDraggedFarEvent;
 
@@ -90,16 +91,16 @@ public class InteractableManager : MonoBehaviour
         }
     }
 
-    public void SpawnObjects()
+    public void SpawnObjects(int objects, int foods, int toys)
     {
-        if (objectSpawnPoints != null){
-            SpawnBreakablesToSpawnpoints(0);
+        if (objectSpawnPoints != null && objects >= 0){
+            SpawnBreakablesToSpawnpoints(objects);
         }
-        if (foodSpawnPoints != null){
-            SpawnFoodsToSpawnpoints(3);
+        if (foodSpawnPoints != null && foods >= 0){
+            SpawnFoodsToSpawnpoints(foods);
         }
-        if (interactableSpawnPoints != null){
-            SpawnInteractablesToSpawnpoints(7);
+        if (interactableSpawnPoints != null && toys >= 0){
+            SpawnInteractablesToSpawnpoints(toys);
         }
     }
 
@@ -241,11 +242,10 @@ public class InteractableManager : MonoBehaviour
         return interactables[idx];
     }
 
-    private void BreakEvent(int playerID, ObjectType objectType, Vector3 objectPosition, string tag)
+    private void BreakEvent(GameObject go, ObjectType objectType, Vector3 objectPosition, string tag, float dist)
     {
-        // Invoke its own BreakEvent event action
-        // When refactoring move Alert system call to listen to this event too
-        OnBreakEvent?.Invoke(playerID, objectType, objectPosition, tag);
+        BreakAlert?.Invoke(go.transform, dist);
+        OnBreakEvent?.Invoke(go.GetPhotonView().Owner.ActorNumber, objectType, objectPosition, tag);
     }
 
     private void NPCBreakEvent(int playerID, int NPCID)

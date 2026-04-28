@@ -21,6 +21,9 @@ TagManager:
   - Painting
   - Toy
   - Water Source
+  - Bin
+  - Big Lamp
+  - Plant
   layers:
   - Default
   - TransparentFX
