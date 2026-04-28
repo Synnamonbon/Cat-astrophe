@@ -17,7 +17,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     private int currentWaypoint = 0;
 
     [Header("Patrol Balancing")]
-    [SerializeField] private float destinationLeniency = 0.5f;
+    [SerializeField] private float destinationLeniency = 1.5f;
     [SerializeField] private float surveyDuration = 2f;
     [SerializeField] private float patrolSpeed = 4f;
     [Header("Alerted Balancing")]
@@ -233,7 +233,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
     private float GetDistance(Vector3 goal, Vector3 source)
     {
-        return Vector3.Distance(goal, source);
+        return Vector3.Distance(new Vector3(goal.x, 0, goal.z), new Vector3(source.x, 0, source.z));
     }
 
     private void SurveyIfArrived(float dist)

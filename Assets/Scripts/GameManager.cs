@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 InteractableManager.instance.SpawnObjects();
+                NPCManager.instance.SpawnEnemies();
                 ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
                 // To ensure round starts only once, start the game timer here?
                 instance.photonView.RPC(nameof(GameStart), RpcTarget.AllBuffered);

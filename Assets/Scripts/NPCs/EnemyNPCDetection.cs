@@ -9,7 +9,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 {
     public GameObject visionOrigin;
     public GameObject visionRot;
-    private List<GameObject> playersList;
+    private List<GameObject> playersList = new List<GameObject>();
     private GameObject playerInChase = null;
     private float chaseTargetLastSeen = 0f;
     private bool isCapturing = false;
@@ -17,7 +17,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
     private bool isCarrying = false;
     private bool isBlinded = false;
     [Header("Detection tinkering:")]
-    [Range(0f, 20f)]
+    [Range(0f, 100f)]
     [SerializeField] private float visionDistance = 10f;
     [Range(5f, 100f)]
     [SerializeField] private float visionAngle = 80f;
@@ -29,6 +29,11 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
     private EnemyNPCNavigation enemyNav;
 
     private void OnEnable()
+    {
+        playersList = new List<GameObject>();
+    }
+
+    private void Start()
     {
         playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
         
@@ -50,7 +55,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
 
     public void ResubscribeEnemy()
     {
-        playersList = null;
+        playersList = new List<GameObject>();
         playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
     }
 
@@ -63,12 +68,13 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
         {
             if (player == null) break;  
             Vector3 lookTarget = new Vector3(player.transform.position.x,
-                                            player.transform.position.y + 0.2f,
+                                            player.transform.position.y,
                                             player.transform.position.z);
             Vector3 dir = lookTarget - visionOrigin.transform.position;
             RaycastHit hit;
             if (Physics.Raycast(visionOrigin.transform.position, dir, out hit, visionDistance))         // Distance handling
             {
+                Debug.DrawRay(visionOrigin.transform.position, dir.normalized * hit.distance, Color.yellow);
                 GameObject hitObj = hit.transform.gameObject;
                 
                 float theta = Vector3.Angle(visionOrigin.transform.forward, dir);                       // Angle checking
@@ -138,7 +144,7 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
     {
         if (playerInChase != null)
         {
-            float dist = Vector3.Distance(playerInChase.transform.position, transform.position);
+            float dist = GetChaseDist();
             // Debug.Log(dist + " units away!");
             if (dist <= capturingReach)     // In Capturing Range
             {
@@ -160,6 +166,11 @@ public class EnemyNPCDetection : MonoBehaviourPunCallbacks
                 isCapturing = false;        // This effectively resets the capturing time as well
             }
         }
+    }
+
+    private float GetChaseDist()
+    {
+        return Vector3.Distance(new Vector3(playerInChase.transform.position.x, 0, playerInChase.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z));
     }
 
     public void SetCarrying(bool set)

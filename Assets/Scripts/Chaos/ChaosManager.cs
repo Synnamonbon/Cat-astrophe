@@ -143,7 +143,7 @@ public class ChaosManager : MonoBehaviourPun
     {
         // Update points according to object type
         int pts = ChaosDictionary.GetPointsForEvent(objectType);
-        PlayerScorePoints(playerID, pts);
+        instance.photonView.RPC(nameof(instance.PlayerScorePoints), RpcTarget.AllBuffered, playerID, pts);
         // Check for tasks requiring BreakEvent
         // for loop through tasks, check their conditions, if the condition is break and the tag matches, call increment
         foreach (Task t in playerTasks[playerID])
@@ -216,12 +216,13 @@ public class ChaosManager : MonoBehaviourPun
 
     private void SaveCatPoints(int playerID)
     {
-        PlayerScorePoints(playerID, ChaosDictionary.GetPointsForEvent("CatSave"));
+        instance.photonView.RPC(nameof(instance.PlayerScorePoints), RpcTarget.AllBuffered, playerID, ChaosDictionary.GetPointsForEvent("CatSave"));
     }
 
+    [PunRPC]
     private void PlayerScorePoints(int playerID, int pts)
     {
-        instance.photonView.RPC(nameof(instance.IncreaseCurrent), RpcTarget.AllBuffered, pts);
+        IncreaseCurrent(pts);
         if (!chaosContribution.ContainsKey(playerID))
         {
             AddPlayer(playerID);
@@ -241,7 +242,7 @@ public class ChaosManager : MonoBehaviourPun
         if (task.playerID == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             Debug.Log("Score Task " + task.taskName);
-            PlayerScorePoints(task.playerID, ChaosDictionary.GetPointsForEvent(task.taskType));
+            instance.photonView.RPC(nameof(instance.PlayerScorePoints), RpcTarget.AllBuffered, task.playerID, ChaosDictionary.GetPointsForEvent(task.taskType));
             TaskComplete?.Invoke(task.taskName);
         }
     }

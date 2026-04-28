@@ -124,6 +124,12 @@ public class InteractableManager : MonoBehaviour
             ObjectDrag od = GetDraggableObject(trash);
             od.OnDraggedFar += DragFarEvent;
         }
+
+         foreach (GameObject oit in GameObject.FindGameObjectsWithTag("Water Source"))
+        {
+            Drinkable od = GetDrinkableObject(oit);
+            // Sub to VFX events here
+        }
     }
 
     // If number to spawn is 0, spawn on each spawn point instead
@@ -267,6 +273,18 @@ public class InteractableManager : MonoBehaviour
     private ObjectDrag GetDraggableObject(GameObject obj)
     {
         if (obj.TryGetComponent<ObjectDrag>(out ObjectDrag od))
+        {
+            return od;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private Drinkable GetDrinkableObject(GameObject obj)
+    {
+        if (obj.TryGetComponent<Drinkable>(out Drinkable od))
         {
             return od;
         }
