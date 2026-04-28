@@ -139,6 +139,7 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     public void ToyDistract(Vector3 toyPosition)
     {
+        if(!isDistractable) return;
         if (distractOnCD) return;
         StartCoroutine(playerMovement.WalkTo(toyPosition, 2f));
         StartCoroutine(DistractCDCoroutine());

@@ -36,7 +36,7 @@ public class PlayerHunger : MonoBehaviourPun
         currentHunger = Mathf.Clamp(currentHunger, 0f, maxHunger);
 
         CheckDebuffs();
-        //Debug.Log(currentHunger);
+        Debug.Log(playerController.isDistractable);
     }
 
     [PunRPC]
