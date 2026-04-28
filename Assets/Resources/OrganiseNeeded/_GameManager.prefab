@@ -51,8 +51,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  gameLength: 60
-  spawnNewObjectsTimer: 120
+  gameLength: 300
+  spawnNewObjectsTimer: 150
   OBJECTS_PER_PLAYER: 7
   FOODS_PER_PLAYER: 5
   TOYS_PER_PLAYER: 2
