@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7287995973954324144}
   - component: {fileID: 6725575215977996598}
   - component: {fileID: 4478731144438105229}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CageInitial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 6221294639066890888}
   - component: {fileID: 4745823309080620967}
   - component: {fileID: 6765277825298209504}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 6167282068071642607}
   - component: {fileID: 3812778319770455853}
   - component: {fileID: 3206524082179141700}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 3034037685496846832}
   - component: {fileID: 6228333124459959163}
   - component: {fileID: 3484660787724447972}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 396659422747726992}
   - component: {fileID: 1643733447020675363}
   - component: {fileID: 8874523880804166546}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 9171345585514345495}
   - component: {fileID: 8707908084255816312}
   - component: {fileID: 7242204399575725900}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -721,7 +721,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2255780168454965079}
-  - component: {fileID: 8248992823710974192}
   m_Layer: 0
   m_Name: FreedPoint
   m_TagString: Untagged
@@ -744,18 +743,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6442449389076387865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8248992823710974192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5811407085067175708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7fbf09ea175956de914a89a52c1573e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &8166559010514632363
 GameObject:
   m_ObjectHideFlags: 0

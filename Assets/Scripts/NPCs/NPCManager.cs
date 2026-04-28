@@ -54,7 +54,7 @@ public class NPCManager : MonoBehaviour
     {
         foreach (Transform spawn in spawnPoints)
         {
-            GameObject spawned = PhotonNetwork.InstantiateRoomObject(enemyPrefab.name,spawn.position, spawn.rotation);
+            GameObject spawned = PhotonNetwork.InstantiateRoomObject(enemyPrefab.name, spawn.position, spawn.rotation);
             AlertManager.instance.AddEnemy(spawned);
             if (spawned.TryGetComponent<EnemyNPCNavigation>(out EnemyNPCNavigation nav))
             {
