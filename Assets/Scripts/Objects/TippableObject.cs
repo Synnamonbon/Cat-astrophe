@@ -36,6 +36,5 @@ public class TippableObject : MonoBehaviourPun, IInteractable
     {
         //RB.AddForce(transform.forward * tippingForce, ForceMode.Impulse);
         RB.AddForceAtPosition(RB.rotation * Vector3.forward * tippingForce, transform.position + new Vector3(0, 1, 0));
-        Debug.Log(tippingForce);
     }
 }

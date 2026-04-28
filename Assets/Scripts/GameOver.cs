@@ -54,7 +54,7 @@ public class GameOver : MonoBehaviourPun
             if (PhotonNetwork.IsMasterClient)
             {
                 if (InteractableManager.instance == null) return;
-                InteractableManager.instance.SpawnObjects();
+                // InteractableManager.instance.SpawnObjects();
             }
         }
     }

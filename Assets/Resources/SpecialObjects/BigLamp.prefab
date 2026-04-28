@@ -95,6 +95,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2237652017764236671}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3115256669344155379}
   m_SourcePrefab: {fileID: 100100000, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
 --- !u!1 &8899344309918587070 stripped
 GameObject:
@@ -200,3 +203,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.034, y: 0.92200005, z: -0.022000002}
   m_TimeToStationary: 0.5
+--- !u!114 &-3115256669344155379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899344309918587070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4bba0dd2e38f7439778d326c772517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  breakableObjectData: {fileID: 11400000, guid: 6ca28af1421af0a46a0dcc3e83235e34, type: 2}

@@ -922,7 +922,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11666667
   m_MinRegionArea: 0
-  m_NavMeshData: {fileID: 23800000, guid: e29f08ad2cad58f4395f684f6f9db44a, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: ceb4fc270588bcc4ca3ba166dccb8c10, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &4106348615612405776
 BoxCollider:
@@ -9233,13 +9233,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CageInitial
       objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.7148895
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1099999
+      value: -1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10201,13 +10205,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CageInitial
       objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.797
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1099999
+      value: -1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -34933,9 +34945,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2773658218481857992}
     m_Modifications:
+    - target: {fileID: 513675560792289892, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 513675560792289892, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0571
+      objectReference: {fileID: 0}
     - target: {fileID: 1034656683676733242, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_Name
       value: CageInitial
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.851
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34943,11 +34975,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1099999
+      value: -1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.2299995
+      value: -3.054
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -38224,6 +38256,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CageInitial
       objectReference: {fileID: 0}
+    - target: {fileID: 2597864854960533519, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7199999
@@ -38234,15 +38270,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.854
+      value: 8.985
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1099999
+      value: -1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.275
+      value: -8.995
       objectReference: {fileID: 0}
     - target: {fileID: 8051424187605281929, guid: 0bdaf3d8e17a9e743983f6183e93bfc4, type: 3}
       propertyPath: m_LocalRotation.w
