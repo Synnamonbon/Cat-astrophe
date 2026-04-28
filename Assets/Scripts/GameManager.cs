@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(!PhotonNetwork.IsMasterClient){return;}
         if (timeRemaining <= 0f)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             EndGame?.Invoke();
         }
         if (Time.time - lastTimeSpawned >= spawnNewObjectsTimer)
