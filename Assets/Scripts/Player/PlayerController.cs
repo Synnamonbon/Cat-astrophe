@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviourPun
         //Debug.Log(cam);
         cam.Target.TrackingTarget = cameraPOV.transform;
         cam.PreviousStateIsValid = false;
-        playerInteract.SetLookDir(cam.gameObject.transform);
         playerUI.AssignPlayerHungerUI(playerHunger);
     }
 
