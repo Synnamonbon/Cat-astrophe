@@ -85,7 +85,7 @@ PrefabInstance:
       addedObject: {fileID: 3641580779490714382}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6081133478987152999}
+      addedObject: {fileID: 4593153262152973954}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4474883341713082599}
@@ -117,8 +117,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TippableObject
   tippingIncrement: 300
---- !u!65 &6081133478987152999
-BoxCollider:
+--- !u!64 &4593153262152973954
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -135,9 +135,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6995847, y: 1.8521191, z: 0.6803515}
-  m_Center: {x: 0.03410405, y: 0.9215625, z: -0.021865621}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1084443986855081427, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
 --- !u!54 &4474883341713082599
 Rigidbody:
   m_ObjectHideFlags: 0
