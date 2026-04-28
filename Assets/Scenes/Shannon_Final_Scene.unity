@@ -189,6 +189,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2757857156745416426, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 585c70cc7d89f994f89536b8bea0f638, type: 2}
     - target: {fileID: 5935761664381529352, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
       propertyPath: m_Name
       value: Scene transfer
