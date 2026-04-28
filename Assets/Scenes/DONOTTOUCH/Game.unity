@@ -3152,6 +3152,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: _SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5579424266693619887, guid: c867671177629453892ee4807b802ac8, type: 3}
+      propertyPath: paperRipSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5579424266693619887, guid: c867671177629453892ee4807b802ac8, type: 3}
+      propertyPath: 'paperRipSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3edfb984ab1d3408596d20408eecb692, type: 3}
     - target: {fileID: 6593774673124806621, guid: c867671177629453892ee4807b802ac8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 29.65318
