@@ -2277,6 +2277,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
+      propertyPath: gameLength
+      value: 300000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 292370661}
