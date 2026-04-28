@@ -7247,26 +7247,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: gameLength
-      value: 300000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: TOYS_PER_PLAYER
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: FOODS_PER_PLAYER
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: OBJECTS_PER_PLAYER
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: FOODS_RESPAWN_PER_PLAYER
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 292370661}
@@ -7282,10 +7262,6 @@ PrefabInstance:
       propertyPath: 'spawnPoints.Array.data[3]'
       value: 
       objectReference: {fileID: 254765931}
-    - target: {fileID: 4458608218906732186, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7455061040129996826, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: m_Name
       value: _GameManager
