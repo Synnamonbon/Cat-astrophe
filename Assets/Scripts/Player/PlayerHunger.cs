@@ -13,12 +13,13 @@ public class PlayerHunger : MonoBehaviourPun
     [SerializeField] private float hungryMeowRate25 = 3.33f; // Second intervals where meow check is done at 25% hunger
     [SerializeField] private float hungryMeowChance50 = 0.33f;
     [SerializeField] private float hungryMeowChance25 = 0.5f;
+    [SerializeField] private float hungryToyDistractThreshold = 0.8f;
 
     private PlayerController playerController;
 
     [HideInInspector] public float currentHunger {get; private set;}
     private bool canEat = true;
-    private Coroutine debuffCoroutine;
+    private Coroutine distractCoroutine;
 
     private void OnEnable()
     {
@@ -34,7 +35,7 @@ public class PlayerHunger : MonoBehaviourPun
         currentHunger -= drain * Time.deltaTime;
         currentHunger = Mathf.Clamp(currentHunger, 0f, maxHunger);
 
-        //CheckDebuffs();
+        CheckDebuffs();
         //Debug.Log(currentHunger);
     }
 
@@ -72,7 +73,10 @@ public class PlayerHunger : MonoBehaviourPun
 
     private void CheckDebuffs()
     {
-        
+        if (distractCoroutine == null && currentHunger < maxHunger * hungryToyDistractThreshold)
+        {
+            distractCoroutine = StartCoroutine(ToyDistractableCoroutine());
+        }
     }
 
     private IEnumerator HungryMeowRoutine()
@@ -104,5 +108,13 @@ public class PlayerHunger : MonoBehaviourPun
         {
             playerController.MakePlayerMeow();
         }
+    }
+
+    private IEnumerator ToyDistractableCoroutine()
+    {
+        playerController.isDistractable = true;
+        yield return new WaitUntil(() => currentHunger >= (maxHunger*hungryToyDistractThreshold));
+        playerController.isDistractable = false;
+        distractCoroutine = null;
     }
 }
