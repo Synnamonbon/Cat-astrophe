@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe61600f0760467e850836f7326267b, type: 3}
+  m_Name: BigLamp
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject_SO
+  breakSpeed: 0.5
+  timeBeforeDespawn: 2
+  fragmentDespawnSpeed: 0.25
+  alertDetectionDistance: 26
+  objectTag: Big Lamp
+  objectType: 2
+  original: {fileID: 919132149155446097, guid: 2e77c6e655b38ef4192709540b5bf630, type: 3}
+  fractured: {fileID: 395413164916218793, guid: a42aa279ade539647a45848045f21621, type: 3}
+  transparent_material_src: {fileID: 2100000, guid: 3687b4429d1318349bcaf4d9ff6c2f6b, type: 2}

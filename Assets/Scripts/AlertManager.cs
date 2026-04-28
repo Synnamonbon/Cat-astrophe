@@ -28,6 +28,17 @@ public class AlertManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Start()
+    {
+        SubscribeToAlertEvents();
+    }
+
+    private void SubscribeToAlertEvents()
+    {
+        InteractableManager.instance.BreakAlert += AlertNPCsInRange;
+        GameManager.instance.SoundAlertForNPC += AlertNPCsInRange;
+    }
+
     public void AddEnemy(GameObject enemy)
     {
         if (!PhotonNetwork.IsMasterClient){return;}

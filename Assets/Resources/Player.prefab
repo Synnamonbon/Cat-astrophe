@@ -52,6 +52,7 @@ MonoBehaviour:
   furnitureLayers:
     serializedVersion: 2
     m_Bits: 256
+  landAlertRadius: 5
 --- !u!65 &3391509123339976155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -301,6 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMeow
   meowCooldown: 0.5
+  meowAlert: 10
 --- !u!114 &4892907224806089151
 MonoBehaviour:
   m_ObjectHideFlags: 0

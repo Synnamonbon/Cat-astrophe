@@ -24,7 +24,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     [SerializeField] private float alertSpeed = 6.5f;
     [Header("Chasing Balancing")]
     [SerializeField] private float chaseSpeed = 6.5f;
-    [SerializeField] private float aggroDuration = 2f;
+    [SerializeField] private float aggroDuration = 5f;
     [Header("Carrying Balancing")]
     [SerializeField] private float carrySpeed = 3f;
 
@@ -144,7 +144,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
     private void IncrementPatrolPoint()
     {
-        currentWaypoint = (currentWaypoint + 1) % patrolRoute.Count;
+        currentWaypoint = UnityEngine.Random.Range(0, patrolRoute.Count);
     }
 
     private void ChangeState()
@@ -292,9 +292,8 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         agent.SetDestination(chaseTarget);
 
         // Only focus on chasing, Capturing detect handled in NPC Detection
-        // If we are at destination and no update in a certain amount of time, End Chase.
-        float dist = GetDistance(chaseTarget, transform.position);
-        if (dist <= destinationLeniency && Time.time > chaseLastUpdated + aggroDuration)
+        // If no update in a certain amount of time, End Chase.
+        if (Time.time > chaseLastUpdated + aggroDuration)
         {
             EndChase();
         }

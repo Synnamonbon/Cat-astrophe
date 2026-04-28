@@ -9,7 +9,7 @@ public class BreakableObject_SO : ScriptableObject
     [SerializeField] private float timeBeforeDespawn = 2f;
     [Range(0.01f, 2f)]
     [SerializeField] private float fragmentDespawnSpeed = 0.25f;
-    [Range(0f, 20f)]
+    [Range(0f, 50f)]
     [SerializeField] private float alertDetectionDistance = 8f;
     [SerializeField] private string objectTag = "";
     [SerializeField] private ObjectType objectType;

@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float gameLength = 240f;       // In Seconds
     [SerializeField] private float spawnNewObjectsTimer = 120f;
+    [SerializeField] private int OBJECTS_PER_PLAYER;
+    [SerializeField] private int FOODS_PER_PLAYER;
+    [SerializeField] private int TOYS_PER_PLAYER;
+    [SerializeField] private int FOODS_RESPAWN_PER_PLAYER;
 
     private Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
     private int playersInGame;
@@ -21,6 +25,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public event Action<int, string> InteractForTask;
     public event Action<int, string> PawForTask;
     public event Action<int, string> MeowForTask;
+    public event Action<Transform, float> SoundAlertForNPC;
     private float timeRemaining;
     private float lastTimeSpawned;
 
@@ -58,6 +63,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             EndGame?.Invoke();
         }
+        if (Time.time - lastTimeSpawned >= spawnNewObjectsTimer)
+        {
+            lastTimeSpawned = Time.time;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                InteractableManager.instance.SpawnObjects(-1, PhotonNetwork.PlayerList.Length * FOODS_RESPAWN_PER_PLAYER, -1);
+            }
+        }
     }
 
     private void OnDestroy()
@@ -75,7 +88,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             SpawnPlayer();
             if (PhotonNetwork.IsMasterClient)
             {
-                InteractableManager.instance.SpawnObjects();
+                int n = PhotonNetwork.PlayerList.Length;
+                InteractableManager.instance.SpawnObjects(n * OBJECTS_PER_PLAYER, n * FOODS_PER_PLAYER, n * TOYS_PER_PLAYER);
                 NPCManager.instance.SpawnEnemies();
                 ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.All, PhotonNetwork.PlayerList.Length);
                 // To ensure round starts only once, start the game timer here?
@@ -117,6 +131,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         pc.InteractEventDelegate += InteractDelegateEvent;
         pc.PawEventDelegate += PawDelegateEvent;
         pc.MeowEventDelegate += MeowDelegateEvent;
+        pc.SoundAlertDelegate += SoundDelegateAlert;
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -137,6 +152,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void MeowDelegateEvent(int playerID, string layer)
     {
         MeowForTask?.Invoke(playerID, layer);
+    }
+
+    private void SoundDelegateAlert(Transform tf, float radius)
+    {
+        SoundAlertForNPC?.Invoke(tf, radius);
     }
 
     // Add money stuff and data stored during session

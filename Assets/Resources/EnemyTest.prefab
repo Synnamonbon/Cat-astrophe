@@ -192,7 +192,7 @@ MonoBehaviour:
   patrolSpeed: 3
   alertSpeed: 5.5
   chaseSpeed: 5.5
-  aggroDuration: 2
+  aggroDuration: 5
   carrySpeed: 2
 --- !u!114 &874997378526347527
 MonoBehaviour:
