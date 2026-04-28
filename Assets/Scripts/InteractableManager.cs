@@ -126,9 +126,15 @@ public class InteractableManager : MonoBehaviour
             od.OnDraggedFar += DragFarEvent;
         }
 
-         foreach (GameObject oit in GameObject.FindGameObjectsWithTag("Water Source"))
+        foreach (GameObject oit in GameObject.FindGameObjectsWithTag("Water Source"))
         {
             Drinkable od = GetDrinkableObject(oit);
+            // Sub to VFX events here
+        }
+
+        foreach (GameObject oit in GameObject.FindGameObjectsWithTag("Furniture"))
+        {
+            Biteable bo = GetComponent<Biteable>();
             // Sub to VFX events here
         }
     }

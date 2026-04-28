@@ -16,5 +16,5 @@ MonoBehaviour:
   taskDescription: Scratch 3 pieces of Furniture
   target: 3
   taskLevel: 0
-  taskConditionTrack: 0
+  taskConditionTrack: 1
   taskConditionTag: Furniture
