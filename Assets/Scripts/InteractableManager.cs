@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Photon.Pun;
-using Photon.Realtime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractableManager : MonoBehaviour
@@ -12,8 +10,18 @@ public class InteractableManager : MonoBehaviour
     [SerializeField] private GameObject objectSpawner;
     [SerializeField] private GameObject foodSpawner;
     [SerializeField] private GameObject draggableSpawner;
+
+    [Header("Food spawn chance")]
+    [SerializeField] private float smallFoodChance = 30f;
+    [SerializeField] private float mediumFoodChance = 30f;
+    [SerializeField] private float largeFoodChance = 30f;
+    [SerializeField] private float rareFoodChance = 10f;
+
     private List<GameObject> breakables;
-    private List<GameObject> foods;
+    private List<GameObject> smallFoods;
+    private List<GameObject> mediumFoods;
+    private List<GameObject> largeFoods;
+    private List<GameObject> rareFoods;
     private List<GameObject> interactables;
 
     private List<Transform> objectSpawnPoints = new List<Transform>();
@@ -49,7 +57,10 @@ public class InteractableManager : MonoBehaviour
     private void LoadAllObjectPrefabs()
     {
         breakables = new List<GameObject>(Resources.LoadAll<GameObject>("Breakables"));
-        foods = new List<GameObject>(Resources.LoadAll<GameObject>("Foods"));
+        smallFoods = new List<GameObject>(Resources.LoadAll<GameObject>("Foods/Small"));
+        mediumFoods = new List<GameObject>(Resources.LoadAll<GameObject>("Foods/Medium"));
+        largeFoods = new List<GameObject>(Resources.LoadAll<GameObject>("Foods/Large"));
+        rareFoods = new List<GameObject>(Resources.LoadAll<GameObject>("Foods/Rare"));
         interactables = new List<GameObject>(Resources.LoadAll<GameObject>("Interactables"));
     }
 
@@ -152,7 +163,7 @@ public class InteractableManager : MonoBehaviour
             {
                 int j = UnityEngine.Random.Range(0, spawns.Count);
 
-                PhotonNetwork.InstantiateRoomObject("Foods/" + GetRandomFood().name, spawns[j].position, spawns[j].rotation);
+                PhotonNetwork.InstantiateRoomObject(GetRandomFood(), spawns[j].position, spawns[j].rotation);
 
                 spawns.RemoveAt(j);
             }
@@ -187,10 +198,35 @@ public class InteractableManager : MonoBehaviour
         return breakables[idx];
     }
 
-    private GameObject GetRandomFood()
+    private string GetRandomFood()
     {
-        int idx = UnityEngine.Random.Range(0, foods.Count);
-        return foods[idx];
+        float totalFoodChance = smallFoodChance + mediumFoodChance + largeFoodChance + rareFoodChance;
+
+        float roll = UnityEngine.Random.Range(0f, totalFoodChance);
+        if (roll < smallFoodChance)
+        {
+            // Small food
+            int idx = UnityEngine.Random.Range(0, smallFoods.Count);
+            return "Foods/Small/" + smallFoods[idx].name;
+        }
+        else if (roll < smallFoodChance + mediumFoodChance)
+        {
+            // Medium food
+            int idx = UnityEngine.Random.Range(0, mediumFoods.Count);
+            return "Foods/Medium/" + mediumFoods[idx].name;
+        }
+        else if (roll < smallFoodChance + mediumFoodChance + largeFoodChance)
+        {
+            // Large food
+            int idx = UnityEngine.Random.Range(0, largeFoods.Count);
+            return "Foods/Large/" + largeFoods[idx].name;
+        }
+        else
+        {
+            // Rare food
+            int idx = UnityEngine.Random.Range(0, rareFoods.Count);
+            return "Foods/Rare/" + rareFoods[idx].name;
+        }
     }
 
     private GameObject GetRandomInteractable()

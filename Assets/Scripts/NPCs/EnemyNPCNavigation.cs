@@ -36,6 +36,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     private float chaseLastUpdated = 0f;
     private int nearestCageIDX = -1;
     private PlayerController carriedCat;
+    private Animator animator;
 
     public event Action<int> SaveCat;               // playerID
 
@@ -45,6 +46,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         agent.stoppingDistance = destinationLeniency/2;
 
         enemyDet = gameObject.GetComponent<EnemyNPCDetection>();
+        animator = gameObject.GetComponentInChildren<Animator>();
 
         GameObject[] routes = GameObject.FindGameObjectsWithTag("Route");
         // Currently only gets the first instance of a route holder
@@ -83,20 +85,27 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         {
             case NPCStates.Patrolling:
                 agent.speed = patrolSpeed;
+                ResetAnimations();
+                animator.SetBool("isPatrolling", true);
                 Patrol();
                 break;
             case NPCStates.Alerted:
                 agent.speed = alertSpeed;
+                ResetAnimations();
+                animator.SetBool("isChasing", true);
                 GoToSoundSource();
                 break;
             case NPCStates.Surveying:
                 // we want to start looking around only once. When that is done we want to return to the previous state, Alerted or Patrolling.
+                ResetAnimations();
                 if (!isLooking)
                 {
                     ChangeState();
                 }
                 break;
             case NPCStates.Chasing:
+                ResetAnimations();
+                animator.SetBool("isChasing", true);
                 agent.speed = chaseSpeed;
                 GoTowardsChaseTarget();
                 break;
@@ -108,6 +117,12 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
                 Debug.Log("Unhandled State for " + gameObject.name);
                 break;
         }
+    }
+
+    private void ResetAnimations()
+    {
+        animator.SetBool("isPatrolling", false);
+        animator.SetBool("isChasing", false);
     }
 
     private void Patrol()
