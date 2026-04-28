@@ -350,8 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0909af8496f4d485db745c979a07d000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
-  range: 2
-  playerInteractor: {fileID: 7243091116378672129}
+  range: 30
 --- !u!114 &4003452005008305006
 MonoBehaviour:
   m_ObjectHideFlags: 0

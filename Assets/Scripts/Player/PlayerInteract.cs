@@ -9,39 +9,83 @@ public interface IInteractable
 
 public class PlayerInteract : MonoBehaviour
 {
-    [SerializeField] private float range = 10f;
-    [SerializeField] private Transform playerInteractor;
-    private Transform lookDir;
-    public event Action<int, string> InteractWith;          // playerID, tag
+    [SerializeField] private float range = 30f;
+
+    private QuickOutline currentOutline;
+    private GameObject currentTarget;
+
+    public event Action<int, string> InteractWith;     //playerID, tag
 
     private void OnEnable()
     {
-    InputManager.instance.OnInteract += InteractAction;
+        InputManager.instance.OnInteract += InteractAction;
     }
 
     private void OnDisable()
     {
         InputManager.instance.OnInteract -= InteractAction;
+        ClearHighlight();
     }
 
-    private void InteractAction(object sender, EventArgs e)
+    private void Update()
     {
-        Ray r = new Ray(playerInteractor.position, (playerInteractor.position - lookDir.position).normalized);
-        Debug.DrawRay(playerInteractor.position, (playerInteractor.position - lookDir.position).normalized, Color.yellow, 1f);
+        CheckHighlight();
+    }
+
+   private void CheckHighlight()
+    {
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        Ray r = cam.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+
         if (Physics.Raycast(r, out RaycastHit hitInfo, range))
         {
             GameObject go = hitInfo.collider.gameObject;
-            Debug.Log(go.tag);
-            if (go.TryGetComponent(out IInteractable obj))
+            if (go != currentTarget)
             {
-                obj.Interact(gameObject);
-                InteractWith?.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, go.tag);
+                ClearHighlight();
+                currentTarget = go;
+
+                var interactable = go.GetComponentInParent<IInteractable>();
+                if (interactable != null)
+                {
+                    GameObject outlineTarget = (interactable as MonoBehaviour).gameObject;
+                    try
+                    {
+                        currentOutline = outlineTarget.AddComponent<QuickOutline>();
+                        currentOutline.OutlineColor = Color.white;
+                        currentOutline.OutlineWidth = 5f;
+                    }
+                    catch
+                    {
+                        if (currentOutline != null) Destroy(currentOutline);
+                        currentOutline = null;
+                    }
+                }
             }
         }
+        else
+        {
+            ClearHighlight();
+            currentTarget = null;
+        }
     }
-
-    public void SetLookDir(Transform tf)
+private void ClearHighlight()
+{
+    if (currentOutline != null)
     {
-        lookDir = tf;
+        Destroy(currentOutline);
+        currentOutline = null;
+    }
+}
+
+    private void InteractAction(object sender, EventArgs e)
+    {
+        if (currentTarget != null && currentTarget.TryGetComponent(out IInteractable obj))
+        {
+            obj.Interact(gameObject);
+            InteractWith?.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, currentTarget.tag);
+        }
     }
 }
