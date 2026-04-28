@@ -337,6 +337,7 @@ MonoBehaviour:
   hungryMeowRate25: 3.33
   hungryMeowChance50: 0.33
   hungryMeowChance25: 0.5
+  hungryToyDistractThreshold: 0.3
 --- !u!114 &3815011515437339736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +368,7 @@ MonoBehaviour:
   cameraPOV: {fileID: 6957810944990986323}
   id: 0
   isVisible: 1
+  isDistractable: 0
 --- !u!136 &5948632707879458201
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] private GameObject cameraPOV;
     [HideInInspector] public int id;
     [HideInInspector] public bool isVisible = true;        // Flag to check if the detection system should consider the cat as detecable
+    [HideInInspector] public bool isDistractable = false;
+    private float distractCD = 10f;
+    private bool distractOnCD = false;
     private bool hitRecently = false;
 
     private PlayerMovement playerMovement;
@@ -131,5 +134,20 @@ public class PlayerController : MonoBehaviourPun
     private void MeowEventTrigger(string layer)
     {
         MeowEventDelegate?.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, layer);
+    }
+
+    [PunRPC]
+    public void ToyDistract(Vector3 toyPosition)
+    {
+        if (distractOnCD) return;
+        StartCoroutine(playerMovement.WalkTo(toyPosition, 2f));
+        StartCoroutine(DistractCDCoroutine());
+    }
+
+    private IEnumerator DistractCDCoroutine()
+    {
+        distractOnCD = true;
+        yield return new WaitForSeconds(distractCD);
+        distractOnCD = false;
     }
 }

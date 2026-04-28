@@ -135,6 +135,43 @@ public class PlayerMovement : MonoBehaviour
         playerRB.linearVelocity = velocity;
     }
 
+    public IEnumerator WalkTo(Vector3 targetPosition, float duration)
+    {
+        LockMove(true);
+
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            Vector3 direction = (targetPosition - transform.position);
+            direction.y = 0;
+
+            if (direction.magnitude > 0.1f)
+            {
+                direction.Normalize();
+
+                Vector3 velocity = playerRB.linearVelocity;
+                velocity.x = direction.x * movementSpeed;
+                velocity.z = direction.z * movementSpeed;
+                playerRB.linearVelocity = velocity;
+
+                // Rotate toward toy
+                Quaternion targetRot = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        Vector3 stopVel = playerRB.linearVelocity;
+        stopVel.x = 0;
+        stopVel.z = 0;
+        playerRB.linearVelocity = stopVel;
+
+        LockMove(false);
+    }
+
     // Jump functions
     private void Jump(object sender, EventArgs e)
     {
