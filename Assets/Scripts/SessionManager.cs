@@ -28,7 +28,7 @@ public class SessionManager : MonoBehaviour
     {
         displayName = name;
         PhotonNetwork.NickName = displayName;
-        Debug.Log("Display name set to " + PhotonNetwork.NickName);
+        //Debug.Log("Display name set to " + PhotonNetwork.NickName);
     }
 
     public string GetDisplayName()

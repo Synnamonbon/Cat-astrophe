@@ -40,7 +40,7 @@ public class Task
     {
         if(complete){return;}
         progress++;
-        Debug.Log(taskName + ": " + progress + "/" + target + " for " + playerID);
+        //Debug.Log(taskName + ": " + progress + "/" + target + " for " + playerID);
         // Replace with updating UI layer.
         UpdateProgressEvent?.Invoke(taskName, progress);
         if (progress >= target)

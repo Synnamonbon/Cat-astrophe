@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        Debug.Log("Created room: " + PhotonNetwork.CurrentRoom.Name);
+        //Debug.Log("Created room: " + PhotonNetwork.CurrentRoom.Name);
     }
 
     public void JoinRoom(string roomName)
@@ -45,7 +45,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ChangeScene(string sceneName)
     {
-        Debug.Log("Changing scene to " + sceneName);
+        //Debug.Log("Changing scene to " + sceneName);
         PhotonNetwork.LoadLevel(sceneName);
     }
 }

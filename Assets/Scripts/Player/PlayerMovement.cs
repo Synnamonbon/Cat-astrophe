@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
         animator.applyRootMotion = false;
     }
 
+    private void OnDestroy()
+    {
+        InputManager.instance.OnJump -= Jump;
+    }
+
     private void Update()
     {
         moveInput = InputManager.instance.HandleMovementInput();

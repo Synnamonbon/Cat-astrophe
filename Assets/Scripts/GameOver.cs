@@ -1,0 +1,80 @@
+using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
+
+public class GameOver : MonoBehaviourPun
+{
+    public static GameOver instance;
+
+    [Header("Players")]
+    [SerializeField] private string playerPrefabPath;
+    [SerializeField] private Transform[] spawnPoints;
+
+    private Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
+    private int playersInGame;
+
+    private void Awake()
+    {
+        SingletonPattern();
+    }
+
+    private void SingletonPattern()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
+
+    private void Start()
+    {
+        instance.photonView.RPC(nameof(JoiningGame), RpcTarget.AllBuffered);
+        //SoundManager.instance.SubscribeToObjects();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void OnDestroy()
+    {
+        //SoundManager.instance.UnSubscribeToObjects();
+    }
+
+    [PunRPC]
+    public void JoiningGame()
+    {
+        playersInGame ++;
+
+        if(playersInGame == PhotonNetwork.PlayerList.Length)
+        {
+            SpawnPlayer();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (InteractableManager.instance == null) return;
+                InteractableManager.instance.SpawnObjects();
+            }
+        }
+    }
+
+    private void SpawnPlayer()
+    {
+        GameObject playerObject = PhotonNetwork.Instantiate(
+            playerPrefabPath, 
+            spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position, 
+            Quaternion.identity);
+
+        PlayerController playerScript = playerObject.GetComponent<PlayerController>();
+
+        // Track every player's controller
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        players[actorNumber] = playerScript;
+
+        if (playerScript == null) return;
+        playerScript.photonView.RPC("Initialise", RpcTarget.All, PhotonNetwork.LocalPlayer);
+
+        SoundManager.instance?.SubscribeToPlayer(playerScript);
+    }
+}

@@ -36,7 +36,6 @@ public class PlayerHunger : MonoBehaviourPun
         currentHunger = Mathf.Clamp(currentHunger, 0f, maxHunger);
 
         CheckDebuffs();
-        //Debug.Log(currentHunger);
     }
 
     [PunRPC]
@@ -44,7 +43,7 @@ public class PlayerHunger : MonoBehaviourPun
     {
         currentHunger += value;
         Mathf.Clamp(currentHunger, 0f, maxHunger);
-        Debug.Log("Player hunger restored to "+ currentHunger);
+        //Debug.Log("Player hunger restored to "+ currentHunger);
     }
 
     private void OnTriggerEnter(Collider other)

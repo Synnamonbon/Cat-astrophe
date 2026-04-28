@@ -110,7 +110,7 @@ public class ChaosManager : MonoBehaviourPun
         playerTasks[playerID].Add(t);
         t.CompleteTaskEvent += ScoreTask;
         t.UpdateProgressEvent += UpdateTaskDelegate;
-        Debug.Log("Added task " + t.taskName + " to " + playerID);
+        //Debug.Log("Added task " + t.taskName + " to " + playerID);
         if (PhotonNetwork.LocalPlayer.ActorNumber == playerID)
         {
             // Invoke assign task event
@@ -228,7 +228,7 @@ public class ChaosManager : MonoBehaviourPun
             AddPlayer(playerID);
         }
         chaosContribution[playerID] += pts;
-        Debug.Log("New player contribuion: " + playerID + " - " + chaosContribution[playerID]);
+        //Debug.Log("New player contribuion: " + playerID + " - " + chaosContribution[playerID]);
     }
 
     private void UpdateTaskDelegate(string title, int newProg)
@@ -241,7 +241,7 @@ public class ChaosManager : MonoBehaviourPun
         // get points from the task for the player.
         if (task.playerID == PhotonNetwork.LocalPlayer.ActorNumber)
         {
-            Debug.Log("Score Task " + task.taskName);
+            //Debug.Log("Score Task " + task.taskName);
             instance.photonView.RPC(nameof(instance.PlayerScorePoints), RpcTarget.AllBuffered, task.playerID, ChaosDictionary.GetPointsForEvent(task.taskType));
             TaskComplete?.Invoke(task.taskName);
         }

@@ -33,7 +33,7 @@ public class ObjectPush : MonoBehaviour
 
     public void ObjectGotHit(float force, Vector3 forceLocation)
     {
-        Debug.Log("Pushing object");
+        //Debug.Log("Pushing object");
         objectRB.constraints = RigidbodyConstraints.None;
         Vector3 direction = (objectRB.position - forceLocation).normalized;
         direction.y += 0.3f;
