@@ -208,8 +208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   visionOrigin: {fileID: 5690490875668472373}
   visionRot: {fileID: 6821968346827190119}
-  visionDistance: 60
-  visionAngle: 100
+  visionDistance: 50
+  visionAngle: 70
   chaseFollowthrough: 1
   capturingReach: 1
   capturingDuration: 1
