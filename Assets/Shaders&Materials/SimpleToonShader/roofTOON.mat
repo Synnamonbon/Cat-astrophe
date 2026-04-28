@@ -39,7 +39,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.80784315, g: 0.6509804, b: 0.5019608, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0.2264151, g: 0.11485754, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

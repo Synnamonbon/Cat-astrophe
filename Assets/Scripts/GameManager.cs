@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviourPunCallbacks
@@ -158,11 +156,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (win)
             {
                 Debug.Log("You won! Load shop area");
+
             }
             else
             {
                 Debug.Log("You lose! Start again");
             }
         }
+        SoundManager.instance.UnSubscribeToObjects();
+        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "GameOver");
     }
 }

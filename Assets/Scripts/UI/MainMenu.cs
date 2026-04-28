@@ -74,7 +74,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         SetMenu(roomMenu);
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         photonView.RPC("UpdateLobbyUI", RpcTarget.All);
-        Debug.Log("Joined room " + PhotonNetwork.CurrentRoom.Name);
+        //Debug.Log("Joined room " + PhotonNetwork.CurrentRoom.Name);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -91,15 +91,15 @@ public class MainMenu : MonoBehaviourPunCallbacks
     public void OnStartGameButton()
     {
         if(NetworkManager.instance == null){Debug.Log("No network manager");}
-        else {Debug.Log("Not null");}
+        //else {Debug.Log("Not null");}
         NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Game");
     }
     
     [PunRPC]
     public void UpdateLobbyUI()
     {
-        Debug.Log("UpdateLobbyUI called. Players: " + PhotonNetwork.PlayerList.Length);
-        Debug.Log("playerListText null? " + (playerListText == null));
+        //Debug.Log("UpdateLobbyUI called. Players: " + PhotonNetwork.PlayerList.Length);
+        //Debug.Log("playerListText null? " + (playerListText == null));
 
         playerListText.text = "";
 

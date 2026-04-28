@@ -110,6 +110,8 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
                 GoTowardsChaseTarget();
                 break;
             case NPCStates.Carrying:
+                ResetAnimations();
+                animator.SetBool("isCarrying", true);
                 agent.speed = carrySpeed;
                 CarryCat();
                 break;
@@ -123,6 +125,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
     {
         animator.SetBool("isPatrolling", false);
         animator.SetBool("isChasing", false);
+        animator.SetBool("isCarrying", false);
     }
 
     private void Patrol()
@@ -162,7 +165,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
 
     private IEnumerator LookAround()
     {
-        Debug.Log("Looking");
+        //Debug.Log("Looking");
         isLooking = true;
         agent.isStopped = true;
 
@@ -174,7 +177,7 @@ public class EnemyNPCNavigation : MonoBehaviourPunCallbacks
         {
             if (currentState == NPCStates.Chasing)
             {
-                Debug.Log("STOP LOOKING, I SEE CAT!");
+                //Debug.Log("STOP LOOKING, I SEE CAT!");
                 isLooking = false;
                 agent.isStopped = false;
                 yield break;
