@@ -153,6 +153,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50ebfe8e6ccf8cc47bba5982ac53433b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 871094288668439974}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50ebfe8e6ccf8cc47bba5982ac53433b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6198682785233159409}
   m_SourcePrefab: {fileID: 100100000, guid: 50ebfe8e6ccf8cc47bba5982ac53433b, type: 3}
 --- !u!4 &1648054179843252321 stripped
 Transform:
@@ -319,6 +322,22 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-6198682785233159409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131539801190955739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1001 &4340704831374518311
 PrefabInstance:
   m_ObjectHideFlags: 0
