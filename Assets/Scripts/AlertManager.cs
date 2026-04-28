@@ -31,7 +31,7 @@ public class AlertManager : MonoBehaviourPunCallbacks
     public void AddEnemy(GameObject enemy)
     {
         if (!PhotonNetwork.IsMasterClient){return;}
-        Debug.Log("Adding " + enemy.name);
+        //Debug.Log("Adding " + enemy.name);
         instance.enemies.Add(enemy);
     }
 
@@ -80,4 +80,5 @@ public class AlertManager : MonoBehaviourPunCallbacks
             }
         }
     }
+    
 }

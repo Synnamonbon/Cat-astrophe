@@ -21,7 +21,7 @@ public class FoodData : MonoBehaviourPun
         if (playerPV == null) return;
         
         isUsed = true;
-        Debug.Log("Consume request received");
+        //Debug.Log("Consume request received");
 
         playerPV.RPC(nameof(PlayerHunger.RestoreHunger), playerPV.Owner, foodData.HungerRestoreValue);
         PhotonNetwork.Destroy(gameObject);
