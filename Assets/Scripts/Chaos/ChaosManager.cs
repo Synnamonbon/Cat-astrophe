@@ -77,7 +77,7 @@ public class ChaosManager : MonoBehaviourPun
             if (!ints.Contains(j))
             {
                 ints.Add(j);
-                photonView.RPC(nameof(AssignTaskAtIndexToPlayer), RpcTarget.AllBuffered, j, playerID);
+                photonView.RPC(nameof(AssignTaskAtIndexToPlayer), RpcTarget.All, j, playerID);
             }
             else
             {
