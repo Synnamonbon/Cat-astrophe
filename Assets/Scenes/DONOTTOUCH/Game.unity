@@ -571,6 +571,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.04
       objectReference: {fileID: 0}
+    - target: {fileID: 1345961428164990985, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1414302668720348240, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
       propertyPath: sceneViewId
       value: 36
@@ -670,6 +674,10 @@ PrefabInstance:
     - target: {fileID: 4449917862400213738, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
       propertyPath: sceneViewId
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758434972958285193, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4834101181763476616, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
       propertyPath: sceneViewId
@@ -819,6 +827,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 58
       objectReference: {fileID: 0}
+    - target: {fileID: 8185087603243936510, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8523542507001227180, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
       propertyPath: sceneViewId
       value: 18
@@ -834,6 +846,10 @@ PrefabInstance:
     - target: {fileID: 9023487736060742296, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
       propertyPath: sceneViewId
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9167767034517206608, guid: d3af54fcbb6924a72bda7b657fe89967, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7232,7 +7248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: gameLength
-      value: 240
+      value: 300000
       objectReference: {fileID: 0}
     - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: TOYS_PER_PLAYER
@@ -7249,10 +7265,6 @@ PrefabInstance:
     - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: FOODS_RESPAWN_PER_PLAYER
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
-      propertyPath: gameLength
-      value: 300000
       objectReference: {fileID: 0}
     - target: {fileID: 2575188387248560628, guid: e3d5159da26cc4b7db9f137110c550b8, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
