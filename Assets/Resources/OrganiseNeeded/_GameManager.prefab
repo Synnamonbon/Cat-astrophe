@@ -51,7 +51,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  gameLength: 30
+  gameLength: 60
+  spawnNewObjectsTimer: 120
+  OBJECTS_PER_PLAYER: 7
+  FOODS_PER_PLAYER: 5
+  TOYS_PER_PLAYER: 2
+  FOODS_RESPAWN_PER_PLAYER: 2
 --- !u!114 &4458608218906732186
 MonoBehaviour:
   m_ObjectHideFlags: 0
