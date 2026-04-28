@@ -54,9 +54,9 @@ MonoBehaviour:
   gameLength: 300
   spawnNewObjectsTimer: 150
   OBJECTS_PER_PLAYER: 7
-  FOODS_PER_PLAYER: 5
+  FOODS_PER_PLAYER: 6
   TOYS_PER_PLAYER: 2
-  FOODS_RESPAWN_PER_PLAYER: 2
+  FOODS_RESPAWN_PER_PLAYER: 3
 --- !u!114 &4458608218906732186
 MonoBehaviour:
   m_ObjectHideFlags: 0
