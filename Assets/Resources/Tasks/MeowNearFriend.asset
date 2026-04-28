@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a054f0220c694845a290263461e52f6, type: 3}
-  m_Name: MakeAMess
+  m_Name: MeowNearFriend
   m_EditorClassIdentifier: Assembly-CSharp::TaskDetails_SO
-  taskName: Make A Mess
-  taskDescription: Drag 3 pieces of rubbish far away
-  target: 3
-  taskLevel: 0
-  taskConditionTrack: 3
-  taskConditionTag: Rubbish
+  taskName: Meow Near Friend
+  taskDescription: Meow near your friends 4 times
+  target: 4
+  taskLevel: 2
+  taskConditionTrack: 4
+  taskConditionTag: Player

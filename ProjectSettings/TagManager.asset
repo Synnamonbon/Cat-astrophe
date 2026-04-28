@@ -17,6 +17,9 @@ TagManager:
   - Cup
   - Lamp
   - Document
+  - Ground
+  - Painting
+  - Toy
   layers:
   - Default
   - TransparentFX

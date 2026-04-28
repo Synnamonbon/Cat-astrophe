@@ -3,7 +3,7 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
-public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
+public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] private BreakableObject_SO breakableObjectData;
 
@@ -68,6 +68,21 @@ public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
                 StartCoroutine(DestroyOriginalObject());
             }
         }
+    }
+    
+    // Use only for InteractBreak objects
+    public void Explode()
+    {
+        if (gameObject.TryGetComponent<PhotonView>(out PhotonView pv))
+        {
+            if (!pv.IsMine && pv != null)
+            {
+                pv.TransferOwnership(PhotonNetwork.LocalPlayer);
+                Debug.Log("Transferred ownership");
+            }
+        }
+        photonView.RPC(nameof(CreateBrokenObject), RpcTarget.All);
+        StartCoroutine(DestroyOriginalObject());
     }
 
     [PunRPC]
@@ -177,10 +192,5 @@ public class BreakableObject : MonoBehaviourPunCallbacks, IInteractable
     {
         yield return new WaitUntil(() => ackCounter == PhotonNetwork.PlayerList.Length);
         InteractableManager.instance.DestroyForAll(gameObject);
-    }
-
-    public void Interact(GameObject go)
-    {
-        Debug.Log($"Me when I ({go.name}) lick the breakable object or smtn idk");
     }
 }

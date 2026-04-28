@@ -84,6 +84,7 @@ public class PlayerAttack : MonoBehaviourPun
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.layer == LayerMask.NameToLayer("Platform")) return;
         PawedAt?.Invoke(photonView.Owner.ActorNumber, other.gameObject.tag);
         Vector3 currentPos = playerRB.transform.position;
         if (other.TryGetComponent<ObjectPush>(out ObjectPush obj))
@@ -103,12 +104,12 @@ public class PlayerAttack : MonoBehaviourPun
     private void TransferOwnership(GameObject gameObject)
     {
         if (gameObject.TryGetComponent<PhotonView>(out PhotonView pv))
+        {
+            if (!pv.IsMine && pv != null)
             {
-                if (!pv.IsMine && pv != null)
-                {
-                    pv.TransferOwnership(PhotonNetwork.LocalPlayer);
-                    Debug.Log("Transferred ownership");
-                }
+                pv.TransferOwnership(PhotonNetwork.LocalPlayer);
+                Debug.Log("Transferred ownership");
             }
+        }
     }
 }
