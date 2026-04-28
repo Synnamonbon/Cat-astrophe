@@ -55,7 +55,8 @@ public class PlayerMeow : MonoBehaviour
 
     private void CheckHeight()
     {
-        if (gameObject.transform.position.y >= 0 + closenessDistance/2)
+        GameObject ground = GameObject.FindGameObjectsWithTag("Ground")[0];
+        if (gameObject.transform.position.y >= ground.transform.position.y + closenessDistance/2)
         {
             OnMeowAndDistance?.Invoke("Ground");
         }

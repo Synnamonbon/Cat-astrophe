@@ -214,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
         float colliderHeight = platformCollider.bounds.max.y;
         Debug.Log("Collider height: " + colliderHeight);
         float playerFeet = gameObject.GetComponent<CapsuleCollider>().bounds.min.y;
-        float buffer = 0.7f;
+        float buffer = 0.4f;
 
         if ((colliderHeight - playerFeet) <= 0) yield break;
 
