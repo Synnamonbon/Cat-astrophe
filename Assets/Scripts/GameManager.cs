@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         SingletonPattern();
+        instance.timeRemaining = instance.gameLength;
     }
 
     private void SingletonPattern()
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void FixedUpdate()
     {
         timeRemaining -= Time.fixedDeltaTime;
+        if(!PhotonNetwork.IsMasterClient){return;}
         if (timeRemaining <= 0f)
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -67,10 +69,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Time.time - lastTimeSpawned >= spawnNewObjectsTimer)
         {
             lastTimeSpawned = Time.time;
-            if (PhotonNetwork.IsMasterClient)
-            {
-                InteractableManager.instance.SpawnObjects(-1, PhotonNetwork.PlayerList.Length * FOODS_RESPAWN_PER_PLAYER, -1);
-            }
+            InteractableManager.instance.SpawnObjects(-1, PhotonNetwork.PlayerList.Length * FOODS_RESPAWN_PER_PLAYER, -1);
         }
     }
 
@@ -94,7 +93,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 NPCManager.instance.SpawnEnemies();
                 ChaosManager.instance.photonView.RPC(nameof(ChaosManager.instance.InitChaos), RpcTarget.AllBuffered, PhotonNetwork.PlayerList.Length);
                 // To ensure round starts only once, start the game timer here?
-                instance.photonView.RPC(nameof(GameStart), RpcTarget.AllBuffered);
+                instance.photonView.RPC(nameof(GameStart), RpcTarget.All);
             }
         }
     }
@@ -172,17 +171,15 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void EndRoundProcedure(bool win)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            if (win)
-            {
-                Debug.Log("You won! Load shop area");
+        if (!PhotonNetwork.IsMasterClient) return;
 
-            }
-            else
-            {
-                Debug.Log("You lose! Start again");
-            }
+        if (win)
+        {
+            Debug.Log("You won! Load shop area");
+        }
+        else
+        {
+            Debug.Log("You lose! Start again");
         }
         SoundManager.instance.UnSubscribeToObjects();
         NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "GameOver");
