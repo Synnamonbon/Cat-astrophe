@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_Name
-      value: Plate2
+      value: Document
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       propertyPath: m_TagString
@@ -99,7 +99,7 @@ PrefabInstance:
       addedObject: {fileID: 3960570702849920276}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 34001997667127597}
+      addedObject: {fileID: -192749554716948912}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b370e01cda840a45982c117ac706827, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4122248299816935360}
@@ -142,7 +142,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873048173242761682}
   serializedVersion: 5
-  m_Mass: 45
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -157,7 +157,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
@@ -173,8 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4bba0dd2e38f7439778d326c772517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
-  breakableObjectData: {fileID: 11400000, guid: 201f36bffb67f5147b1c5968949f35bc, type: 2}
---- !u!114 &34001997667127597
+  breakableObjectData: {fileID: 11400000, guid: c1f90edc322980a46874694c8b68a70b, type: 2}
+--- !u!114 &-192749554716948912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,9 +183,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 873048173242761682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec5e7116fac3240739e01784fc9a16dd, type: 3}
+  m_Script: {fileID: 11500000, guid: a50d8b10783fb6640b879b211a611af8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectPush
+  m_EditorClassIdentifier: Assembly-CSharp::InteractBreak
 --- !u!114 &4122248299816935360
 MonoBehaviour:
   m_ObjectHideFlags: 0

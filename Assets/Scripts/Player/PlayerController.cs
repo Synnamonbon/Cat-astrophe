@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviourPun
     public event Action<Vector3> PlayerMeow;
     public event Action<int, string> InteractEventDelegate;
     public event Action<int, string> PawEventDelegate;
+    public event Action<int, string> MeowEventDelegate;
 
     private Rigidbody playerRB;
 
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviourPun
     {
         playerInteract.InteractWith += InteractEventTrigger;
         playerAttack.PawedAt += PawEventTrigger;
+        playerMeow.OnMeowAndDistance += MeowEventTrigger;
     }
 
     private void Start()
@@ -123,7 +125,11 @@ public class PlayerController : MonoBehaviourPun
 
     private void PawEventTrigger(int playerID, string tag)
     {
-        Debug.Log(tag);
         PawEventDelegate?.Invoke(playerID, tag);
+    }
+
+    private void MeowEventTrigger(string layer)
+    {
+        MeowEventDelegate?.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, layer);
     }
 }

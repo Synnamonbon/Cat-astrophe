@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a054f0220c694845a290263461e52f6, type: 3}
-  m_Name: BreakDishes
+  m_Name: Document Shredder
   m_EditorClassIdentifier: Assembly-CSharp::TaskDetails_SO
-  taskName: Break Plates
-  taskDescription: Find and break 3 plates
-  target: 3
-  taskLevel: 0
-  taskConditionTrack: 2
-  taskConditionTag: Plate
+  taskName: Document Shredder
+  taskDescription: Find and Shred 1 stack of Documents
+  target: 1
+  taskLevel: 1
+  taskConditionTrack: 1
+  taskConditionTag: Document

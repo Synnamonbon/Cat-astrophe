@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Mono.Cecil.Cil;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,15 +8,18 @@ public class SoundManager : MonoBehaviourPun
     public static SoundManager instance;
 
     [SerializeField] private AudioClip[] meowSounds;
-    [SerializeField] [Range(0f, 1f)] private float meowVolume;
     [SerializeField] private AudioClip[] objectBrokenSounds;
+    [SerializeField] private AudioClip[] paperRipSounds;
+    [SerializeField] [Range(0f, 1f)] private float meowVolume;
     [SerializeField] [Range(0f, 1f)] private float objectBrokenVolume;
+    [SerializeField] [Range(0f, 1f)] private float paperRipVolume;
 
     private readonly HashSet<PlayerController> subscribedPlayers = new();
     private enum SoundType
     {
         Meow,
-        Object
+        Object,
+        Paper
     }
 
     private void Awake()
@@ -61,9 +65,18 @@ public class SoundManager : MonoBehaviourPun
 
     private void OnObjectBroken(int actorNumber, ObjectType objectType, Vector3 location, string tag)
     {
-        int index = Random.Range(0, objectBrokenSounds.Length);
-
-        photonView.RPC(nameof(PlaySound), RpcTarget.All, SoundType.Object, index, location);
+        switch (tag)
+        {
+            case "Painting":
+            case "Document":
+                int paperidx = Random.Range(0, paperRipSounds.Length);
+                photonView.RPC(nameof(PlaySound), RpcTarget.All, SoundType.Paper, paperidx, location);
+                break;
+            default:
+                int index = Random.Range(0, objectBrokenSounds.Length);
+                photonView.RPC(nameof(PlaySound), RpcTarget.All, SoundType.Object, index, location);
+                break;
+        }
     }
 
     [PunRPC]
@@ -81,6 +94,12 @@ public class SoundManager : MonoBehaviourPun
             case SoundType.Object:
                 library = objectBrokenSounds;
                 volume = objectBrokenVolume;
+                break;
+            case SoundType.Paper:
+                library = paperRipSounds;
+                volume = paperRipVolume;
+                break;
+            default:
                 break;
         }
 

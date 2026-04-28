@@ -64,7 +64,8 @@ public class ObjectDrag : MonoBehaviourPun, IInteractable
         }
         else
         {
-            farFromHome = false;
+            OnDraggedFar?.Invoke(photonView.Owner.ActorNumber, gameObject.tag);
+            // Only other way for the object to get far away without having been held is if it were also pushable, in which case whoever pushed it last gets credit
         }
     }
 }

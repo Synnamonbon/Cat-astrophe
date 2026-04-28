@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public event Action EndGame;
     public event Action<int, string> InteractForTask;
     public event Action<int, string> PawForTask;
+    public event Action<int, string> MeowForTask;
     private float timeRemaining;
     private float lastTimeSpawned;
 
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         pc.InteractEventDelegate += InteractDelegateEvent;
         pc.PawEventDelegate += PawDelegateEvent;
+        pc.MeowEventDelegate += MeowDelegateEvent;
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -131,6 +133,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void PawDelegateEvent(int playerID, string tag)
     {
         PawForTask?.Invoke(playerID, tag);
+    }
+
+    private void MeowDelegateEvent(int playerID, string layer)
+    {
+        MeowForTask?.Invoke(playerID, layer);
     }
 
     // Add money stuff and data stored during session

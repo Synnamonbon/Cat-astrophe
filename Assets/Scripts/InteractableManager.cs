@@ -39,6 +39,11 @@ public class InteractableManager : MonoBehaviour
         InitialiseSpawnPoints();
     }
 
+    private void Start()
+    {
+        GetLevelInteractables();
+    }
+
     private void SingletonPattern()
     {
         if (instance != null && instance != this)
@@ -88,13 +93,36 @@ public class InteractableManager : MonoBehaviour
     public void SpawnObjects()
     {
         if (objectSpawnPoints != null){
-            SpawnBreakablesToSpawnpoints(5);
+            SpawnBreakablesToSpawnpoints(0);
         }
         if (foodSpawnPoints != null){
             SpawnFoodsToSpawnpoints(3);
         }
         if (interactableSpawnPoints != null){
             SpawnInteractablesToSpawnpoints(7);
+        }
+    }
+
+    private void GetLevelInteractables()
+    {
+        foreach (GameObject painting in GameObject.FindGameObjectsWithTag("Painting"))
+        {
+            BreakableObject bo = GetBreakableObj(painting);
+            bo.OnBreak += BreakEvent;
+            bo.OnBreakOnNPC += NPCBreakEvent;
+        }
+
+        foreach (GameObject doc in GameObject.FindGameObjectsWithTag("Document"))
+        {
+            BreakableObject bo = GetBreakableObj(doc);
+            bo.OnBreak += BreakEvent;
+            bo.OnBreakOnNPC += NPCBreakEvent;
+        }
+
+        foreach (GameObject trash in GameObject.FindGameObjectsWithTag("Rubbish"))
+        {
+            ObjectDrag od = GetDraggableObject(trash);
+            od.OnDraggedFar += DragFarEvent;
         }
     }
 

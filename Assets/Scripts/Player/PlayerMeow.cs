@@ -5,7 +5,10 @@ using UnityEngine;
 public class PlayerMeow : MonoBehaviour
 {
     [SerializeField] private float meowCooldown = 0.5f;
+    private float closenessDistance = 4f;
     private bool canMeow;
+
+    public event Action<string> OnMeowAndDistance;     // layer of entity
 
     private PlayerController playerController;
 
@@ -31,6 +34,28 @@ public class PlayerMeow : MonoBehaviour
         if (canMeow)
         {
             StartCoroutine(MeowCoroutine()); 
+            CheckNearbyPlayers();
+            CheckHeight();
+        }
+    }
+
+    private void CheckNearbyPlayers()
+    {
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (Vector3.Distance(gameObject.transform.position, player.transform.position) <= closenessDistance)
+            {
+                OnMeowAndDistance?.Invoke("Player");
+            }
+        }
+    }
+
+    private void CheckHeight()
+    {
+        GameObject ground = GameObject.FindGameObjectsWithTag("Ground")[0];
+        if (gameObject.transform.position.y >= ground.transform.position.y + closenessDistance)
+        {
+            OnMeowAndDistance?.Invoke("Ground");
         }
     }
 

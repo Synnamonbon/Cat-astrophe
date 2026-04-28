@@ -58,6 +58,7 @@ public class ChaosManager : MonoBehaviourPun
         GameManager.instance.EndGame += EndGameEvent;
         GameManager.instance.InteractForTask += InteractChaos;
         GameManager.instance.PawForTask += PawChaos;
+        GameManager.instance.MeowForTask += MeowChaos;
         InteractableManager.instance.OnDraggedFarEvent += DragChaos;
     }
 
@@ -190,6 +191,20 @@ public class ChaosManager : MonoBehaviourPun
         foreach (Task t in playerTasks[playerID])
         {
             if (t.conditionTrack == ConditionTrack.Distance)
+            {
+                if (t.conditionTag == tag || t.conditionTag == "Any")
+                {
+                    t.IncrementCondition();
+                }
+            }
+        }
+    }
+
+    private void MeowChaos(int playerID, string tag)
+    {
+        foreach (Task t in playerTasks[playerID])
+        {
+            if (t.conditionTrack == ConditionTrack.MeowDistance)
             {
                 if (t.conditionTag == tag || t.conditionTag == "Any")
                 {
